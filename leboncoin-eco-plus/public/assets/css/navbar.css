@@ -1,0 +1,81 @@
+.custom-nav {
+   background-color: white;
+   height: 60px;
+}
+
+.nav-autoresize {
+   max-width: 1000px;
+   display: flex;
+   height: inherit;
+   margin: auto;
+}
+
+.nav-left {
+   width: 100%;
+   display: flex;
+   align-items: center;
+}
+
+.nav-left > * {
+   margin-left: 15px;
+}
+
+.nav-logo {
+   height: 60px;
+}
+
+.nav-buttons {
+   display: flex;
+   margin-left: auto;
+}
+
+.nav-button {
+   display: flex;
+   width: max-content;
+   width: -moz-max-content;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+   padding-left: 10px;
+   padding-right: 10px;
+   padding-bottom: 3px;
+   text-decoration: none;
+   color: black;
+
+   background-image: linear-gradient(var(--primary-color), var(--primary-color)), linear-gradient(white, white);
+   background-size: 0 3px, auto;
+   background-repeat: no-repeat;
+   background-position: center bottom;
+   transition: all .2s ease-out;
+}
+
+.nav-button:hover {
+   background-size: 100% 3px, auto;
+   color: var(--primary-color);
+}
+
+.nav-button > i {
+   font-size: 1.2em;
+}
+
+.nav-button > p {
+   margin: 0;
+   font-size: 0.8rem;
+}
+
+.search-button {
+   width: 130px;
+   height: 100%;
+   flex-direction: row;
+   justify-content: space-around;
+   font-size: 1.0em;
+}
+
+.search-button > * {
+   margin-bottom: -5px !important;
+}
+
+.search-button > p {
+   font-size: 1.2em;
+}

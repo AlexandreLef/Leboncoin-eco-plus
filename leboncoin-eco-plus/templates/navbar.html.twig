@@ -1,0 +1,38 @@
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/navbar.css">
+{% endblock %}
+
+
+
+<nav class="custom-nav shadow">
+    <div class="nav-autoresize">
+        <div class="nav-left">
+            <a href="{{ path('home') }}"><img class="nav-logo" src="/assets/img/logo.svg"/></a>
+            <button class="btn btn-outline-primary" type="submit"><i class="bi bi-plus-square"></i> Déposer une annonce</button>
+            <a class="nav-button search-button" href="{{ path('product_list') }}">
+                <i class="bi bi-search"></i>
+                <p>&nbsp;Rechercher</p>
+            </a>
+        </div>
+        <div class="nav-buttons">
+            <a class="nav-button" href="{{ path('favorite') }}">
+                <i class="bi bi-heart"></i>
+                <p>Favoris</p>
+            </a>
+            <a class="nav-button" href="{{ path('message') }}">
+                <i class="bi bi-chat-right-text"></i>
+                <p>Messages</p>
+            </a>
+            {% if is_granted('ROLE_USER') %}
+                <div class="nav-button">
+                    <p class="nav-link">{user.username}</p>
+                </div>
+            {% else %}
+                <a class="nav-button" href="{{ path('account_login') }}">
+                    <i class="bi bi-person"></i>
+                    <p>Se connecter</p>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
