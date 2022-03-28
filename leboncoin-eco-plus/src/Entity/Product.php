@@ -19,9 +19,6 @@ class Product
     #[ORM\Column(type: 'integer')]
     private $price;
 
-    #[ORM\Column(type: 'array', nullable: true)]
-    private $images = [];
-
     #[ORM\Column(type: 'string', length: 2048)]
     private $description;
 
@@ -53,18 +50,6 @@ class Product
     public function setPrice(int $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getImages(): ?array
-    {
-        return $this->images;
-    }
-
-    public function setImages(?array $images): self
-    {
-        $this->images = $images;
 
         return $this;
     }
