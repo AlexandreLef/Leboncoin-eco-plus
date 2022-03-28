@@ -8,7 +8,8 @@
     <div class="nav-autoresize">
         <div class="nav-left">
             <a href="{{ path('home') }}"><img class="nav-logo" src="/assets/img/logo.svg"/></a>
-            <a href="{{ path('product_add') }}" class="btn btn-outline-primary" type="submit"><i class="bi bi-plus-square"></i> Déposer une annonce</a>
+            <a href="{{ path('product_add') }}" class="btn btn-outline-primary" type="submit"><i
+                        class="bi bi-plus-square"></i> Déposer une annonce</a>
             <a class="nav-button search-button" href="{{ path('product_list') }}">
                 <i class="bi bi-search"></i>
                 <p>&nbsp;Rechercher</p>
@@ -24,13 +25,20 @@
                 <p>Messages</p>
             </a>
             {% if is_granted('ROLE_USER') %}
-                <div class="nav-button">
-                    <p class="nav-link">{user.username}</p>
-                </div>
+                <a class="nav-button" href="{{ path('account') }}">
+                    <i class="bi bi-person"></i>
+                    <p>{{ app.user.firstname }}</p>
+                </a>
             {% else %}
                 <a class="nav-button" href="{{ path('account_login') }}">
                     <i class="bi bi-person"></i>
                     <p>Se connecter</p>
+                </a>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="nav-button" href="{{ path('admin') }}">
+                    <i class="bi bi-gear"></i>
+                    <p>Options admin</p>
                 </a>
             {% endif %}
         </div>
