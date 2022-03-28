@@ -2,17 +2,16 @@
 
 namespace App\Entity;
 
+use App\DTO\UserDto;
+use App\DTO\AbstractDto;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User extends AbstractEntity implements PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $name;
@@ -27,9 +26,6 @@ class User
     private string $password;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $username;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $address;
 
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -41,9 +37,18 @@ class User
     #[ORM\Column(type: 'string', length: 255)]
     private $roles;
 
-    public function getId(): ?int
-    {
-        return $this->id;
+    /**
+    * @param UserDto $dto
+    */
+    public function setFromDto(UserDto | AbstractDto $dto): void {
+        $this->setName($dto->name);
+        $this->setFirstname($dto->firstname);
+        $this->setEmail($dto->email);
+        if ($dto->password) $this->setPassword($dto->password);
+        if ($dto->address) $this->setAddress($dto->address);
+        if ($dto->zipcode) $this->setZipcode($dto->zipcode);
+        if ($dto->state) $this->setState($dto->state);
+        $this->setRoles('ROLE_USER');
     }
 
     public function getName(): ?string
@@ -90,18 +95,6 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(?string $username): self
-    {
-        $this->username = $username;
 
         return $this;
     }

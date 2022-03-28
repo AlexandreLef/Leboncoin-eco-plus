@@ -63,6 +63,7 @@ class AccountController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = new User();
+            $user->setFromDto($userDto);
             $this->userService->addOrUpdate($userDto, $user);
 
             return $this->redirectToRoute('home');
