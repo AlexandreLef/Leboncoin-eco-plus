@@ -8,19 +8,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AccountController extends AbstractController
-{
+class AccountController extends AbstractController {
     #[Route('/account', name: 'account')]
-    public function index(): Response
-    {
+    public function index(): Response {
         return $this->render('account/index.html.twig', [
             'controller_name' => 'AccountController',
         ]);
     }
 
     #[Route('/account/login', name: 'account_login')]
-    public function login(Request $request): Response
-    {
+    public function login(Request $request): Response {
 
         $form = $this->createForm(
             LoginType::class,
@@ -34,5 +31,4 @@ class AccountController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
 }

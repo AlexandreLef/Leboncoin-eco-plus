@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Form\ProductType;
+use App\Form\LoginType;
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -12,6 +16,20 @@ class ProductController extends AbstractController {
     public function list(ProductRepository $productRepository): Response {
         $products = $productRepository->findAll();
         return $this->render('product/list.html.twig', ['products' => $products]);
+    }
+
+    #[Route('/product/add', name: 'product_add')]
+    public function add(Request $request, CategoryRepository $categoryRepository): Response {
+        $form = $this->createForm(ProductType::class);
+        $form->handleRequest($request);
+
+        var_dump($form->isSubmitted() && $form->isValid());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            DD($data);
+        }
+
+        return $this->render('product/add.html.twig', ['form' => $form->createView(), 'categories' => $categoryRepository->findAll()]);
     }
 }
 
