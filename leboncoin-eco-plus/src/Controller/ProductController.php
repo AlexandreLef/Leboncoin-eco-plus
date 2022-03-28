@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
 use App\Form\ProductType;
 use App\Form\LoginType;
 use App\Repository\CategoryRepository;
@@ -25,8 +26,9 @@ class ProductController extends AbstractController {
 
         var_dump($form->isSubmitted() && $form->isValid());
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Product $data */
             $data = $form->getData();
-            DD($data);
+            echo $data->getName();
         }
 
         return $this->render('product/add.html.twig', ['form' => $form->createView(), 'categories' => $categoryRepository->findAll()]);

@@ -2,11 +2,11 @@
 
 namespace App\Form;
 
+use App\DTO\ProductDto;
 use App\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,13 +19,14 @@ class ProductType extends AbstractType {
             ->add('images', FileType::class, [
                 'data_class' => null,
                 'multiple' => true,
-                'label' => false
+                'label' => false,
+                'required' => false
             ])
             ->add('description', TextType::class)
             ->add('category');
     }
 
     public function configureOptions(OptionsResolver $resolver): void {
-        $resolver->setDefaults(['data_class' => Product::class]);
+        $resolver->setDefaults(['data_class' => ProductDto::class]);
     }
 }

@@ -5,9 +5,6 @@
 {% block body %}
     <form name="product" method="post" enctype="multipart/form-data">
         <div id="product">
-            <ul>
-                <li>This form should not contain extra fields.</li>
-            </ul>
             <div>
                 <label for="product_name" class="required">Name</label>
                 <input type="text" id="product_name" name="product[name]" required="required">
@@ -33,7 +30,7 @@
                 </select>
             </div>
             <div>
-                <button type="submit" id="product_add">Add</button>
+                <button type="submit">Add</button>
             </div>
         </div>
         {{ form_errors(form) }}
