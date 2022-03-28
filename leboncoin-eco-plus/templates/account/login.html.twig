@@ -3,20 +3,24 @@
 {% block title %}- Se connecter{% endblock %}
 
 {% block body %}
-    <form class="row g-3" name="login" method="post" enctype="multipart/form-data">
+    <form class="row g-3" method="post" enctype="multipart/form-data">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
         <div class="col-md-6">
             <label for="email" class="form-label">E-mail</label>
-            <input type="text" class="form-control" id="email" name="login[email]"
+            <input type="email" class="form-control" id="email" name="_username" value="{{ last_username }}"
                    required>
         </div>
         <div class="col-md-6">
             <label for="password" class="form-label">Mot de passe</label>
-            <input class="form-control" type="password" id="password" name="login[password]">
+            <input class="form-control" type="password" id="password" name="_password"
+                   required>
         </div>
         <div class="col-12">
             <button type="submit" class="btn btn-primary">Se connecter</button>
         </div>
     </form>
-    {{ form_errors(form) }}
     <p>Envie de nous rejoindre ? <a href="{{ path('account_create') }}">Créer un compte</a></p>
 {% endblock %}

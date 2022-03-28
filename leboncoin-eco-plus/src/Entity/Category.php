@@ -2,26 +2,24 @@
 
 namespace App\Entity;
 
+use App\DTO\AbstractDto;
+use App\DTO\CategoryDto;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-class Category
+class Category extends AbstractEntity
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private int $id;
-
     #[ORM\Column(type: 'string', length: 255)]
     private string $name;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
     private Collection $products;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->products = new ArrayCollection();
     }
@@ -31,9 +29,12 @@ class Category
         return $this->name;
     }
 
-    public function getId(): ?int
+    /**
+     * @param CategoryDto $dto
+     */
+    public function setFromDto(CategoryDto|AbstractDto $dto): void
     {
-        return $this->id;
+        $this->setName($dto->getName());
     }
 
     public function getName(): ?string

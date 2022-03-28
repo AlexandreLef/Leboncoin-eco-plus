@@ -1,20 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!{% endblock %}
+{% block title %}- Mon compte{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="user-panel">
+        <i class="bi bi-person-circle"></i>
+        <h2> {{ user.firstname }} {{ user.name }}</h2>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/lefebvr2/Desktop/Symfony-project/leboncoin-eco-plus/src/Controller/AccountController.php'|file_link(0) }}">src/Controller/AccountController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/lefebvr2/Desktop/Symfony-project/leboncoin-eco-plus/templates/account/index.html.twig'|file_link(0) }}">templates/account/index.html.twig</a></code></li>
-    </ul>
-</div>
+        <a href="#">
+            <button class="btn btn-outline-secondary">
+                Voir mon profil public
+            </button>
+        </a>
+    </div>
+
+    <div class="information">
+        <h2>Paramètres</h2>
+        <h3>Adresse</h3>
+        <form>
+            <label for="address"> Adresse
+                <input type="text" value="{{ user.address }}" name="address"/>
+            </label>
+            <label for="zipcode"> Code postal
+                <input type="number" value="{{ user.zipcode }}" name="zipcode"/>
+            </label>
+            <label for="state"> Région
+                <input type="text" value="{{ user.state }}" name="state"/>
+            </label>
+
+            {% if true %}
+                <a href="#">
+                    <button class="btn btn-secondary">Enregistrer les modifications</button>
+                </a>
+            {% else %}
+                <button class="btn btn-outline-secondary" disabled>Enregistrer les modifications</button>
+            {% endif %}
+        </form>
+
+        <h3>E-mail</h3>
+        <label><input type="email" value="{{ user.email }}" disabled/></label>
+    </div>
+
+    <div class="logout">
+        <a href="{{ path('account_logout') }}">
+            <button class="btn btn-danger">Se deconnecter</button>
+        </a>
+    </div>
+
 {% endblock %}
