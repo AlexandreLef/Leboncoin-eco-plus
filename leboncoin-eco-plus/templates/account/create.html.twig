@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}- Création de compte{% endblock %}
+
+{% block body %}
+    <form class="row g-3" name="account" method="post" enctype="multipart/form-data">
+        <div class="col-md-4">
+            <label for="name" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="name" name="account[name]"
+                   required>
+        </div>
+        <div class="col-md-4">
+            <label for="firstname" class="form-label">Prénom</label>
+            <input class="form-control" type="text" id="firstname" name="account[firstname]"
+                   required>
+        </div>
+        <div class="col-md-4">
+            <label for="username" class="form-label">Pseudo</label>
+            <input class="form-control" type="text" id="username" name="account[username]"
+                   required>
+        </div>
+
+        <div class="col-md-4">
+            <label for="email" class="form-label">E-mail</label>
+            <input class="form-control" type="email" id="email" name="account[email]"
+                   required>
+        </div>
+        <div class="col-md-4">
+            <label for="password" class="form-label">Mot de passe</label>
+            <input class="form-control" type="password" id="password" name="account[password]"
+                   required>
+        </div>
+        <div class="col-md-4">
+            <label for="passwordConfirm" class="form-label">Confirmation mot de passe</label>
+            <input class="form-control" type="password" id="passwordConfirm"
+                   required>
+        </div>
+
+        <div class="col-md-4">
+            <label for="address" class="form-label">Adresse</label>
+            <input type="text" class="form-control" id="address" name="account[address]">
+        </div>
+        <div class="col-md-4">
+            <label for="zipcode" class="form-label">Code postal</label>
+            <input class="form-control" type="text" id="zipcode" name="account[zipcode]">
+        </div>
+        <div class="col-md-4">
+            <label for="state" class="form-label">Département</label>
+            <input class="form-control" type="text" id="state" name="account[state]">
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Créer mon compte</button>
+        </div>
+    </form>
+    {{ form_errors(form) }}
+    <p>Vous avez déjà un compte ? <a href="{{ path('account_login') }}">Me connecter</a></p>
+{% endblock %}

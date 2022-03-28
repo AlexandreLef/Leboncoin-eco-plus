@@ -13,11 +13,11 @@ class UserDto extends AbstractDto  {
 	public string $name;
 
     #[Assert\NotBlank]
-    #[Assert\Length(max: 250)]
+    #[Assert\Length(max: 255)]
     public string $firstname;
 
     #[Assert\NotBlank]
-    #[Assert\Length(max: 250)]
+    #[Assert\Length(max: 255)]
     public string $username;
 
     #[Assert\NotBlank]
@@ -30,20 +30,18 @@ class UserDto extends AbstractDto  {
 	#[Assert\NotBlank(groups: ["add"])]
 	public ?string $passwordConfirm = null;
 
-	#[Assert\NotBlank]
 	public ?string $address = null;
 
-    #[Assert\NotBlank]
     public ?int $zipcode = null;
 
-    #[Assert\NotBlank]
     public ?string $state = null;
 
 
-	/**
-	 * @param User $user
-	 */
+    /**
+     * @param AbstractEntity $user
+     */
 	public function setFromEntity(AbstractEntity $user): void {
+        /** @var User $user */
         $this->address = $user->getAddress();
         $this->name    = $user->getName();
         $this->email    = $user->getEmail();
