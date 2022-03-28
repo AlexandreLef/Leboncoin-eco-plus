@@ -1,0 +1,20 @@
+#product-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#product-form > h3 {
+    margin-left: 15px;
+}
+
+#form-background {
+    background-color: white;
+    padding: 15px;
+    width: 90%;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5em;
+}
+
+.textarea {
+    height: 200px !important;
+}

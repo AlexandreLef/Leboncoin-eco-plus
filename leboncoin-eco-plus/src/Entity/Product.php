@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\DTO\AbstractDto;
+use App\DTO\ProductDto;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,6 +26,25 @@ class Product
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
     private $category;
+
+    #[ORM\Column(type: 'integer')]
+    private $quality;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $city;
+
+    /**
+     * @param AbstractDto $dto
+     */
+    public function setFromDto(AbstractDto $dto): void {
+        /** @var ProductDto $dto */
+        $this->name = $dto->getName();
+        $this->price = intval($dto->getPrice() * 100);
+        $this->description = $dto->getDescription();
+        $this->category = $dto->getCategory();
+        $this->quality = $dto->getQuality();
+        $this->city = $dto->getCity();
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +95,30 @@ class Product
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getQuality(): ?int
+    {
+        return $this->quality;
+    }
+
+    public function setQuality(int $Quality): self
+    {
+        $this->quality = $Quality;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\DTO\ProductDto;
+use App\DTO\SearchDto;
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Form\SearchType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,15 +19,23 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController {
 
-    private function getExtension($mimeType) {
+    private function getExtension($mimeType): string {
         if ($mimeType == 'image/png') return '.png';
         else return '';
     }
 
     #[Route('/product/list', name: 'product_list')]
-    public function list(ProductRepository $productRepository): Response {
+    public function list(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response {
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
         $products = $productRepository->findAll();
-        return $this->render('product/list.html.twig', ['products' => $products]);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var SearchDto $product */
+            $searchDto = $form->getData();
+        }
+
+        return $this->render('product/list.html.twig', ['products' => $products, 'categories' => $categoryRepository->findAll(), 'total' => count($products)]);
     }
 
     /**
@@ -42,7 +52,7 @@ class ProductController extends AbstractController {
             $productDto = $form->getData();
 
             $product = new Product();
-            $product->setFromEntity($productDto);
+            $product->setFromDto($productDto);
 
             $doctrine->persist($product);
             $doctrine->flush();
@@ -50,7 +60,6 @@ class ProductController extends AbstractController {
             $images = $productDto->getImages();
             foreach($images as $i => $image) {
                 $imageName = './assets/img/products/' . $product->getId() . '/';
-                echo $image->getExtension();
                 $image->move($imageName, $i . $this->getExtension($image->getMimeType()));
             }
 

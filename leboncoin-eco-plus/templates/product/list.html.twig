@@ -2,7 +2,35 @@
 
 {% block title %}- Annonces{% endblock %}
 
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/product/list.css">
+{% endblock %}
+
 {% block body %}
+
+    <form name="product" method="post" id="search-background" class="shadow-sm">
+        <br/>
+        <br/>
+        <div class="inputs">
+            <div style="width: 60%" class="input-group mb-3">
+                <i class="form-control input-logo bi bi-caret-down-fill"></i>
+                <select name="search[category]" style="width: 0;" class="form-control input-logo-input" name="category">
+                    <option value="">Catégories</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }} ▾</option>
+                    {% endfor %}
+                </select>
+                <i class="input-logo form-control bi bi-search"></i>
+                <input name="search[search]" type="search" placeholder="Que recherchez-vous ?" class="form-control input-logo-input">
+            </div>
+            <div style="width: 39%" class="input-group mb-3">
+                <i class="input-logo form-control bi bi-geo-alt"></i>
+                <input name="search[city]" type="search" placeholder="Saisissez une ville" class="form-control input-logo-input">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-info search-submit-button">Rechercher ({{ total }} résultats)</button>
+    </form>
+
     {% for product in products %}
         {{ product.name }}
     {% endfor %}

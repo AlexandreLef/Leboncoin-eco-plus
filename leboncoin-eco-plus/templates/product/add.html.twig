@@ -2,35 +2,65 @@
 
 {% block title %}- Annonces{% endblock %}
 
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/product/add.css">
+{% endblock %}
+
 {% block body %}
     <form name="product" method="post" enctype="multipart/form-data">
-        <div id="product">
-            <div>
-                <label for="product_name" class="required">Name</label>
-                <input type="text" id="product_name" name="product[name]" required="required">
-            </div>
-            <div>
-                <label for="product_price" class="required">Price</label>
-                <input type="text" id="product_price" name="product[price]" required="required">
-            </div>
-            <div>
-                <input type="file" id="product_images" name="product[images][]" multiple="multiple">
-            </div>
-            <div>
-                <label for="product_description" class="required">Description</label>
-                <input type="text" id="product_description" name="product[description]" required="required">
-            </div>
-            <div>
-                <label for="product_category">Category</label>
-                <select id="product_category" name="product[category]">
-                    <option value=""></option>
-                    {% for category in categories %}
-                        <option value="{{ category.id }}">{{ category.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <button type="submit">Add</button>
+        <div id="product-form">
+            <br/>
+            <h3>Déposer une annonce</h3>
+            <br/>
+            <div id="form-background">
+                <div class="col-5">
+                    <h5>Commençons par l’essentiel !</h5>
+                    <br/>
+                    <label for="product_name" class="required">Quel est le titre de l'annonce</label>
+                    <input class="form-control" type="text" id="product_name" name="product[name]" required="required">
+                    <br/>
+                    <label for="product_category">Choisissez une catégorie</label>
+                    <select class="form-control" id="product_category" name="product[category]">
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <br/>
+                    <label for="product_quality">État</label>
+                    <label for="product_quality">État</label>
+                    <select class="form-control" id="product_quality" name="product[quality]">
+                        <option value="0">État neuf</option>
+                        <option value="1">Très bon état</option>
+                        <option value="2">Bon état</option>
+                        <option value="3">État satisfaisant</option>
+                        <option value="4">Pour pièces</option>
+                    </select>
+                </div>
+                <div>
+                    <br/><br/>
+                    <h5>Décrivez votre bien !</h5>
+                    <label for="product_description" class="required">Description</label>
+                    <textarea class="form-control textarea" type="text" id="product_description" name="product[description]" required="required"></textarea>
+                </div>
+                <div class="col-5">
+                    <br/><br/>
+                    <h5>Quel est votre prix ?</h5>
+                    <label for="product_price" class="required">Votre prix de vente</label>
+                    <input class="form-control" type="text" id="product_price" name="product[price]" required="required">
+
+                    <br/><br/>
+                    <h5>Ajoutez vos photos</h5>
+                    <input class="form-control" type="file" id="product_images" name="product[images][]" multiple="multiple">
+
+                    <br/><br/>
+                    <h5>Où se situe votre bien ?</h5>
+                    <label for="product_city" class="required">Quelle est la ville de votre bien</label>
+                    <input class="form-control" type="text" id="product_city" name="product[city]" required="required">
+
+                    <br/><br/>
+                    <button class="btn btn-primary" type="submit">Valider</button>
+                </div>
             </div>
         </div>
         {{ form_errors(form) }}
