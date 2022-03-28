@@ -8,7 +8,7 @@
 
 {% block body %}
 
-    <form name="product" method="post" id="search-background" class="shadow-sm">
+    <form name="search" method="post" id="search-background" class="shadow-sm">
         <br/>
         <br/>
         <div class="inputs">
@@ -17,7 +17,7 @@
                 <select name="search[category]" style="width: 0;" class="form-control input-logo-input" name="category">
                     <option value="">Catégories</option>
                     {% for category in categories %}
-                        <option value="{{ category.id }}">{{ category.name }} ▾</option>
+                        <option {% if category.id == selectedCategoryId %}selected="selected"{% endif %} value="{{ category.id }}">{{ category.name }}</option>
                     {% endfor %}
                 </select>
                 <i class="input-logo form-control bi bi-search"></i>
@@ -29,6 +29,7 @@
             </div>
         </div>
         <button type="submit" class="btn btn-info search-submit-button">Rechercher ({{ total }} résultats)</button>
+        {{ form_errors(form) }}
     </form>
 
     {% for product in products %}

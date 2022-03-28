@@ -17,10 +17,18 @@ class SearchType extends AbstractType
         $builder
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
+                'required' => false,
+                'empty_data' => null
             ])
-            ->add('search', TextType::class)
-            ->add('city', TextType::class)
+            ->add('search', TextType::class, [
+                'required' => false,
+                'empty_data' => ''
+            ])
+            ->add('city', TextType::class, [
+                'required' => false,
+                'empty_data' => ''
+            ])
         ;
     }
 

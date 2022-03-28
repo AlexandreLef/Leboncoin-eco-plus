@@ -10,19 +10,18 @@ class SearchDto extends AbstractDto  {
 
     private Category $category;
 
-    #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
-    public string $search;
+    private string $search = '';
 
     #[Assert\Length(max: 255)]
-    private float $city;
+    private string $city = '';
 
     /**
-     * @return Category
+     * @return Category|null
      */
-    public function getCategory(): Category
+    public function getCategory(): ?Category
     {
-        return $this->category;
+        return $this->category ?? null;
     }
 
     /**
@@ -38,7 +37,7 @@ class SearchDto extends AbstractDto  {
      */
     public function getSearch(): string
     {
-        return $this->search;
+        return $this->search ?? '';
     }
 
     /**
@@ -50,17 +49,17 @@ class SearchDto extends AbstractDto  {
     }
 
     /**
-     * @return float
+     * @return string
      */
-    public function getCity(): float
+    public function getCity(): string
     {
-        return $this->city;
+        return $this->city ?? '';
     }
 
     /**
-     * @param float $city
+     * @param string $city
      */
-    public function setCity(float $city): void
+    public function setCity(string $city): void
     {
         $this->city = $city;
     }

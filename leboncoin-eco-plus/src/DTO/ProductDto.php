@@ -19,7 +19,7 @@ class ProductDto extends AbstractDto  {
 
     #[Assert\NotBlank]
     #[Assert\PositiveOrZero]
-    #[Assert\LessThanOrEqual(100000)]
+    #[Assert\LessThanOrEqual(100000000)]
     private float $price;
 
     private array $images;
