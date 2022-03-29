@@ -21,6 +21,9 @@ class Favorite
     #[ORM\JoinColumn(nullable: false)]
     private Product $product;
 
+    #[ORM\Column(type: 'date')]
+    private $date;
+
     public function getId(): int
     {
         return $this->id;
@@ -46,6 +49,18 @@ class Favorite
     public function setProduct(Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }
