@@ -9,6 +9,7 @@ use App\Form\ProductType;
 use App\Form\SearchType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use App\Service\ProductService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
@@ -24,7 +25,7 @@ class ProductController extends AbstractController
 
     #[Route('/', name: 'home')]
     #[Route('/product/list', name: 'product_list')]
-    public function list(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response {
+    public function list(Request $request, ProductService $productService,  ProductRepository $productRepository, CategoryRepository $categoryRepository): Response {
         $renderPage = $request->getRequestUri() == '/product/list' ? 'product/list.html.twig' : 'home/index.html.twig';
 
         $form = $this->createForm(SearchType::class);
@@ -58,12 +59,7 @@ class ProductController extends AbstractController
 
         // Show no-image if no image is available otherwise show the first one
         foreach($products as $product) {
-            $directory = '/assets/img/products/' . $product->getId() . '/';
-            if (file_exists('.' . $directory)) {
-                $scannedDirectory = array_diff(scandir('.' . $directory), array('..', '.'));
-                $product->imagePath = $directory . array_values($scannedDirectory)[0];
-            }
-            else { $product->imagePath = '/assets/img/no-image.png'; }
+            $productService->getFirstProductImage($product);
         }
 
 
