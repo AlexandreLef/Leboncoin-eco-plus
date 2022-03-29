@@ -2,7 +2,6 @@
 
 namespace App\DTO;
 
-use App\Entity\AbstractEntity;
 use App\Entity\Category;
 use App\Entity\Product;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -53,7 +52,7 @@ class ProductDto
     public function setEntityFromDto(Product $product): void
     {
         if ($this->name) $product->setName($this->name);
-        if ($this->price) $product->setPrice($this->price);
+        if ($this->price) $product->setPrice(intval($this->price * 100));
         if ($this->description) $product->setDescription($this->description);
         $product->setCategory($this->category);
         if ($this->quality) $product->setQuality($this->quality);

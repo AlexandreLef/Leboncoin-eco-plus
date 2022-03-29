@@ -1,0 +1,101 @@
+#detail-container {
+    display: flex;
+    justify-content: center;
+    padding: 70px;
+}
+
+.user {
+    width: 353px;
+    border: 1px solid rgb(202, 209, 217);
+}
+
+.product {
+    width: 670px;
+    margin-right: 1.5em;
+}
+
+hr {
+    margin-top: 1.5em;
+    margin-bottom: 1.7em;
+}
+
+.product-img {
+    border-radius: 0.8em;
+    border: 1px solid rgb(202, 209, 217);
+}
+
+.product-title {
+    margin-top: 20px;
+}
+
+.product-date {
+    font-size: 0.8em;
+}
+
+.product-shipping {
+    padding: 0.8rem 1.6rem;
+    border: 1px solid rgb(202, 209, 217);
+    border-radius: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    height: 148px;
+}
+
+.product-shipping > .product-benefit {
+    height: 100%;
+}
+
+.product-benefit {
+    display: flex;
+    align-items: center;
+}
+
+.product-benefit > p {
+    margin: 0;
+    font-size: 0.8em;
+}
+
+.product-benefit-logo {
+    font-size: 1.3em;
+    margin-right: 10px;
+}
+
+.product-quality {
+    font-size: 0.8em;
+    color: #8191a0;
+    margin: 0;
+}
+
+.product-quality-logo {
+    font-size: 1.5em;
+    margin-right: 7px;
+}
+
+.other-shipping {
+    display: flex;
+    align-items: center;
+}
+
+.other-shipping > * {
+    margin: 0;
+}
+
+.other-shipping > hr {
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: #868b8f;
+}
+
+.other-shipping > p:first-child {
+    font-size: 0.9em;
+}
+
+#google-map {
+    width: 100%;
+    height: 300px;
+}
+
+.profile-picture {
+    width: 6em;
+    height: 6em;
+}

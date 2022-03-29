@@ -2,9 +2,8 @@
 
 namespace App\Entity;
 
-use App\DTO\AbstractDto;
-use App\DTO\ProductDto;
 use App\Repository\ProductRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -25,7 +24,7 @@ class Product
     private string $description;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
-    private $category;
+    private ?Category $category;
 
     #[ORM\Column(type: 'integer')]
     private int $quality;
@@ -33,22 +32,12 @@ class Product
     #[ORM\Column(type: 'string', length: 255)]
     private string $city;
 
-    #[ORM\Column(type: 'date')]
-    private $date;
+    #[ORM\Column(type: 'datetime')]
+    private ?DateTimeInterface $date;
 
-    /**
-     * @param AbstractDto $dto
-     */
-    public function setFromDto(AbstractDto $dto): void
-    {
-        /** @var ProductDto $dto */
-        $this->name = $dto->getName();
-        $this->price = intval($dto->getPrice() * 100);
-        $this->description = $dto->getDescription();
-        $this->category = $dto->getCategory();
-        $this->quality = $dto->getQuality();
-        $this->city = $dto->getCity();
-    }
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user;
 
     public function getId(): ?int
     {
@@ -127,14 +116,26 @@ class Product
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

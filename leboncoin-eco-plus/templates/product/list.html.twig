@@ -35,7 +35,7 @@
     <div id="product-list">
         <h3>Annonces : Toute la France</h3>
         {% for product in products %}
-            <div class="product">
+            <a class="product" href="{{ path('product_detail', { id: product.id }) }}">
                 <img class="product-img" alt="{{ product.name }}" src="/assets/img/products/{{ product.id }}/0.png"/>
                 <div class="product-right">
                     <div class="product-top">
@@ -48,7 +48,7 @@
                         <p>{{ product.formattedDate }}</p>
                     </div>
                 </div>
-            </div>
+            </a>
         {% endfor %}
     </div>
 {% endblock %}

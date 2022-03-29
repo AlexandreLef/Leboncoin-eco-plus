@@ -68,6 +68,13 @@ class ProductController extends AbstractController
         ]);
     }
 
+    #[Route('/product/detail/{id}', name: 'product_detail')]
+    public function detail(Product $product): Response {
+        $directory = './assets/img/products/' . $product->getId() . '/';
+        $scannedDirectory = array_diff(scandir($directory), array('..', '.'));
+        return $this->render('product/detail.html.twig', ['product' => $product, 'images' => $scannedDirectory]);
+    }
+
     /**
      * @throws OptimisticLockException
      * @throws ORMException
@@ -79,11 +86,12 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var ProductDto $product */
+            /** @var ProductDto $productDto */
             $productDto = $form->getData();
 
             $product = new Product();
             $productDto->setEntityFromDto($product);
+            $product->setUser($this->getUser());
             $product->setDate(new DateTime());
 
             $doctrine->persist($product);

@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}- Annonces{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/product/detail.css">
+{% endblock %}
+
+{% block body %}
+    <div id="detail-container">
+        <div class="product">
+            {% for image in images %}
+                <img class="product-img" alt="{{ product.name }}" src="/assets/img/products/{{ product.id }}/{{ image }}"/>
+            {% endfor %}
+            <h3 class="product-title">{{ product.name }}</h3>
+            <h5>{{ product.price / 100 }}€</h5>
+            <p class="product-date">{{ product.date|date("m/d/Y à h:i") }}</p>
+            <hr/>
+
+            <div class="product-shipping">
+                <div class="product-benefit">
+                    <i class="bi bi-box-seam product-benefit-logo"></i>
+                    <p>Faites-vous livrer <strong>à partir de 0 €</strong> ou remise en main propre avec paiement presque sécurisé<p/>
+                </div>
+                <div class="product-benefit">
+                    <i class="bi bi-coin product-benefit-logo"></i>
+                    <p>Bénéficiez de la protection acheteurs leboncoin eco+<p/>
+                </div>
+                <div class="product-benefit">
+                    <i class="bi bi-file-lock product-benefit-logo"></i>
+                    <p>Paiement presque sécurisé (nos stagiaires ont eu du mal)<p/>
+                </div>
+            </div>
+            <hr/>
+
+            <h5>Description</h5>
+            <p>{{ product.description }}</p>
+            <hr/>
+
+            <h5>Critères</h5>
+            <div class="d-flex">
+                <i class="bi bi-wrench-adjustable-circle product-quality-logo"></i>
+                <div>
+                    <p class="product-quality">État</p>
+                    <p class="m-0">{{ product.quality == 0 ? 'État neuf'
+                        : product.quality == 1 ? 'Très bon état'
+                        : product.quality == 2 ? 'Bon état'
+                        : product.quality == 3 ? 'État satisfaisant'
+                        : product.quality == 4 ? 'Pour pièces'
+                        : 'Non spécifié' }}</p>
+                </div>
+            </div>
+            <hr/>
+
+            <h5>Remise en main propre avec paiement sécurisé</h5>
+            <div class="product-benefit">
+                <i class="bi bi-coin product-benefit-logo"></i>
+                <p>Réservez ce bien jusqu’au rendez-vous avec le vendeur<p/>
+            </div>
+            <div class="product-benefit">
+                <i class="bi bi-emoji-laughing product-benefit-logo"></i>
+                <p>Restez libre de refuser ce bien s’il ne correspond pas à vos attentes<p/>
+            </div>
+            <hr/>
+
+            <h5>Livraison</h5>
+            <p style="font-size: 0.8em;">Recevez ce bien à domicile ou à deux pas de chez vous</p>
+            <div class="d-flex other-shipping">
+                <p><strong>Autre mode de livraison</strong></p>
+                <hr style="flex: 1;"/>
+                <p>0 €</p>
+            </div>
+            <p class="product-quality">le vendeur vous communiquera les modalités du mode de livraison qu’il a choisi</p>
+            <hr/>
+
+            <h5>Protection leboncoin eco+</h5>
+            <div class="product-benefit">
+                <i class="bi bi-truck product-benefit-logo"></i>
+                <p>Votre argent est sécurisé jusqu’à la confirmation de récupération de l’article<p/>
+            </div>
+            <div class="product-benefit">
+                <i class="bi bi-people-fill product-benefit-logo"></i>
+                <p>Une équipe de turbo patates dédiée à votre service<p/>
+            </div>
+            <hr/>
+            <div class="d-flex">
+                <i class="bi bi-geo-alt-fill"></i>
+                <h5>&nbsp;{{ product.city }}</h5>
+            </div>
+            <!--
+            <iframe id="google-map" src="https://maps.google.com/maps?q={{ product.city }}&t=&ie=UTF8&iwloc=&output=embed"></iframe>
+            -->
+            <hr/>
+
+            <img class="profile-picture" alt="Profile Picture" src="/assets/img/profile-picture.png"/>
+
+        </div>
+        <div class="user">
+        </div>
+    </div>
+{% endblock %}

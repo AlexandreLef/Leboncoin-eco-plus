@@ -46,6 +46,7 @@
     display: flex;
     margin: auto;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .product:hover .product-title {
@@ -64,6 +65,10 @@
     padding: 15px;
     display: flex;
     flex-direction: column;
+}
+
+.product-top {
+    color: black;
 }
 
 .product-bottom {
