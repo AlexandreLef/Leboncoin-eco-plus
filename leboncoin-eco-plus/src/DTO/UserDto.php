@@ -12,7 +12,7 @@ class UserDto
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 250)]
-    private string $name;
+    private string $lastname;
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
@@ -37,7 +37,7 @@ class UserDto
      */
     public function setFromEntity(User $user): void
     {
-        $this->name = $user->getName();
+        $this->lastname = $user->getLastname();
         $this->firstname = $user->getFirstname();
         $this->email = $user->getEmail();
         $this->password = $user->getPassword();
@@ -51,7 +51,7 @@ class UserDto
      */
     public function setEntityFromDto(User $user): void
     {
-        if ($this->name) $user->setName($this->name);
+        if ($this->lastname) $user->setLastname($this->lastname);
         if ($this->firstname) $user->setFirstname($this->firstname);
         if ($this->email) $user->setEmail($this->email);
         if ($this->password) $user->setPassword($this->password);
@@ -65,17 +65,17 @@ class UserDto
     /**
      * @return string
      */
-    public function getName(): string
+    public function getLastname(): string
     {
-        return $this->name;
+        return $this->lastname;
     }
 
     /**
-     * @param string $name
+     * @param string $lastname
      */
-    public function setName(string $name): void
+    public function setLastname(string $lastname): void
     {
-        $this->name = $name;
+        $this->lastname = $lastname;
     }
 
     /**
