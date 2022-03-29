@@ -13,22 +13,18 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Normalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Transliterator;
 
-class ProductController extends AbstractController {
-
-    private function getExtension($mimeType): string {
-        if ($mimeType == 'image/png') return '.png';
-        else return '';
-    }
+class ProductController extends AbstractController
+{
 
     #[Route('/product/list', name: 'product_list')]
-    public function list(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response {
+    public function list(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
+    {
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
 
@@ -42,7 +38,7 @@ class ProductController extends AbstractController {
             if ($categoryId) $tmpProducts = $productRepository->findBy(['category' => $searchDto->getCategory()]);
             else $tmpProducts = $productRepository->findAll();
             $products = [];
-            foreach($tmpProducts as $product) {
+            foreach ($tmpProducts as $product) {
                 $tmpName = $transliterator->transliterate(mb_strtolower($product->getName()));
                 $tmpCity = $transliterator->transliterate(mb_strtolower($product->getCity()));
                 if ($search == '' && $city != '') {
@@ -53,12 +49,11 @@ class ProductController extends AbstractController {
                     $products[] = $product;
                 }
             }
-        }
-        else {
+        } else {
             $products = $productRepository->findAll();
         }
 
-        foreach($products as $product) {
+        foreach ($products as $product) {
             $product->formattedDate = $product->getDate()->format('d F Y à H:i:s');
         }
 
@@ -78,7 +73,8 @@ class ProductController extends AbstractController {
      * @throws ORMException
      */
     #[Route('/product/add', name: 'product_add')]
-    public function add(Request $request, EntityManagerInterface $doctrine, CategoryRepository $categoryRepository): Response {
+    public function add(Request $request, EntityManagerInterface $doctrine, CategoryRepository $categoryRepository): Response
+    {
         $form = $this->createForm(ProductType::class);
         $form->handleRequest($request);
 
@@ -87,14 +83,14 @@ class ProductController extends AbstractController {
             $productDto = $form->getData();
 
             $product = new Product();
-            $product->setFromDto($productDto);
+            $productDto->setEntityFromDto($product);
             $product->setDate(new DateTime());
 
             $doctrine->persist($product);
             $doctrine->flush();
 
             $images = $productDto->getImages();
-            foreach($images as $i => $image) {
+            foreach ($images as $i => $image) {
                 $imageName = './assets/img/products/' . $product->getId() . '/';
                 $image->move($imageName, $i . $this->getExtension($image->getMimeType()));
             }
@@ -104,6 +100,12 @@ class ProductController extends AbstractController {
         }
 
         return $this->render('product/add.html.twig', ['form' => $form->createView(), 'categories' => $categoryRepository->findAll()]);
+    }
+
+    private function getExtension($mimeType): string
+    {
+        if ($mimeType == 'image/png') return '.png';
+        else return '';
     }
 }
 
@@ -139,30 +141,30 @@ class ProductController extends AbstractController {
 
 /**
  * TODO: Feed the patate
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%&##%%%&(+//#&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#////////////&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%&///////////#&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%&%(/////%&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%##&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%///#%////%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%#/////////%%%%%%%%%.....%%%%%%%%%%%%%%%%%....%%%%%%%%%%%%%%%%%////(&%#//%%%%
-%%%%%%%(////#&%%%%%...........%%%%%%%%%%%...........%%%%%%%%%%%%%#///////////&%%
-%%%%%%%%%%%%%%%%%...............%%%%%%...............%%%%%%%%%%%%%%/////////#%%%
-%%%%%%%%%%%%%%%%......................................%%%%%%%%%%%%%%%///(&%%%%%%
-%%%%%%%%%%%%%%..........................................%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%..............................................//%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%...............................................+/////...%%%%%%%%%%%%%%%
-%%%%%%%................................................+/////...////%%%%%%%%%%%%
-%%%%%%..,&&&%.........................*.................///,.../////..%%%%%%%%%%
-%%%%...#&%&&&,....................,&&&&&%&.....................///,...//%%%%%%%%
-%%%%...&&&&&&....&&..##..,&.......&&%&&&&&*.........................+////%%%%%%%
-%%%....&&%&&.......&&.(&&&........%&&&&&&&,........................./////.%%%%%%
-%%%................................*&&&&&...................................%%%%
-%%%.........................................................................%%%%
-%%%%.........................................................................%%%
-%%%%.........................................................................%%%
-%%%%%........................................................................%%%
-%%%%%%%.........,%%%////(%%#.................................................%%%
-**/
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%&##%%%&(+//#&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#////////////&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%&///////////#&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%&%(/////%&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%%%%%%%%%%##&%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%%%%///#%////%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%%%#/////////%%%%%%%%%.....%%%%%%%%%%%%%%%%%....%%%%%%%%%%%%%%%%%////(&%#//%%%%
+ * %%%%%%%(////#&%%%%%...........%%%%%%%%%%%...........%%%%%%%%%%%%%#///////////&%%
+ * %%%%%%%%%%%%%%%%%...............%%%%%%...............%%%%%%%%%%%%%%/////////#%%%
+ * %%%%%%%%%%%%%%%%......................................%%%%%%%%%%%%%%%///(&%%%%%%
+ * %%%%%%%%%%%%%%..........................................%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%%%%%%%%%%%..............................................//%%%%%%%%%%%%%%%%%%%%
+ * %%%%%%%%%...............................................+/////...%%%%%%%%%%%%%%%
+ * %%%%%%%................................................+/////...////%%%%%%%%%%%%
+ * %%%%%%..,&&&%.........................*.................///,.../////..%%%%%%%%%%
+ * %%%%...#&%&&&,....................,&&&&&%&.....................///,...//%%%%%%%%
+ * %%%%...&&&&&&....&&..##..,&.......&&%&&&&&*.........................+////%%%%%%%
+ * %%%....&&%&&.......&&.(&&&........%&&&&&&&,........................./////.%%%%%%
+ * %%%................................*&&&&&...................................%%%%
+ * %%%.........................................................................%%%%
+ * %%%%.........................................................................%%%
+ * %%%%.........................................................................%%%
+ * %%%%%........................................................................%%%
+ * %%%%%%%.........,%%%////(%%#.................................................%%%
+ **/
