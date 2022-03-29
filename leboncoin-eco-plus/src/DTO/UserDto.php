@@ -4,6 +4,7 @@ namespace App\DTO;
 
 
 use App\Entity\User;
+use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class UserDto
@@ -58,6 +59,7 @@ class UserDto
         if ($this->zipcode) $user->setZipcode($this->zipcode);
         if ($this->state) $user->setState($this->state);
         $user->setRoles('ROLE_USER');
+        $user->setCreation(new DateTime());
     }
 
     /**

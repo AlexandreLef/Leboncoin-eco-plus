@@ -44,10 +44,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $roles;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Product::class, orphanRemoval: true)]
-    private $products;
+    private ArrayCollection $products;
 
     #[ORM\Column(type: 'datetime')]
-    private $creation;
+    private ?\DateTimeInterface $creation;
 
     public function __construct()
     {
