@@ -70,6 +70,7 @@ class ProductController extends AbstractController
 
     #[Route('/product/detail/{id}', name: 'product_detail')]
     public function detail(Product $product): Response {
+        setlocale(LC_ALL, 'fr_FR');
         $directory = './assets/img/products/' . $product->getId() . '/';
         $scannedDirectory = array_diff(scandir($directory), array('..', '.'));
         return $this->render('product/detail.html.twig', ['product' => $product, 'images' => $scannedDirectory]);
@@ -105,6 +106,8 @@ class ProductController extends AbstractController
 
             $doctrine->persist($product);
             $doctrine->flush();
+
+            return $this->render('product/added.html.twig', ['product' => $product]);
         }
 
         return $this->render('product/add.html.twig', ['form' => $form->createView(), 'categories' => $categoryRepository->findAll()]);

@@ -20,15 +20,15 @@
             <div class="product-shipping">
                 <div class="product-benefit">
                     <i class="bi bi-box-seam product-benefit-logo"></i>
-                    <p>Faites-vous livrer <strong>à partir de 0 €</strong> ou remise en main propre avec paiement presque sécurisé<p/>
+                    <p>Faites-vous livrer <strong>à partir de 2133 €</strong> ou remise en main propre avec paiement presque sécurisé<p/>
                 </div>
                 <div class="product-benefit">
                     <i class="bi bi-coin product-benefit-logo"></i>
-                    <p>Bénéficiez de la protection acheteurs leboncoin eco+<p/>
+                    <p>Bénéficiez de la protection acheteurs leboncoin eco+ (si on en a envie)<p/>
                 </div>
                 <div class="product-benefit">
                     <i class="bi bi-file-lock product-benefit-logo"></i>
-                    <p>Paiement presque sécurisé (nos stagiaires ont eu du mal)<p/>
+                    <p>Paiement presque sécurisé (nos stagiaires ont encore des doutes)<p/>
                 </div>
             </div>
             <hr/>
@@ -59,18 +59,18 @@
             </div>
             <div class="product-benefit">
                 <i class="bi bi-emoji-laughing product-benefit-logo"></i>
-                <p>Restez libre de refuser ce bien s’il ne correspond pas à vos attentes<p/>
+                <p>Restez libre de refuser ce bien s’il ne correspond pas à vos attentes ou que le vendeur vous racket<p/>
             </div>
             <hr/>
 
             <h5>Livraison</h5>
-            <p style="font-size: 0.8em;">Recevez ce bien à domicile ou à deux pas de chez vous</p>
+            <p style="font-size: 0.8em;">Recevez ce bien à domicile ou à deux mille pas de chez vous</p>
             <div class="d-flex other-shipping">
                 <p><strong>Autre mode de livraison</strong></p>
                 <hr style="flex: 1;"/>
                 <p>0 €</p>
             </div>
-            <p class="product-quality">le vendeur vous communiquera les modalités du mode de livraison qu’il a choisi</p>
+            <p class="product-quality">le vendeur vous communiquera les modalités du mode de livraison qu’il a choisi (si il vous met pas un vent)</p>
             <hr/>
 
             <h5>Protection leboncoin eco+</h5>
@@ -92,10 +92,24 @@
             -->
             <hr/>
 
-            <img class="profile-picture" alt="Profile Picture" src="/assets/img/profile-picture.png"/>
-
+            <div class="product-user">
+                <img class="profile-picture" alt="Profile Picture" src="/assets/img/profile-picture.png"/>
+                <h6>{{ product.user.firstname }} {{ product.user.lastname }}</h6>
+            </div>
+            <div class="product-benefit">
+                <i class="bi bi-person-check product-benefit-logo"></i>
+                <p>Membre depuis {{ product.user.creation|date("F Y") }}<p/>
+            </div>
+            <hr/>
         </div>
-        <div class="user">
+        <div class="user shadow-sm">
+            <div class="product-user">
+                <img class="profile-picture" alt="Profile Picture" src="/assets/img/profile-picture.png"/>
+                <h6>{{ product.user.firstname }} {{ product.user.lastname }}</h6>
+            </div>
+            <hr/>
+            <a class="btn btn-primary user-buttons mb-3">Acheter</a>
+            <a class="btn btn-info user-buttons">Message</a>
         </div>
     </div>
 {% endblock %}
