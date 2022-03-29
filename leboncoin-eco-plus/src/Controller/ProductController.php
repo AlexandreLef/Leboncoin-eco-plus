@@ -68,7 +68,8 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/detail/{id}', name: 'product_detail')]
-    public function detail(Product $product): Response {
+    public function detail(Product $product): Response
+    {
         setlocale(LC_ALL, 'fr_FR');
         $directory = './assets/img/products/' . $product->getId() . '/';
         $scannedDirectory = array_diff(scandir($directory), array('..', '.'));
@@ -117,6 +118,19 @@ class ProductController extends AbstractController
         if ($mimeType == 'image/png') return '.png';
         if ($mimeType == 'image/jpeg') return '.jpg';
         else return '';
+    }
+
+    #[Route('/product/manage', name: 'product_manage')]
+    public function manage(ProductRepository $productRepository): Response
+    {
+
+        $products = $productRepository->findBy([
+            'user' => $this->getUser()
+        ]);
+
+        return $this->render('product/manage.html.twig', [
+            'products' => $products
+        ]);
     }
 }
 

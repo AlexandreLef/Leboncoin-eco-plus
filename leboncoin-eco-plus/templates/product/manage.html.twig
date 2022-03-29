@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}- Annonces{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/product/list.css">
+{% endblock %}
+
+{% block body %}
+
+
+    <div id="product-list">
+        {% if products %}
+            {% for product in products %}
+                <a class="product" href="{{ path('product_detail', { id: product.id }) }}">
+                    <img class="product-img" alt="{{ product.name }}"
+                         src="/assets/img/products/{{ product.id }}/0.jpeg"/>
+                    <div class="product-right">
+                        <div class="product-top">
+                            <p class="product-title semi-bold">{{ product.name }}</p>
+                            <p>{{ product.price / 100 }}€</p>
+                        </div>
+                        <div class="product-bottom">
+                            <p>{{ product.category }}</p>
+                            <p>{{ product.city }}</p>
+                            <p>{{ product.date | date('d F Y à H:i:s') }}</p>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        {% else %}
+            <div>No products found</div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -10,7 +10,7 @@ class ProductDto
 {
 
     #[Assert\NotBlank]
-    #[Assert\Length(max: 2048)]
+    #[Assert\Length(max: 4096)]
     public string $description;
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
