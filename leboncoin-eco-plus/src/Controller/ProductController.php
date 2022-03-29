@@ -25,7 +25,7 @@ class ProductController extends AbstractController
     #[Route('/', name: 'home')]
     #[Route('/product/list', name: 'product_list')]
     public function list(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response {
-        $renderPage = $request->getRequestUri() == '/' ? 'home/index.html.twig' : 'product/list.html.twig';
+        $renderPage = $request->getRequestUri() == '/product/list' ? 'product/list.html.twig' : 'home/index.html.twig';
 
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
@@ -63,7 +63,7 @@ class ProductController extends AbstractController
             'total' => count($products),
             'selectedCategoryId' => $categoryId ?? -1,
             'search' => isset($searchDto) ? $searchDto->getSearch() : '',
-            'city' => isset($searchDto) ? $searchDto->getCity() : '',
+            'city' => isset($searchDto) ? $searchDto->getCity() : ''
         ]);
     }
 

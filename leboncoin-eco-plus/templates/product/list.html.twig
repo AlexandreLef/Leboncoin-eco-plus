@@ -36,7 +36,11 @@
         <h3>Annonces : Toute la France</h3>
         {% for product in products %}
             <a class="product" href="{{ path('product_detail', { id: product.id }) }}">
-                <img class="product-img" alt="{{ product.name }}" src="/assets/img/products/{{ product.id }}/0.png"/>
+                <picture>
+                    <source srcset="/assets/img/products/{{ product.id }}/0.png" type="image/svg+xml" media="orientation: portrait">
+                    <source srcset="/assets/img/products/{{ product.id }}/0.jpg" type="image/svg+xml">
+                    <img src="fallback.png" alt="{{ product.name }}" onerror="this.onerror=null;document.getElementById('s1').srcset=document.getElementById('s2').srcset=this.src;">
+                </picture>
                 <div class="product-right">
                     <div class="product-top">
                         <p class="product-title semi-bold">{{ product.name }}</p>
