@@ -115,6 +115,7 @@ class ProductController extends AbstractController
     private function getExtension($mimeType): string
     {
         if ($mimeType == 'image/png') return '.png';
+        if ($mimeType == 'image/jpeg') return '.jpg';
         else return '';
     }
 }
