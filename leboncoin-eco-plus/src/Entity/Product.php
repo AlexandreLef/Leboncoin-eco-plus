@@ -13,25 +13,25 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private string $name;
 
     #[ORM\Column(type: 'integer')]
-    private $price;
+    private int $price;
 
-    #[ORM\Column(type: 'string', length: 2048)]
-    private $description;
+    #[ORM\Column(type: 'string', length: 4096)]
+    private string $description;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
     private $category;
 
     #[ORM\Column(type: 'integer')]
-    private $quality;
+    private int $quality;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $city;
+    private string $city;
 
     #[ORM\Column(type: 'date')]
     private $date;
@@ -39,7 +39,8 @@ class Product
     /**
      * @param AbstractDto $dto
      */
-    public function setFromDto(AbstractDto $dto): void {
+    public function setFromDto(AbstractDto $dto): void
+    {
         /** @var ProductDto $dto */
         $this->name = $dto->getName();
         $this->price = intval($dto->getPrice() * 100);

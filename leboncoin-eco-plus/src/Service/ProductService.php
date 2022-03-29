@@ -2,28 +2,33 @@
 
 namespace App\Service;
 
-use App\DTO\AbstractDto;
-use App\Entity\AbstractEntity;
-use App\Entity\User;
+use App\DTO\ProductDto;
+use App\Entity\Product;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use JetBrains\PhpStorm\Pure;
 
-class ProductService extends AbstractEntityService
+class ProductService
 {
-
-
-    #[Pure] public function __construct(ProductRepository $productRepository)
+    #[Pure] public function __construct(private ProductRepository $productRepository)
     {
-        parent::__construct($productRepository);
     }
 
     /**
      * @param ProductDto $dto
-     * @param User $entity
+     * @param Product $product
      */
-    public function addOrUpdate(AbstractDto $dto, AbstractEntity $entity): void
+    public function addOrUpdate(ProductDto $dto, Product $product): void
     {
+        $dto->setEntityFromDto($product);
+        $this->productRepository->save($product);
+    }
 
-        parent::addOrUpdate($dto, $entity);
+    /**
+     * @throws EntityNotFoundException
+     */
+    public function delete(Product $product): void
+    {
+        $this->productRepository->delete($product);
     }
 }

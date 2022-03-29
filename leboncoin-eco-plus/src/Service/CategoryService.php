@@ -2,27 +2,34 @@
 
 namespace App\Service;
 
-use App\DTO\AbstractDto;
 use App\DTO\CategoryDto;
-use App\Entity\AbstractEntity;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use JetBrains\PhpStorm\Pure;
 use Proxies\__CG__\App\Entity\Category;
 
-class CategoryService extends AbstractEntityService
+class CategoryService
 {
 
-    #[Pure] public function __construct(CategoryRepository $categoryRepository)
+    #[Pure] public function __construct(private CategoryRepository $categoryRepository)
     {
-        parent::__construct($categoryRepository);
     }
 
     /**
      * @param CategoryDto $dto
-     * @param Category $entity
+     * @param Category $category
      */
-    public function addOrUpdate(AbstractDto $dto, AbstractEntity $entity): void
+    public function addOrUpdate(CategoryDto $dto, Category $category): void
     {
-        parent::addOrUpdate($dto, $entity);
+        $dto->setEntityFromDto($category);
+        $this->categoryRepository->save($category);
+    }
+
+    /**
+     * @throws EntityNotFoundException
+     */
+    public function delete(Category $category): void
+    {
+        $this->categoryRepository->delete($category);
     }
 }

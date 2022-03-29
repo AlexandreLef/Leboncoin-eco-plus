@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\DTO\UserDto;
+use App\DTO\UserModifyDto;
 use App\Entity\User;
-use App\Form\AccountType;
 use App\Form\LoginType;
+use App\Form\UserEditType;
+use App\Form\UserType;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,8 +33,30 @@ class AccountController extends AbstractController
     public function index(): Response
     {
         return $this->render('account/index.html.twig', [
-            'controller_name' => 'AccountController',
             'user' => $this->getUser()
+        ]);
+    }
+
+    #[Route('/account/modify', name: 'account_modify')]
+    public function modify(Request $request): Response
+    {
+        $userModifyDto = new UserModifyDto();
+        $userModifyDto->setFromEntity($this->getUser());
+
+        $form = $this->createForm(UserEditType::class, $userModifyDto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = new User();
+            $userModifyDto->setEntityFromDto($user);
+            $this->userService->addOrUpdate($userModifyDto, $user);
+
+            return $this->redirectToRoute('account');
+        }
+
+        return $this->render('account/modify.html.twig', [
+            'user' => $this->getUser(),
+            'form' => $form->createView()
         ]);
     }
 
@@ -60,12 +84,12 @@ class AccountController extends AbstractController
 
         $userDto = new UserDto();
 
-        $form = $this->createForm(AccountType::class, $userDto, ['validation_groups' => ['Default', 'add']]);
+        $form = $this->createForm(UserType::class, $userDto, ['validation_groups' => ['Default', 'add']]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = new User();
-            $user->setFromDto($userDto);
+            $userDto->setEntityFromDto($user);
             $this->userService->addOrUpdate($userDto, $user);
 
             return $this->redirectToRoute('home');

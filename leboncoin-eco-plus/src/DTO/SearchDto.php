@@ -6,7 +6,8 @@ use App\Entity\AbstractEntity;
 use App\Entity\Category;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class SearchDto extends AbstractDto  {
+class SearchDto
+{
 
     private Category $category;
 
@@ -62,14 +63,5 @@ class SearchDto extends AbstractDto  {
     public function setCity(string $city): void
     {
         $this->city = $city;
-    }
-
-    /**
-     * @param AbstractEntity $entity
-     */
-    public function setFromEntity(AbstractEntity $entity): void {
-        $this->category = $entity->getCategory();
-        $this->search = $entity->getSearch();
-        $this->city = $entity->getCity();
     }
 }

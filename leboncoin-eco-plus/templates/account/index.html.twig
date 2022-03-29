@@ -15,31 +15,26 @@
         </a>
     </div>
 
-    <div class="information">
-        <h2>Paramètres</h2>
-        <h3>Adresse</h3>
-        <form>
-            <label for="address"> Adresse
-                <input type="text" value="{{ user.address }}" name="address"/>
-            </label>
-            <label for="zipcode"> Code postal
-                <input type="number" value="{{ user.zipcode }}" name="zipcode"/>
-            </label>
-            <label for="state"> Région
-                <input type="text" value="{{ user.state }}" name="state"/>
-            </label>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Annonces</h5>
+                    <p class="card-text">Gérer mes annonces déposées</p>
+                    <a href="#" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
 
-            {% if true %}
-                <a href="#">
-                    <button class="btn btn-secondary">Enregistrer les modifications</button>
-                </a>
-            {% else %}
-                <button class="btn btn-outline-secondary" disabled>Enregistrer les modifications</button>
-            {% endif %}
-        </form>
-
-        <h3>E-mail</h3>
-        <label><input type="email" value="{{ user.email }}" disabled/></label>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Paramètres</h5>
+                    <p class="card-text">Compléter et modifier mes informations privées</p>
+                    <a href="{{ path('account_modify') }}" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="logout">

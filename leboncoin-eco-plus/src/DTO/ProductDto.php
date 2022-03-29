@@ -7,16 +7,15 @@ use App\Entity\Category;
 use App\Entity\Product;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ProductDto extends AbstractDto  {
-
-	#[Assert\NotBlank]
-	#[Assert\Length(max: 255)]
-    private string $name;
+class ProductDto
+{
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 2048)]
     public string $description;
-
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
+    private string $name;
     #[Assert\NotBlank]
     #[Assert\PositiveOrZero]
     #[Assert\LessThanOrEqual(100000000)]
@@ -34,11 +33,47 @@ class ProductDto extends AbstractDto  {
     #[Assert\Length(max: 255)]
     private string $city;
 
+
+    /**
+     * @param Product $product
+     */
+    public function setFromEntity(Product $product): void
+    {
+        $this->name = $product->getName();
+        $this->price = $product->getPrice();
+        $this->description = $product->getDescription();
+        $this->category = $product->getCategory();
+        $this->quality = $product->getQuality();
+        $this->city = $product->getCity();
+    }
+
+    /**
+     * @param Product $product
+     */
+    public function setEntityFromDto(Product $product): void
+    {
+        if ($this->name) $product->setName($this->name);
+        if ($this->price) $product->setPrice($this->price);
+        if ($this->description) $product->setDescription($this->description);
+        $product->setCategory($this->category);
+        if ($this->quality) $product->setQuality($this->quality);
+        if ($this->city) $product->setCity($this->city);
+    }
+
     /**
      * @return string
      */
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 
     /**
@@ -60,65 +95,65 @@ class ProductDto extends AbstractDto  {
     /**
      * @return float
      */
-    public function getPrice(): float {
-        return $this->price;
-    }
-
-    /**
-     * @return array
-     */
-    public function getImages(): array {
-        return $this->images;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string {
-        return $this->description;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public function getPrice(): float
     {
-        $this->name = $name;
+        return $this->price;
     }
 
     /**
      * @param float $price
      */
-    public function setPrice(float $price): void {
+    public function setPrice(float $price): void
+    {
         $this->price = $price;
+    }
+
+    /**
+     * @return array
+     */
+    public function getImages(): array
+    {
+        return $this->images;
     }
 
     /**
      * @param array $images
      */
-    public function setImages(array $images): void {
+    public function setImages(array $images): void
+    {
         $this->images = $images;
     }
 
     /**
-     * @param Category $category
+     * @return string
      */
-    public function setCategory(Category $category): void {
-        $this->category = $category;
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 
     /**
      * @param string $description
      */
-    public function setDescription(string $description): void {
+    public function setDescription(string $description): void
+    {
         $this->description = $description;
     }
 
     /**
      * @return Category
      */
-    public function getCategory(): Category {
+    public function getCategory(): Category
+    {
         return $this->category;
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function setCategory(Category $category): void
+    {
+        $this->category = $category;
     }
 
     /**
@@ -136,17 +171,4 @@ class ProductDto extends AbstractDto  {
     {
         $this->quality = $quality;
     }
-
-    /**
-     * @param AbstractEntity $entity
-     */
-	public function setFromEntity(AbstractEntity $entity): void {
-        /** @var Product $entity */
-        $this->name = $entity->getName();
-        $this->price = $entity->getPrice();
-        $this->description = $entity->getDescription();
-        $this->category = $entity->getCategory();
-        $this->quality = $entity->getQuality();
-        $this->city = $entity->getCity();
-	}
 }

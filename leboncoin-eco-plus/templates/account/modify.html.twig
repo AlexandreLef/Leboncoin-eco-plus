@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}- Mon compte{% endblock %}
+
+{% block body %}
+
+    <div class="information">
+        {{ form_start(form) }}
+        <h3>Informations personnelles</h3>
+        <div class="col-md-4">
+            <label for="name">Nom
+                {{ form_widget(form.name) }}
+            </label>
+            {{ form_errors(form.name) }}
+        </div>
+        <div class="col-md-4">
+            <label for="firstname">Prénom
+                {{ form_widget(form.firstname) }}
+            </label>
+            {{ form_errors(form.firstname) }}
+        </div>
+        <div class="col-md-4">
+            <label for="email">Email
+                {{ form_widget(form.email) }}
+            </label>
+            {{ form_errors(form.email) }}
+        </div>
+        <h3>Adresse</h3>
+        <div class="col-md-4">
+            <label for="address"> Adresse
+                {{ form_widget(form.address) }}
+            </label>
+            {{ form_errors(form.address) }}
+        </div>
+        <div class="col-md-4">
+            <label for="zipcode"> Code postal
+                {{ form_widget(form.zipcode) }}
+            </label>
+            {{ form_errors(form.zipcode) }}
+        </div>
+        <div class="col-md-4">
+            <label for="state"> Département
+                {{ form_widget(form.state) }}
+            </label>
+            {{ form_errors(form.state) }}
+        </div>
+        <div class="col-12">
+            <button class="btn btn-outline-secondary" type="submit">Enregistrer les modifications
+            </button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

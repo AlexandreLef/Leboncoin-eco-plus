@@ -13,8 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
-    private CategoryService $categoryService;
-
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
@@ -25,7 +23,7 @@ class AdminController extends AbstractController
 
     // TODO correction of adding on submit button click
     #[Route('/admin/category/add', name: 'admin_category_add', methods: ['GET', 'POST'])]
-    public function create(Request $request): Response
+    public function create(Request $request, CategoryService $categoryService): Response
     {
         $categoryDto = new CategoryDto();
 
@@ -35,7 +33,7 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $category = new Category();
             $category->setFromDto($categoryDto);
-            $this->categoryService->addOrUpdate($categoryDto, $category);
+            $categoryService->addOrUpdate($categoryDto, $category);
 
             return $this->redirectToRoute('admin');
         }

@@ -2,11 +2,10 @@
 
 namespace App\DTO;
 
-
 use App\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserDto
+class UserModifyDto
 {
 
     #[Assert\NotBlank]
@@ -21,12 +20,6 @@ class UserDto
     #[Assert\Email]
     private string $email;
 
-    #[Assert\NotBlank(groups: ["add"])]
-    private ?string $password = null;
-
-    #[Assert\NotBlank(groups: ["add"])]
-    private ?string $passwordConfirm = null;
-
     private ?string $address = null;
     private ?int $zipcode = null;
     private ?string $state = null;
@@ -39,7 +32,6 @@ class UserDto
         $this->name = $user->getName();
         $this->firstname = $user->getFirstname();
         $this->email = $user->getEmail();
-        $this->password = $user->getPassword();
         $this->address = $user->getAddress();
         $this->zipcode = $user->getZipcode();
         $this->state = $user->getState();
@@ -53,11 +45,9 @@ class UserDto
         if ($this->name) $user->setName($this->name);
         if ($this->firstname) $user->setFirstname($this->firstname);
         if ($this->email) $user->setEmail($this->email);
-        if ($this->password) $user->setPassword($this->password);
         if ($this->address) $user->setAddress($this->address);
         if ($this->zipcode) $user->setZipcode($this->zipcode);
         if ($this->state) $user->setState($this->state);
-        $user->setRoles('ROLE_USER');
     }
 
     /**
@@ -106,38 +96,6 @@ class UserDto
     public function setEmail(string $email): void
     {
         $this->email = $email;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param string|null $password
-     */
-    public function setPassword(?string $password): void
-    {
-        $this->password = $password;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPasswordConfirm(): ?string
-    {
-        return $this->passwordConfirm;
-    }
-
-    /**
-     * @param string|null $passwordConfirm
-     */
-    public function setPasswordConfirm(?string $passwordConfirm): void
-    {
-        $this->passwordConfirm = $passwordConfirm;
     }
 
     /**

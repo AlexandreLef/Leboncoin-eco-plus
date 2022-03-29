@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Category;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -11,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Category[]    findAll()
  * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryRepository extends AbstractRepository
+class CategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -32,5 +34,23 @@ class CategoryRepository extends AbstractRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    public function save(Category $category): void
+    {
+        $this->getEntityManager()->persist($category);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @throws EntityNotFoundException
+     */
+    public function delete(Category $category): void
+    {
+        if (!$category) {
+            throw new EntityNotFoundException('Entity not found');
+        }
+        $this->getEntityManager()->remove($category);
+        $this->getEntityManager()->flush();
     }
 }

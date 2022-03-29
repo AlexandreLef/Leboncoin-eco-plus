@@ -2,11 +2,10 @@
 
 namespace App\DTO;
 
-use App\Entity\AbstractEntity;
 use App\Entity\Category;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CategoryDto extends AbstractDto
+class CategoryDto
 {
 
     #[Assert\NotBlank]
@@ -30,10 +29,18 @@ class CategoryDto extends AbstractDto
     }
 
     /**
-     * @param Category $entity
+     * @param Category $category
      */
-    public function setFromEntity(AbstractEntity $entity): void
+    public function setFromEntity(Category $category): void
     {
-        $this->name = $entity->getName();
+        $this->name = $category->getName();
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function setEntityFromDto(Category $category): void
+    {
+        if ($this->name) $category->setName($this->name);
     }
 }
