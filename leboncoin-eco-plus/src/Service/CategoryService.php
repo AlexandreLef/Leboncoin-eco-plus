@@ -3,10 +3,10 @@
 namespace App\Service;
 
 use App\DTO\CategoryDto;
+use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use JetBrains\PhpStorm\Pure;
-use Proxies\__CG__\App\Entity\Category;
 
 class CategoryService
 {

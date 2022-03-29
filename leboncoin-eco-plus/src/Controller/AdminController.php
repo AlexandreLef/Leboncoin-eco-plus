@@ -32,7 +32,7 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $category = new Category();
-            $category->setFromDto($categoryDto);
+            $categoryDto->setEntityFromDto($category);
             $categoryService->addOrUpdate($categoryDto, $category);
 
             return $this->redirectToRoute('admin');
