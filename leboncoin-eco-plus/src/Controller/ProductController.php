@@ -56,6 +56,17 @@ class ProductController extends AbstractController
             $products = $productRepository->findAll();
         }
 
+        // Show no-image if no image is available otherwise show the first one
+        foreach($products as $product) {
+            $directory = '/assets/img/products/' . $product->getId() . '/';
+            if (file_exists('.' . $directory)) {
+                $scannedDirectory = array_diff(scandir('.' . $directory), array('..', '.'));
+                $product->imagePath = $directory . array_values($scannedDirectory)[0];
+            }
+            else { $product->imagePath = '/assets/img/no-image.png'; }
+        }
+
+
         return $this->render($renderPage, [
             'form' => $form->createView(),
             'products' => $products,
@@ -63,7 +74,7 @@ class ProductController extends AbstractController
             'total' => count($products),
             'selectedCategoryId' => $categoryId ?? -1,
             'search' => isset($searchDto) ? $searchDto->getSearch() : '',
-            'city' => isset($searchDto) ? $searchDto->getCity() : ''
+            'city' => isset($searchDto) ? $searchDto->getCity() : '',
         ]);
     }
 
