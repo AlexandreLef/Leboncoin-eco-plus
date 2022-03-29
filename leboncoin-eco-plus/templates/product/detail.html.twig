@@ -9,9 +9,29 @@
 {% block body %}
     <div id="detail-container">
         <div class="product">
-            {% for image in images %}
-                <img class="product-img" alt="{{ product.name }}" src="/assets/img/products/{{ product.id }}/{{ image }}"/>
-            {% endfor %}
+            <div id="carousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    {% for image in images %}
+                        <button class="{% if loop.index == 1 %}active{% endif %}" type="button" data-bs-target="#carousel" data-bs-slide-to="{{ loop.index - 1 }}" class="active" aria-current="true" aria-label="Slide {{ loop.index }}"></button>
+                    {% endfor %}
+                </div>
+                <div class="carousel-inner">
+                    {% for image in images %}
+                        <div class="carousel-item {% if loop.index == 1 %}active{% endif %}" data-bs-interval="15000">
+                            <img class="d-block w-100" alt="{{ product.name }}" src="/assets/img/products/{{ product.id }}/{{ image }}"/>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
             <h3 class="product-title">{{ product.name }}</h3>
             <h5>{{ product.price / 100 }}€</h5>
             <p class="product-date">{{ product.date|date("m/d/Y à h:i") }}</p>
