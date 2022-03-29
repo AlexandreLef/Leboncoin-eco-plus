@@ -92,7 +92,7 @@ class AccountController extends AbstractController
             $userDto->setEntityFromDto($user);
             $this->userService->addOrUpdate($userDto, $user);
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('account_login');
         }
 
         return $this->render('account/create.html.twig', [

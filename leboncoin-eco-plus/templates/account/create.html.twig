@@ -3,51 +3,53 @@
 {% block title %}- Création de compte{% endblock %}
 
 {% block body %}
-    <form class="row g-3" name="account" method="post">
-        <div class="col-md-4">
-            <label for="name" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="name" name="account[name]"
-                   required>
-        </div>
-        <div class="col-md-4">
-            <label for="firstname" class="form-label">Prénom</label>
-            <input class="form-control" type="text" id="firstname" name="account[firstname]"
-                   required>
-        </div>
-        <div class="col-md-4">
-            <label for="email" class="form-label">E-mail</label>
-            <input class="form-control" type="email" id="email" name="account[email]"
-                   required>
-        </div>
+    {{ form_start(form) }}
+    <div class="col-md-4">
+        <label for="user_name" class="form-label">Nom</label>
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+    <div class="col-md-4">
+        <label for="user_firstname" class="form-label">Prénom</label>
+        {{ form_widget(form.firstname) }}
+        {{ form_errors(form.firstname) }}
+    </div>
+    <div class="col-md-4">
+        <label for="user_email" class="form-label">E-mail</label>
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+    </div>
 
-        <div class="col-md-6">
-            <label for="password" class="form-label">Mot de passe</label>
-            <input class="form-control" type="password" id="password" name="account[password]"
-                   required>
-        </div>
-        <div class="col-md-6">
-            <label for="passwordConfirm" class="form-label">Confirmation mot de passe</label>
-            <input class="form-control" type="password" id="passwordConfirm" name="account[passwordConfirm]"
-                   required>
-        </div>
+    <div class="col-md-6">
+        <label for="user_password" class="form-label">Mot de passe</label>
+        {{ form_widget(form.password) }}
+        {{ form_errors(form.password) }}
+    </div>
+    <div class="col-md-6">
+        <label for="user_passwordConfirm" class="form-label">Confirmation mot de passe</label>
+        {{ form_widget(form.passwordConfirm) }}
+        {{ form_errors(form.passwordConfirm) }}
+    </div>
 
-        <div class="col-md-4">
-            <label for="address" class="form-label">Adresse</label>
-            <input type="text" class="form-control" id="address" name="account[address]">
-        </div>
-        <div class="col-md-4">
-            <label for="zipcode" class="form-label">Code postal</label>
-            <input class="form-control" type="text" id="zipcode" name="account[zipcode]">
-        </div>
-        <div class="col-md-4">
-            <label for="state" class="form-label">Département</label>
-            <input class="form-control" type="text" id="state" name="account[state]">
-        </div>
+    <div class="col-md-4">
+        <label for="user_address" class="form-label">Adresse</label>
+        {{ form_widget(form.address) }}
+        {{ form_errors(form.address) }}
+    </div>
+    <div class="col-md-4">
+        <label for="user_zipcode" class="form-label">Code postal</label>
+        {{ form_widget(form.zipcode) }}
+        {{ form_errors(form.zipcode) }}
+    </div>
+    <div class="col-md-4">
+        <label for="user_state" class="form-label">Département</label>
+        {{ form_widget(form.state) }}
+        {{ form_errors(form.state) }}
+    </div>
 
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Créer mon compte</button>
-        </div>
-    </form>
-    {{ form_errors(form) }}
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Créer mon compte</button>
+    </div>
+    {{ form_end(form) }}
     <p>Vous avez déjà un compte ? <a href="{{ path('account_login') }}">Me connecter</a></p>
 {% endblock %}
