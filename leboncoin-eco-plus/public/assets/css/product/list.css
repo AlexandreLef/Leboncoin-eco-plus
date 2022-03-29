@@ -4,7 +4,7 @@
     margin: 30px auto auto;
     height: 210px;
     max-width: 930px;
-    padding: 20px;
+    padding: 2em;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -27,4 +27,52 @@
 
 .search-submit-button {
     margin: 84px auto auto;
+}
+
+#product-list {
+    width: 100%;
+    margin-top: 4em;
+}
+
+#product-list > h3 {
+    text-align: center;
+}
+
+.product {
+    height: 192px;
+    width: 621px;
+    border: 1px solid rgb(202, 209, 217);
+    border-radius: 0.8rem;
+    display: flex;
+    margin: auto;
+    cursor: pointer;
+}
+
+.product:hover .product-title {
+    color: var(--primary-color) !important;
+}
+
+.product-title {
+    transition: 0.2s;
+}
+
+.product p {
+    margin: 0;
+}
+
+.product-right {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-bottom {
+    color: #8191a0;
+    font-size: 0.7em;
+    margin-top: auto;
+}
+
+.product-img {
+    width: 240px;
+    object-fit: cover;
 }

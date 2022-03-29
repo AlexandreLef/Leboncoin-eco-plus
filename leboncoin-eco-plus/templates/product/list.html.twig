@@ -21,18 +21,34 @@
                     {% endfor %}
                 </select>
                 <i class="input-logo form-control bi bi-search"></i>
-                <input name="search[search]" type="search" placeholder="Que recherchez-vous ?" class="form-control input-logo-input">
+                <input name="search[search]" value="{{ search }}" type="search" placeholder="Que recherchez-vous ?" class="form-control input-logo-input">
             </div>
             <div style="width: 39%" class="input-group mb-3">
                 <i class="input-logo form-control bi bi-geo-alt"></i>
-                <input name="search[city]" type="search" placeholder="Saisissez une ville" class="form-control input-logo-input">
+                <input name="search[city]" value="{{ city }}" type="search" placeholder="Saisissez une ville" class="form-control input-logo-input">
             </div>
         </div>
         <button type="submit" class="btn btn-info search-submit-button">Rechercher ({{ total }} résultats)</button>
         {{ form_errors(form) }}
     </form>
 
-    {% for product in products %}
-        {{ product.name }}
-    {% endfor %}
+    <div id="product-list">
+        <h3>Annonces : Toute la France</h3>
+        {% for product in products %}
+            <div class="product">
+                <img class="product-img" alt="{{ product.name }}" src="/assets/img/products/{{ product.id }}/0.png"/>
+                <div class="product-right">
+                    <div class="product-top">
+                        <p class="product-title semi-bold">{{ product.name }}</p>
+                        <p>{{ product.price / 100 }}€</p>
+                    </div>
+                    <div class="product-bottom">
+                        <p>{{ product.category }}</p>
+                        <p>{{ product.city }}</p>
+                        <p>{{ product.formattedDate }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

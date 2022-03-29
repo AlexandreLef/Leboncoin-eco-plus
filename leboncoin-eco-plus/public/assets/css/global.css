@@ -1,11 +1,19 @@
 @font-face {
     font-family: "Open Sans";
     src: url("../font/opensans-regular-webfont.woff2") format("woff2");
+    font-weight: normal;
 }
 
 @font-face {
     font-family: "Open Sans";
     src: url("../font/opensans-semibold-webfont.woff2") format("woff2");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "Open Sans";
+    src: url("../font/opensans-bold-webfont.woff2") format("woff2");
+    font-weight: bold;
 }
 
 :root {
@@ -15,4 +23,8 @@
 body {
     background-color: #F8F8F8 !important;
     font-family: "Open Sans", serif;
+}
+
+.semi-bold {
+    font-weight: 500;
 }

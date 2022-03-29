@@ -9,6 +9,7 @@ use App\Form\ProductType;
 use App\Form\SearchType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -32,7 +33,6 @@ class ProductController extends AbstractController {
         $form->handleRequest($request);
 
         $transliterator = Transliterator::create('NFD; [:Nonspacing Mark:] Remove; NFC');
-
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var SearchDto $searchDto */
             $searchDto = $form->getData();
@@ -45,13 +45,21 @@ class ProductController extends AbstractController {
             foreach($tmpProducts as $product) {
                 $tmpName = $transliterator->transliterate(mb_strtolower($product->getName()));
                 $tmpCity = $transliterator->transliterate(mb_strtolower($product->getCity()));
-                if (str_contains($tmpName, $search)) {
+                if ($search == '' && $city != '') {
+                    if (str_contains($tmpCity, $city)) $products[] = $product;
+                } else if ($search != '' && $city == '') {
+                    if (str_contains($tmpName, $search)) $products[] = $product;
+                } else {
                     $products[] = $product;
                 }
             }
         }
         else {
             $products = $productRepository->findAll();
+        }
+
+        foreach($products as $product) {
+            $product->formattedDate = $product->getDate()->format('d F Y à H:i:s');
         }
 
         return $this->render('product/list.html.twig', [
@@ -80,6 +88,7 @@ class ProductController extends AbstractController {
 
             $product = new Product();
             $product->setFromDto($productDto);
+            $product->setDate(new DateTime());
 
             $doctrine->persist($product);
             $doctrine->flush();

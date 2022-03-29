@@ -37,7 +37,7 @@ class SearchDto extends AbstractDto  {
      */
     public function getSearch(): string
     {
-        return $this->search ?? '';
+        return $this->search;
     }
 
     /**
@@ -53,7 +53,7 @@ class SearchDto extends AbstractDto  {
      */
     public function getCity(): string
     {
-        return $this->city ?? '';
+        return $this->city;
     }
 
     /**
