@@ -22,9 +22,11 @@ use Transliterator;
 class ProductController extends AbstractController
 {
 
+    #[Route('/', name: 'home')]
     #[Route('/product/list', name: 'product_list')]
-    public function list(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
-    {
+    public function list(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response {
+        $renderPage = $request->getRequestUri() == '/' ? 'home/index.html.twig' : 'product/list.html.twig';
+
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
 
@@ -49,15 +51,12 @@ class ProductController extends AbstractController
                     $products[] = $product;
                 }
             }
+            $renderPage = 'product/list.html.twig';
         } else {
             $products = $productRepository->findAll();
         }
 
-        foreach ($products as $product) {
-            $product->formattedDate = $product->getDate()->format('d F Y à H:i:s');
-        }
-
-        return $this->render('product/list.html.twig', [
+        return $this->render($renderPage, [
             'form' => $form->createView(),
             'products' => $products,
             'categories' => $categoryRepository->findAll(),

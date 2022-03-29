@@ -45,7 +45,7 @@
                     <div class="product-bottom">
                         <p>{{ product.category }}</p>
                         <p>{{ product.city }}</p>
-                        <p>{{ product.formattedDate }}</p>
+                        <p>{{ product.date|date('d F Y à H:i:s') }}</p>
                     </div>
                 </div>
             </a>
