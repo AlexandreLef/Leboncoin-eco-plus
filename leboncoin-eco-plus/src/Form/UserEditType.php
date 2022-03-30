@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\DTO\UserModifyDto;
+use App\DTO\UserEditDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -20,15 +20,22 @@ class UserEditType extends AbstractType
             ->add('email', EmailType::class, [
                 'disabled' => true,
             ])
-            ->add('address', TextType::class)
-            ->add('zipcode', NumberType::class)
-            ->add('state', TextType::class);
+            ->add('address', TextType::class, [
+                'required' => false,
+            ])
+            ->add('zipcode', NumberType::class, [
+                'html5' => true,
+                'required' => false,
+            ])
+            ->add('state', TextType::class, [
+                'required' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => UserModifyDto::class,
+            'data_class' => UserEditDto::class,
             'attr' => ['class' => 'row g-3']
         ]);
     }

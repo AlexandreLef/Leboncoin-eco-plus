@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}- Ajout catégorie{% endblock %}
+
+{% block body %}
+    <form>
+        <label><h3>Catégorie à supprimer:</h3>
+            <select class="form-control input-logo-input" name="category">
+                <option value="" selected disabled>Catégories</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Supprimer cette catégorie</button>
+        </div>
+    </form>
+{% endblock %}

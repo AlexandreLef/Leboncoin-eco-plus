@@ -8,11 +8,7 @@
         <i class="bi bi-person-circle"></i>
         <h2> {{ user.firstname }} {{ user.lastname }}</h2>
 
-        <a href="{{ path('product_manage') }}">
-            <button class="btn btn-outline-secondary">
-                Voir mon profil public
-            </button>
-        </a>
+        <a href="{{ path('product_manage') }}" class="btn btn-outline-secondary">Voir mon profil public</a>
     </div>
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
@@ -38,9 +34,7 @@
     </div>
 
     <div class="logout">
-        <a href="{{ path('account_logout') }}">
-            <button class="btn btn-danger">Se deconnecter</button>
-        </a>
+        <a href="{{ path('account_logout') }}"class="btn btn-danger">Se deconnecter</a>
     </div>
 
 {% endblock %}
