@@ -46,7 +46,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/category/update/{id}/name/{name}', name: 'admin_category_update', methods: ['GET', 'POST'])]
+    #[Route('/admin/category/update/{id}/name/{name}', name: 'admin_category_update', methods: 'GET')]
     public function update(
         CategoryService $categoryService,
         Category $category,
@@ -61,7 +61,7 @@ class AdminController extends AbstractController
     /**
      * @throws EntityNotFoundException
      */
-    #[Route('/admin/category/delete/{id}', name: 'admin_category_delete', methods: ['GET', 'POST'])]
+    #[Route('/admin/category/delete/{id}', name: 'admin_category_delete', methods: 'GET')]
     public function delete(CategoryRepository $categoryRepository, Category $category): Response
     {
         $categoryRepository->delete($category);

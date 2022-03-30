@@ -8,13 +8,20 @@
 
 {% block body %}
 
-
     <div id="product-list">
         {% if products %}
             {% for product in products %}
-                <div class="product" onclick="window.location = '{{ path('product_detail', { id: product.id }) }}'">
-                    <img class="product-img" alt="{{ product.name }}"
-                         src="/assets/img/products/{{ product.id }}/0.jpeg"/>
+                {% set productJson = {
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    description: product.description,
+                    quality: product.quality,
+                    city: product.city,
+                    category: product.category.id
+                } %}
+                <a class="product" {# href="{{ path('product_detail', { id: product.id }) }}" #}>
+                    <img src="{{ product.imagesPath[0] }}" class="product-img" alt="{{ product.name }}">
                     <div class="product-right">
                         <div class="product-top">
                             <p class="product-title semi-bold">{{ product.name }}</p>
@@ -23,24 +30,21 @@
                         <div class="product-bottom">
                             <p>{{ product.category }}</p>
                             <p>{{ product.city }}</p>
-                            <p>{{ product.date | date('d F Y à H:i:s') }}</p>
+                            <p>{{ product.date|date('d F Y à H:i:s') }}</p>
                         </div>
                     </div>
+
                     <div class="buttons">
-                        <a href="#" data-bs-target="deleteModal">
-
-                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal">
-                                <i class="bi bi-trash3"></i>
-                            </button>
-
-                        </a>
-                        <a href="#">
-                            <button type="button" class="btn btn-outline-secondary"><i class="bi bi-gear"></i></button>
-                        </a>
+                        <button class="btn btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete"
+                                data-whatever="{{ product.id }}">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                        <button class="btn btn-outline-info" type="button" data-bs-toggle="modal" data-bs-target="#modify"
+                                data-whatever="{{ productJson|json_encode() }}">
+                            <i class="bi bi-pencil"></i>
+                        </button>
                     </div>
-
-                </div>
+                </a>
             {% endfor %}
         {% else %}
             <div>No products found</div>
@@ -48,22 +52,119 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="deleteModal" data-bs-backdrop="static" tabindex="-1"
+    <div class="modal fade" id="modify" data-bs-backdrop="static" tabindex="-1"
          aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="deleteModalLabel">Modifier ce produit</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <form name="product" method="post" enctype="multipart/form-data">
+                        <div id="product-form">
+                            <br/>
+                            <h3>Déposer une annonce</h3>
+                            <br/>
+                            <div id="form-background">
+                                <div class="col-5">
+                                    <h5>Commençons par l’essentiel !</h5>
+                                    <br/>
+                                    <label for="product_name" class="required">Quel est le titre de l'annonce</label>
+                                    <input class="form-control" type="text" id="product_name" name="product[name]" required="required">
+                                    <br/>
+                                    <label for="product_category">Choisissez une catégorie</label>
+                                    <select class="form-control" id="product_category" name="product[category]">
+                                        {% for category in categories %}
+                                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                    <br/>
+                                    <label for="product_quality">État</label>
+                                    <select class="form-control" id="product_quality" name="product[quality]">
+                                        <option value="1" selected="selected">État neuf</option>
+                                        <option value="2">Très bon état</option>
+                                        <option value="3">Bon état</option>
+                                        <option value="4">État satisfaisant</option>
+                                        <option value="5">Pour pièces</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <br/><br/>
+                                    <h5>Décrivez votre bien !</h5>
+                                    <label for="product_description" class="required">Description</label>
+                                    <textarea class="form-control textarea" type="text" id="product_description" name="product[description]" required="required"></textarea>
+                                </div>
+                                <div class="col-5">
+                                    <br/><br/>
+                                    <h5>Quel est votre prix ?</h5>
+                                    <label for="product_price" class="required">Votre prix de vente</label>
+                                    <input class="form-control" type="text" id="product_price" name="product[price]" required="required">
+
+                                    <br/><br/>
+                                    <h5>Ajoutez vos photos</h5>
+                                    <input class="form-control" type="file" id="product_images" name="product[images][]" multiple="multiple">
+
+                                    <br/><br/>
+                                    <h5>Où se situe votre bien ?</h5>
+                                    <label for="product_city" class="required">Quelle est la ville de votre bien</label>
+                                    <input class="form-control" type="text" id="product_city" name="product[city]" required="required">
+
+                                    <br/><br/>
+                                    <button class="btn btn-primary" type="submit">Valider</button>
+                                </div>
+                            </div>
+                        </div>
+                        {{ form_errors(form) }}
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
+                    <a id="submitModify" class="btn btn-primary">Modifier</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        $('#modify').on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget);
+            const product = button.data('whatever')
+            const modal = $(this)
+            modal.find('input').val(product.name)
+            modal.find('#submitModify').data('product', product.id)
+            $('#submitModify').attr('href', "/product/update/" + $('#submitModify').data('product') + "/dto/")
+        })
+    </script>
+
+    <!-- Modal -->
+    <div class="modal fade" id="delete" data-bs-backdrop="static" tabindex="-1"
+         aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Supprimer ce produit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Êtes-vous sûr de vouloir supprimer ce produit ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                    <a id="submitDelete" class="btn btn-primary">Oui</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#delete').on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget);
+            const product = button.data('whatever')
+            console.log(product);
+            const modal = $(this)
+            modal.find('#submitDelete').attr('href', "/product/manage/delete/" + product)
+        })
+    </script>
 {% endblock %}

@@ -4,8 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Favorite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,10 +20,6 @@ class FavoriteRepository extends ServiceEntityRepository
         parent::__construct($registry, Favorite::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Favorite $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
@@ -33,10 +28,7 @@ class FavoriteRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
+
     public function remove(Favorite $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
@@ -45,32 +37,21 @@ class FavoriteRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Favorite[] Returns an array of Favorite objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function save(Favorite $favorite): void
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $this->getEntityManager()->persist($favorite);
+        $this->getEntityManager()->flush();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Favorite
+    /**
+     * @throws EntityNotFoundException
+     */
+    public function delete(Favorite $favorite): void
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if (!$favorite) {
+            throw new EntityNotFoundException('Entity not found');
+        }
+        $this->getEntityManager()->remove($favorite);
+        $this->getEntityManager()->flush();
     }
-    */
 }

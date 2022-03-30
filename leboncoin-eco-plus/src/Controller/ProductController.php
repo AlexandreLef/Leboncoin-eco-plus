@@ -20,11 +20,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProductController extends AbstractController {
+class ProductController extends AbstractController
+{
 
     #[Route('/', name: 'home')]
     #[Route('/product/list', name: 'product_list')]
-    public function list(Request $request, ProductService $productService,  ProductRepository $productRepository, CategoryRepository $categoryRepository): Response {
+    public function list(Request $request, ProductService $productService, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
+    {
         // This is used because this route is used by home and by product_list
         $renderPage = $request->getRequestUri() == '/product/list' ? 'product/list.html.twig' : 'home/index.html.twig';
 
@@ -34,7 +36,8 @@ class ProductController extends AbstractController {
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Get values from form
-            $searchDto = $form->getData(); /** @var SearchDto $searchDto */
+            $searchDto = $form->getData();
+            /** @var SearchDto $searchDto */
             $categoryId = $searchDto->getCategory()?->getId();
             $search = $productService->normalize($searchDto->getSearch());
             $city = $productService->normalize($searchDto->getCity());
@@ -121,12 +124,60 @@ class ProductController extends AbstractController {
     }
 
     #[Route('/product/manage', name: 'product_manage')]
-    public function manage(): Response {
-        $user = $this->getUser(); /** @var User $user */
+    public function manage(Request $request, EntityManagerInterface $doctrine, CategoryRepository $categoryRepository): Response
+    {
+        $user = $this->getUser();
         $products = $user->getProducts();
+
+        $form = $this->createForm(ProductType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Get form values
+            $productDto = $form->getData();
+            /** @var ProductDto $productDto */
+
+            // Create product object
+            $user = $this->getUser();
+            /** @var User $user */
+            $product = new Product();
+            $productDto->setEntityFromDto($product);
+            $product->setUser($user);
+            $product->setDate(new DateTime());
+            // Insert into database
+            $doctrine->persist($product);
+            $doctrine->flush();
+
+            // Get the images that the user uploaded
+            $images = $productDto->getImages();
+            foreach ($images as $i => $image) {
+                // Move them into the img public folder
+                $imageName = './assets/img/products/' . $product->getId() . '/';
+                $image->move($imageName, $i . $this->getExtension($image->getMimeType()));
+            }
+        }
+
         return $this->render('product/manage.html.twig', [
-            'products' => $products
+            'products' => $products,
+            'form' => $form->createView(),
+            'categories' => $categoryRepository->findAll(),
         ]);
+    }
+
+    #[Route('/product/manage/delete/{id}', name: 'product_manage_delete', methods: 'GET')]
+    public function delete(ProductRepository $productRepository, Product $product): Response
+    {
+        $productRepository->delete($product);
+        return $this->redirectToRoute('product_manage');
+    }
+
+
+    #[Route('/product/manage/update/{id}/dto/{dto}', name: 'product_manage_update', methods: 'GET')]
+    public function update(ProductService $productService, Product $product, ProductDto $productDto): Response
+    {
+        $productDto->setEntityFromDto($product, $productDto);
+        $productService->addOrUpdate($productDto, $product);
+        return $this->redirectToRoute('product_manage');
     }
 }
 
