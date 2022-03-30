@@ -18,7 +18,7 @@ class Search
     private User $user;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'searches')]
-    private Category $category;
+    private ?Category $category = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private String $search;
