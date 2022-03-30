@@ -14,6 +14,7 @@ use App\Repository\ProductRepository;
 use App\Service\ProductService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,10 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
 
-    /**
-     * @throws OptimisticLockException
-     * @throws \Doctrine\ORM\ORMException
-     */
+
     #[Route('/product/list', name: 'product_list')]
     public function list(Request $request, ProductService $productService, ProductRepository $productRepository, CategoryRepository $categoryRepository, EntityManagerInterface $doctrine): Response {
         // Prepare form
@@ -136,7 +134,7 @@ class ProductController extends AbstractController
     #[Route('/product/manage', name: 'product_manage')]
     public function manage(Request $request, EntityManagerInterface $doctrine, CategoryRepository $categoryRepository): Response
     {
-        $user = $this->getUser();
+        $user = $this->getUser(); /** @var User $user */
         $products = $user->getProducts();
 
         $form = $this->createForm(ProductType::class);
@@ -174,6 +172,9 @@ class ProductController extends AbstractController
         ]);
     }
 
+    /**
+     * @throws EntityNotFoundException
+     */
     #[Route('/product/manage/delete/{id}', name: 'product_manage_delete', methods: 'GET')]
     public function delete(ProductRepository $productRepository, Product $product): Response
     {
@@ -185,7 +186,7 @@ class ProductController extends AbstractController
     #[Route('/product/manage/update/{id}/dto/{dto}', name: 'product_manage_update', methods: 'GET')]
     public function update(ProductService $productService, Product $product, ProductDto $productDto): Response
     {
-        $productDto->setEntityFromDto($product, $productDto);
+        $productDto->setEntityFromDto($product);
         $productService->addOrUpdate($productDto, $product);
         return $this->redirectToRoute('product_manage');
     }

@@ -11,20 +11,20 @@ class Search
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private int $id = -1;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'searches')]
     #[ORM\JoinColumn(nullable: false)]
-    private $user;
+    private User $user;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'searches')]
-    private $category;
+    private Category $category;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $search;
+    private String $search;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $city;
+    private String $city;
 
     public function getId(): ?int
     {

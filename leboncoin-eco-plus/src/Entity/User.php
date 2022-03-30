@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,7 +18,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private ?int $id = null;
+    private ?int $id = -1;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $lastname;
@@ -44,16 +45,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $roles;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Product::class, orphanRemoval: true)]
-    private $products;
+    private Collection $products;
 
     #[ORM\Column(type: 'datetime')]
-    private $creation;
+    private ?DateTimeInterface $creation;
 
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: Favorite::class, orphanRemoval: true)]
-    private $favorites;
+    private Collection $favorites;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Search::class, orphanRemoval: true)]
-    private $searches;
+    private Collection $searches;
 
     #[Pure] public function __construct()
     {
@@ -148,7 +149,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
     }
 
-    #[Pure] public function getUserIdentifier(): string
+    public function getUserIdentifier(): string
     {
         return $this->getEmail();
     }
@@ -194,12 +195,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreation(): ?\DateTimeInterface
+    public function getCreation(): ?DateTimeInterface
     {
         return $this->creation;
     }
 
-    public function setCreation(\DateTimeInterface $creation): self
+    public function setCreation(DateTimeInterface $creation): self
     {
         $this->creation = $creation;
 

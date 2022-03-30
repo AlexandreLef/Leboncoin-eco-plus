@@ -42,7 +42,7 @@ class Product {
     private ?User $user;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Favorite::class, orphanRemoval: true)]
-    private $favorites;
+    private Collection $favorites;
 
     private array $imagesPath;
 
