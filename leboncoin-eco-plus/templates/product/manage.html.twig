@@ -12,7 +12,7 @@
     <div id="product-list">
         {% if products %}
             {% for product in products %}
-                <a class="product" href="{{ path('product_detail', { id: product.id }) }}">
+                <div class="product" onclick="window.location = '{{ path('product_detail', { id: product.id }) }}'">
                     <img class="product-img" alt="{{ product.name }}"
                          src="/assets/img/products/{{ product.id }}/0.jpeg"/>
                     <div class="product-right">
@@ -26,10 +26,44 @@
                             <p>{{ product.date | date('d F Y à H:i:s') }}</p>
                         </div>
                     </div>
-                </a>
+                    <div class="buttons">
+                        <a href="#" data-bs-target="deleteModal">
+
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+
+                        </a>
+                        <a href="#">
+                            <button type="button" class="btn btn-outline-secondary"><i class="bi bi-gear"></i></button>
+                        </a>
+                    </div>
+
+                </div>
             {% endfor %}
         {% else %}
             <div>No products found</div>
         {% endif %}
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" data-bs-backdrop="static" tabindex="-1"
+         aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
