@@ -72,7 +72,7 @@ class ProductController extends AbstractController {
     }
 
     #[Route('/product/detail/{id}', name: 'product_detail')]
-    public function detail(Product $product, ProductService $productService): Response {
+    public function detail(Product $product): Response {
         return $this->render('product/detail.html.twig', ['product' => $product]);
     }
 
@@ -121,8 +121,9 @@ class ProductController extends AbstractController {
     }
 
     #[Route('/product/manage', name: 'product_manage')]
-    public function manage(ProductRepository $productRepository): Response {
-        $products = $this->getUser()->getProducts();
+    public function manage(): Response {
+        $user = $this->getUser(); /** @var User $user */
+        $products = $user->getProducts();
         return $this->render('product/manage.html.twig', [
             'products' => $products
         ]);
