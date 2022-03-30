@@ -131,11 +131,12 @@
     <script>
         $('#modify').on('show.bs.modal', function (event) {
             const button = $(event.relatedTarget);
-            const product = button.data('whatever')
-            const modal = $(this)
-            modal.find('input').val(product.name)
-            modal.find('#submitModify').data('product', product.id)
-            $('#submitModify').attr('href', "/product/update/" + $('#submitModify').data('product') + "/dto/")
+            const product = button.data('whatever');
+            const modal = $(this);
+            modal.find('input').val(product.name);
+            modal.find('#submitModify').data('product', product.id);
+            const submitModify = $('#submitModify');
+            submitModify.attr('href', "/product/update/" + submitModify.data('product') + "/dto/");
         })
     </script>
 
@@ -162,10 +163,10 @@
     <script>
         $('#delete').on('show.bs.modal', function (event) {
             const button = $(event.relatedTarget);
-            const product = button.data('whatever')
+            const product = button.data('whatever');
             console.log(product);
-            const modal = $(this)
-            modal.find('#submitDelete').attr('href', "/product/manage/delete/" + product)
+            const modal = $(this);
+            modal.find('#submitDelete').attr('href', "/product/manage/delete/" + product);
         })
     </script>
 {% endblock %}
