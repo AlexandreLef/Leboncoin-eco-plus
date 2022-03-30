@@ -10,10 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserEditType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+class UserEditType extends AbstractType {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
             ->add('lastname', TextType::class, [
                 'attr' => ['class' => 'form-control']
@@ -40,8 +38,7 @@ class UserEditType extends AbstractType
             ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
+    public function configureOptions(OptionsResolver $resolver): void {
         $resolver->setDefaults([
             'data_class' => UserEditDto::class,
             'attr' => ['class' => 'row g-3']

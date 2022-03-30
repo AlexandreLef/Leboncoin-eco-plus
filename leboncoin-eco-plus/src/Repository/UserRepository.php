@@ -13,36 +13,22 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository
-{
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, User::class);
-    }
+class UserRepository extends ServiceEntityRepository {
+    public function __construct(ManagerRegistry $registry) {parent::__construct($registry, User::class);}
 
-    public function add(User $user, bool $flush = true): void
-    {
+    public function add(User $user, bool $flush = true): void {
         $this->_em->persist($user);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        if ($flush) {$this->_em->flush();}
     }
 
-    public function remove(User $user, bool $flush = true): void
-    {
+    public function remove(User $user, bool $flush = true): void {
         $this->_em->remove($user);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        if ($flush) {$this->_em->flush();}
     }
 
-    public function findByEmail(string $email): ?User
-    {
-        return $this->findOneBy(['email' => $email]);
-    }
+    public function findByEmail(string $email): ?User {return $this->findOneBy(['email' => $email]);}
 
-    public function save(User $user): void
-    {
+    public function save(User $user): void {
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
     }
@@ -50,11 +36,8 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @throws EntityNotFoundException
      */
-    public function delete(User $user): void
-    {
-        if (!$user) {
-            throw new EntityNotFoundException('Entity not found');
-        }
+    public function delete(User $user): void {
+        if (!$user) {throw new EntityNotFoundException('Entity not found');}
         $this->getEntityManager()->remove($user);
         $this->getEntityManager()->flush();
     }

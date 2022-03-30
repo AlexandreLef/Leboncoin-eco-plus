@@ -10,10 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SearchType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+class SearchType extends AbstractType {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
             ->setAction('/product/list')
             ->add('category', EntityType::class, [
@@ -33,10 +31,5 @@ class SearchType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => SearchDto::class,
-        ]);
-    }
+    public function configureOptions(OptionsResolver $resolver): void {$resolver->setDefaults(['data_class' => SearchDto::class,]);}
 }

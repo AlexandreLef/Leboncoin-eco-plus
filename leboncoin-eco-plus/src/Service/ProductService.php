@@ -12,10 +12,6 @@ use Transliterator;
 class ProductService {
     #[Pure] public function __construct(private ProductRepository $productRepository) {}
 
-    /**
-     * @param ProductDto $dto
-     * @param Product $product
-     */
     public function addOrUpdate(ProductDto $dto, Product $product): void {
         $dto->setEntityFromDto($product);
         $this->productRepository->save($product);

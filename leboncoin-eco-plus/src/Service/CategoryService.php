@@ -8,19 +8,10 @@ use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use JetBrains\PhpStorm\Pure;
 
-class CategoryService
-{
+class CategoryService {
+    #[Pure] public function __construct(private CategoryRepository $categoryRepository) {}
 
-    #[Pure] public function __construct(private CategoryRepository $categoryRepository)
-    {
-    }
-
-    /**
-     * @param CategoryDto $dto
-     * @param Category $category
-     */
-    public function addOrUpdate(CategoryDto $dto, Category $category): void
-    {
+    public function addOrUpdate(CategoryDto $dto, Category $category): void{
         $dto->setEntityFromDto($category);
         $this->categoryRepository->save($category);
     }
@@ -28,8 +19,5 @@ class CategoryService
     /**
      * @throws EntityNotFoundException
      */
-    public function delete(Category $category): void
-    {
-        $this->categoryRepository->delete($category);
-    }
+    public function delete(Category $category): void {$this->categoryRepository->delete($category);}
 }

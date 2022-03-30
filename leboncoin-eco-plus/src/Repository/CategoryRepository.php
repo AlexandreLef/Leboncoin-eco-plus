@@ -13,31 +13,20 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Category[]    findAll()
  * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryRepository extends ServiceEntityRepository
-{
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Category::class);
-    }
+class CategoryRepository extends ServiceEntityRepository {
+    public function __construct(ManagerRegistry $registry) {parent::__construct($registry, Category::class);}
 
-    public function add(Category $entity, bool $flush = true): void
-    {
+    public function add(Category $entity, bool $flush = true): void {
         $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        if ($flush) {$this->_em->flush();}
     }
 
-    public function remove(Category $entity, bool $flush = true): void
-    {
+    public function remove(Category $entity, bool $flush = true): void {
         $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        if ($flush) {$this->_em->flush();}
     }
 
-    public function save(Category $category): void
-    {
+    public function save(Category $category): void {
         $this->getEntityManager()->persist($category);
         $this->getEntityManager()->flush();
     }
@@ -45,11 +34,8 @@ class CategoryRepository extends ServiceEntityRepository
     /**
      * @throws EntityNotFoundException
      */
-    public function delete(Category $category): void
-    {
-        if (!$category) {
-            throw new EntityNotFoundException('Entity not found');
-        }
+    public function delete(Category $category): void {
+        if (!$category) {throw new EntityNotFoundException('Entity not found');}
         $this->getEntityManager()->remove($category);
         $this->getEntityManager()->flush();
     }
