@@ -28,3 +28,11 @@ body {
 .semi-bold {
     font-weight: 500;
 }
+
+.btn-info {
+    color: white;
+}
+
+.btn-info:hover {
+    color: white;
+}

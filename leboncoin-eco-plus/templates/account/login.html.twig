@@ -2,25 +2,33 @@
 
 {% block title %}- Se connecter{% endblock %}
 
-{% block body %}
-    <form class="row g-3" method="post" enctype="multipart/form-data">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/account/login.css">
+{% endblock %}
 
-        <div class="col-md-6">
-            <label for="email" class="form-label">E-mail</label>
-            <input type="email" class="form-control" id="email" name="_username" value="{{ last_username }}"
-                   required>
-        </div>
-        <div class="col-md-6">
-            <label for="password" class="form-label">Mot de passe</label>
-            <input class="form-control" type="password" id="password" name="_password"
-                   required>
-        </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Se connecter</button>
-        </div>
-    </form>
-    <p>Envie de nous rejoindre ? <a href="{{ path('account_create') }}">Créer un compte</a></p>
+{% block body %}
+    <div id="login-container">
+        <form class="row g-3 login-form shadow" method="post" enctype="multipart/form-data">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            <h4 style="text-align: center">Bonjour !</h4>
+            <p style="text-align: center">Connectez-vous pour découvrir toutes nos fonctionnalités.</p>
+            <div>
+                <label for="email" class="form-label semi-bold">E-mail</label>
+                <input type="email" class="form-control" id="email" name="_username" value="{{ last_username }}"
+                       required>
+            </div>
+            <div>
+                <label for="password" class="form-label semi-bold">Mot de passe</label>
+                <input class="form-control" type="password" id="password" name="_password" required>
+            </div>
+            <div style="width: 100%;">
+                <br/><br/>
+                <button style="width: 100%;" type="submit" class="btn btn-info">Se connecter</button>
+            </div>
+            <br/>
+            <p class="join-us">Envie de nous rejoindre ? <a href="{{ path('account_create') }}">Créer un compte</a></p>
+        </form>
+    </div>
 {% endblock %}

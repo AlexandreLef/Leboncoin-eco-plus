@@ -8,31 +8,43 @@
 
 {% block body %}
     <div id="container">
-        <h4>Des millions de petites annonces et autant d’occasions de se faire plaisir</h4>
-        <p>Avec leboncoin, trouvez la bonne affaire sur le site référent de petites annonces de particulier à particulier et de professionnels. Avec des millions de petites annonces, trouvez la bonne occasion dans nos catégories voiture, immobilier, emploi, location de vacances, vêtements, meubles, bricolage, téléphonie, jeux vidéo, etc… Déposez une annonce gratuite en toute simplicité pour vendre, rechercher, donner vos biens de seconde main ou promouvoir vos services. Achetez en toute sécurité avec notre système de paiement en ligne et de livraison pour les annonces éligibles.</p>
-    </div>
+        <h4 class="page-title">Des millions de petites annonces et autant d’occasions de se faire plaisir</h4>
+        {% include 'search.html.twig' %}
+        <a href="{{ path('product_add') }}" class="btn btn-primary semi-bold add-product-button" type="submit"><i class="bi bi-plus-square"></i> Déposer une annonce</a>
 
-    <form name="search" method="post" id="search-background" class="shadow-sm">
-        <br/>
-        <br/>
-        <div class="inputs">
-            <div style="width: 60%" class="input-group mb-3">
-                <i class="form-control input-logo bi bi-caret-down-fill"></i>
-                <select name="search[category]" style="width: 0;" class="form-control input-logo-input" name="category">
-                    <option value="">Catégories</option>
-                    {% for category in categories %}
-                        <option {% if category.id == selectedCategoryId %}selected="selected"{% endif %} value="{{ category.id }}">{{ category.name }}</option>
-                    {% endfor %}
-                </select>
-                <i class="input-logo form-control bi bi-search"></i>
-                <input name="search[search]" value="{{ search }}" type="search" placeholder="Que recherchez-vous ?" class="form-control input-logo-input">
+        <div class="recent-searches-container">
+            <div class="recent-searches">
+                <i class="bi bi-search"></i>
+                <h3>Recherches récentes</h3>
             </div>
-            <div style="width: 39%" class="input-group mb-3">
-                <i class="input-logo form-control bi bi-geo-alt"></i>
-                <input name="search[city]" value="{{ city }}" type="search" placeholder="Saisissez une ville" class="form-control input-logo-input">
+            <div class="d-flex">
+                <div class="recent-search shadow-sm">
+                    <h5>Test</h5>
+                    <p>Toutes catégories</p>
+                    <div class="d-flex">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <p>&nbsp;Toute la France</p>
+                    </div>
+                </div>
+                <div class="recent-search shadow-sm">
+                    <h5>Test</h5>
+                    <p>Toutes catégories</p>
+                    <div class="d-flex">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <p>&nbsp;Toute la France</p>
+                    </div>
+                </div>
+                <div class="recent-search shadow-sm">
+                    <h5>Test</h5>
+                    <p>Toutes catégories</p>
+                    <div class="d-flex">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <p>&nbsp;Toute la France</p>
+                    </div>
+                </div>
             </div>
+
+            <p class="bottom-text">Avec leboncoin, trouvez la bonne affaire sur le site référent de petites annonces de particulier à particulier et de professionnels. Avec des millions de petites annonces, trouvez la bonne occasion dans nos catégories voiture, immobilier, emploi, location de vacances, vêtements, meubles, bricolage, téléphonie, jeux vidéo, etc. Déposez une annonce gratuite en toute simplicité pour vendre, rechercher, donner vos biens de seconde main ou promouvoir vos services. Achetez en toute sécurité avec notre système de paiement en ligne et de livraison pour les annonces éligibles.</p>
         </div>
-        <button type="submit" class="btn btn-info search-submit-button">Rechercher ({{ total }} résultats)</button>
-        {{ form_errors(form) }}
-    </form>
+    </div>
 {% endblock %}

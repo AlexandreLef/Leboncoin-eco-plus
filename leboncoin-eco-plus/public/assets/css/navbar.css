@@ -4,7 +4,7 @@
 }
 
 .nav-autoresize {
-   max-width: 1000px;
+   max-width: 1120px;
    display: flex;
    height: inherit;
    margin: auto;
