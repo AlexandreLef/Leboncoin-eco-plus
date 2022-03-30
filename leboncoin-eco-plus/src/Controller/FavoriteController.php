@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Favorite;
+use App\Entity\Product;
 use App\Repository\FavoriteRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,4 +24,46 @@ class FavoriteController extends AbstractController
             'favorites' => $favorites
         ]);
     }
+
+    #[Route('/favorite/adding/product/{id}', name: 'favorite_add_remove')]
+    public function addOrRemove(FavoriteRepository $favoriteRepository, Product $product): Response
+    {
+        $user = $this->getUser();
+
+        if ($favorite = $favoriteRepository->findOneBy([
+            'user' => $user,
+            'product' => $product
+        ])) {
+            $favoriteRepository->delete($favorite);
+        } else {
+            $favorite = new Favorite();
+            $favorite->setUser($user);
+            $favorite->setProduct($product);
+            $favorite->setDate(new DateTime());
+            $favoriteRepository->save($favorite);
+        }
+        return $this->redirectToRoute('product_list');
+    }
+
+    #[Route('/favorite/add/product/{id}', name: 'favorite_add')]
+    public function add(FavoriteRepository $favoriteRepository, Product $product): Response
+    {
+        $user = $this->getUser();
+        $favorite = new Favorite();
+        $favorite->setUser($user);
+        $favorite->setProduct($product);
+        $favorite->setDate(new DateTime());
+        $favoriteRepository->save($favorite);
+        return $this->redirectToRoute('product_list');
+    }
+
+    #[Route('/favorite/delete/{id}', name: 'favorite_delete')]
+    public function delete(FavoriteRepository $favoriteRepository, Favorite $favorite): Response
+    {
+        $favoriteRepository->delete($favorite);
+        return $this->redirectToRoute('favorite');
+    }
+
+
+
 }

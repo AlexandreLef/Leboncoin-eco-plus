@@ -11,20 +11,27 @@
     <div id="product-list">
         {% if favorites %}
             {% for favorite in favorites %}
-                <a class="product">
-                    <img src="{{ favorite.product.imagesPath[0] }}" class="product-img" alt="{{ favorite.product.name }}">
-                    <div class="product-right">
-                        <div class="product-top">
-                            <p class="product-title semi-bold">{{ favorite.product.name }}</p>
-                            <p>{{ favorite.product.price / 100 }}€</p>
+                <div class="product">
+                    <a class="product-link" href="{{ path('product_detail', { id: favorite.product.id }) }}">
+                        <img src="{{ favorite.product.imagesPath[0] }}" class="product-img" alt="{{ favorite.product
+                        .name
+                        }}">
+                        <div class="product-right">
+                            <div class="product-top">
+                                <p class="product-title semi-bold">{{ favorite.product.name }}</p>
+                                <p>{{ favorite.product.price / 100 }}€</p>
+                            </div>
+                            <div class="product-bottom">
+                                <p>{{ favorite.product.category }}</p>
+                                <p>{{ favorite.product.city }}</p>
+                                <p>{{ favorite.product.date|date('d F Y à H:i:s') }}</p>
+                            </div>
                         </div>
-                        <div class="product-bottom">
-                            <p>{{ favorite.product.category }}</p>
-                            <p>{{ favorite.product.city }}</p>
-                            <p>{{ favorite.product.date|date('d F Y à H:i:s') }}</p>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                    <a class="favorite-logo" href="{{ path('favorite_delete', { id: favorite.id }) }}">
+                        <i class="bi bi-heart-fill"></i>
+                    </a>
+                </div>
             {% endfor %}
         {% else %}
             <div>No favorites found</div>
