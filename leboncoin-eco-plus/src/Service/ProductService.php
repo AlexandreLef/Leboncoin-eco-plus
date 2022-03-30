@@ -67,4 +67,15 @@ class ProductService
         }
         else { $product->imagePath = '/assets/img/no-image.png'; }
     }
+
+    public function getProductImages($product) {
+        // Show no-image if no image is available otherwise show the first one
+        $directory = '/assets/img/products/' . $product->getId() . '/';
+        if (file_exists('.' . $directory)) {
+            $scannedDirectory = array_diff(scandir('.' . $directory), array('..', '.'));
+            foreach($scannedDirectory as $i => $image) $scannedDirectory[$i] = $directory . $image;
+            $product->imagesPath = $scannedDirectory;
+        }
+        else { $product->imagesPath = ['/assets/img/no-image.png']; }
+    }
 }

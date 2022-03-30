@@ -11,14 +11,14 @@
         <div class="product">
             <div id="carousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    {% for image in images %}
+                    {% for image in product.imagesPath %}
                         <button class="{% if loop.index == 1 %}active{% endif %}" type="button" data-bs-target="#carousel" data-bs-slide-to="{{ loop.index - 1 }}" class="active" aria-current="true" aria-label="Slide {{ loop.index }}"></button>
                     {% endfor %}
                 </div>
                 <div class="carousel-inner">
-                    {% for image in images %}
+                    {% for image in product.imagesPath %}
                         <div class="carousel-item {% if loop.index == 1 %}active{% endif %}" data-bs-interval="15000">
-                            <img class="d-block w-100" alt="{{ product.name }}" src="/assets/img/products/{{ product.id }}/{{ image }}"/>
+                            <img class="d-block w-100" alt="{{ product.name }}" src="{{ image }}"/>
                         </div>
                     {% endfor %}
                 </div>
@@ -54,7 +54,7 @@
             <hr/>
 
             <h5>Description</h5>
-            <p>{{ product.description }}</p>
+            <p>{{ product.description|nl2br }}</p>
             <hr/>
 
             <h5>Critères</h5>
