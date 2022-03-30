@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\SearchType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use App\Repository\SearchRepository;
 use App\Service\ProductService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController {
 
     #[Route('/', name: 'home')]
-    public function index(Request $request, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response {
+    public function index(Request $request, CategoryRepository $categoryRepository, SearchRepository $searchRepository, ProductRepository $productRepository): Response {
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
         $products = $productRepository->findAll();
@@ -26,7 +27,7 @@ class HomeController extends AbstractController {
             'selectedCategoryId' => -1,
             'search' => '',
             'city' => '',
-            'userSearches' => $this->getUser()->getSearches()
+            'userSearches' => $searchRepository->getLastSearchByUserId($this->getUser()->getId())
         ]);
     }
 }

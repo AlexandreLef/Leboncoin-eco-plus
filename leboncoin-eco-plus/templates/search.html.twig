@@ -9,6 +9,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        border-radius: 0.3rem;
     }
 
     .search-group {
@@ -22,6 +23,7 @@
     }
 
     .input-logo {
+        background-color: #f4f6f7;
         min-width: 41px !important;
         border-right: none;
         overflow: hidden;
@@ -34,9 +36,21 @@
     .search-submit-button {
         margin: 84px auto auto;
     }
+
+    .inputs input, select {
+        background-color: #f4f6f7 !important;
+    }
+
+    .inputs .form-control {
+        border: none !important;
+    }
+
+    .inputs .bi-search {
+        border-left: 1px solid #cad1d9 !important;
+    }
 </style>
 
-<form action="{{ path('product_list') }}" name="search" method="post" id="search-background" class="shadow-sm">
+<form action="{{ path('product_list') }}" name="search" method="post" id="search-background" class="shadow">
     <br/>
     <br/>
     <div class="inputs">

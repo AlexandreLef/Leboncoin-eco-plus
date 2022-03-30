@@ -20,11 +20,11 @@
             <div class="d-flex">
                 {% for userSearch in userSearches %}
                     <div class="recent-search shadow-sm">
-                        <h5>Test</h5>
-                        <p>Toutes catégories</p>
+                        <h5>{{ userSearch.search == '' ? 'Recherche' : userSearch.search }}</h5>
+                        <p>{{ userSearch.category.name ?? 'Toutes catégories' }}</p>
                         <div class="d-flex">
                             <i class="bi bi-geo-alt-fill"></i>
-                            <p>&nbsp;Toute la France</p>
+                            <p>&nbsp;{{ userSearch.city == '' ? 'Toute la France' : userSearch.city }}</p>
                         </div>
                     </div>
                 {% endfor %}
