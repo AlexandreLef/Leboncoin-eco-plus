@@ -7,29 +7,29 @@
 {% endblock %}
 
 {% block body %}
+    <div id="profile-container">
+        <div class="user-panel">
+            <img class="profile-picture" alt="Profile Picture" src="/assets/img/profile-picture.png"/>
+            <h5>{{ user.firstname }} {{ user.lastname }}</h5>
+            <a href="{{ path('product_manage') }}" class="btn btn-outline-info profile-button semi-bold">Voir mon profil public</a>
+        </div>
 
-    <div class="user-panel">
-        <i class="bi bi-person-circle"></i>
-        <h2> {{ user.firstname }} {{ user.lastname }}</h2>
 
-        <a href="{{ path('product_manage') }}" class="btn btn-outline-secondary">Voir mon profil public</a>
+        <div class="buttons">
+            <a href="#" class="button-card shadow">
+                <i class="bi bi-card-text button-icon"></i>
+                <h5 class="card-title">Annonces</h5>
+                <p class="card-text">Gérer mes annonces déposées</p>
+            </a>
+            <a href="{{ path('account_modify') }}" class="button-card shadow">
+                <i class="bi bi-gear-fill button-icon"></i>
+                <h5 class="card-title">Paramètres</h5>
+                <p class="card-text">Compléter et modifier mes informations privées</p>
+            </a>
+        </div>
+
+        <div class="logout">
+            <a href="{{ path('account_logout') }}"class="btn link">Me déconnecter</a>
+        </div>
     </div>
-
-    <div class="buttons">
-        <a href="#" class="button-card shadow">
-            <i class="bi bi-card-text button-icon"></i>
-            <h5 class="card-title">Annonces</h5>
-            <p class="card-text">Gérer mes annonces déposées</p>
-        </a>
-        <a href="{{ path('account_modify') }}" class="button-card shadow">
-            <i class="bi bi-gear-fill button-icon"></i>
-            <h5 class="card-title">Paramètres</h5>
-            <p class="card-text">Compléter et modifier mes informations privées</p>
-        </a>
-    </div>
-
-    <div class="logout">
-        <a href="{{ path('account_logout') }}"class="btn link">Me déconnecter</a>
-    </div>
-
 {% endblock %}
