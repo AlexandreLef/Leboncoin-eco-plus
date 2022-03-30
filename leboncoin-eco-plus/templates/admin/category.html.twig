@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}- Catégorie{% endblock %}
+
+{% block body %}
+    <h3>Catégories</h3>
+    {% for category in categories %}
+        {% set categoryJson = {
+            id: category.id,
+            name: category.name,
+        } %}
+        <div class="input-group">
+            <button class="btn btn-outline-info" type="button" data-bs-toggle="modal" data-bs-target="#modify"
+                    data-whatever="{{ categoryJson|json_encode() }}">
+                <i class="bi bi-pencil"></i>
+            </button>
+            <input type="text" class="form-control" value="{{ category.name }}" disabled>
+            <button class="btn btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete"
+                    data-whatever="{{ category.id }}">
+                <i class="bi bi-trash3"></i>
+            </button>
+        </div>
+    {% endfor %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="modify" data-bs-backdrop="static" tabindex="-1"
+         aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Modifier cette catégorie</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
+                    <button type="button" class="btn btn-primary">Modifier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#modify').on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget);
+            const category = button.data('whatever')
+            console.log(category);
+            const modal = $(this)
+            modal.find('input').val(category.name)
+        })
+    </script>
+
+    <!-- Modal -->
+    <div class="modal fade" id="delete" data-bs-backdrop="static" tabindex="-1"
+         aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Supprimer cette catégorie</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Êtes-vous sûr de vouloir supprimer cette catégorie ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+                    <a id="submitDelete" class="btn btn-primary" href="">Oui</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#delete').on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget);
+            const category = button.data('whatever')
+            console.log(category);
+            const modal = $(this)
+            modal.find('#submitDelete').attr('href', "/admin/category/delete/" + category)
+        })
+    </script>
+
+
+{% endblock %}

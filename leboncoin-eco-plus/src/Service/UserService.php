@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\DTO\UserDto;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityNotFoundException;
@@ -30,7 +31,7 @@ class UserService
         if ($userWithNewMail && $userWithNewMail->getId() !== $user->getId()) {
             throw new Exception('Il y a déjà un utilisateur avec cette adresse mail');
         }
-        if ($dto->getPassword()) {
+        if ($dto instanceof UserDto && $dto->getPassword()) {
             $dto->setPassword($this->encodePassword($user, $dto->getPassword()));
         }
         $dto->setEntityFromDto($user);

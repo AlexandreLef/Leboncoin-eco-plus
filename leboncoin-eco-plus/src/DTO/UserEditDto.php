@@ -5,7 +5,7 @@ namespace App\DTO;
 use App\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class UserModifyDto
+class UserEditDto
 {
 
     #[Assert\NotBlank]

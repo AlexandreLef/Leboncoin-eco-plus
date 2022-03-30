@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\DTO\UserDto;
-use App\DTO\UserModifyDto;
+use App\DTO\UserEditDto;
 use App\Entity\User;
 use App\Form\LoginType;
 use App\Form\UserEditType;
@@ -40,15 +40,14 @@ class AccountController extends AbstractController
     #[Route('/account/modify', name: 'account_modify')]
     public function modify(Request $request): Response
     {
-        $userModifyDto = new UserModifyDto();
+        $userModifyDto = new UserEditDto();
         $userModifyDto->setFromEntity($this->getUser());
 
         $form = $this->createForm(UserEditType::class, $userModifyDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = new User();
-            $userModifyDto->setEntityFromDto($user);
+            $user = $this->getUser();
             $this->userService->addOrUpdate($userModifyDto, $user);
 
             return $this->redirectToRoute('account');

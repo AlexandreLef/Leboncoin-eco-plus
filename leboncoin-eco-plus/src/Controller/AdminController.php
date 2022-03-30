@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\DTO\CategoryDto;
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Repository\CategoryRepository;
 use App\Service\CategoryService;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +23,15 @@ class AdminController extends AbstractController
         ]);
     }
 
-    // TODO correction of adding on submit button click
+    #[Route('/admin/category', name: 'admin_category')]
+    public function category(CategoryRepository $categoryRepository): Response
+    {
+
+        return $this->render('admin/category.html.twig', [
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
     #[Route('/admin/category/add', name: 'admin_category_add', methods: ['GET', 'POST'])]
     public function create(Request $request, CategoryService $categoryService): Response
     {
@@ -41,5 +51,15 @@ class AdminController extends AbstractController
         return $this->render('admin/category_add.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @throws EntityNotFoundException
+     */
+    #[Route('/admin/category/delete/{id}', name: 'admin_category_delete', methods: ['GET', 'POST'])]
+    public function delete(CategoryRepository $categoryRepository, Category $category): Response
+    {
+        $categoryRepository->delete($category);
+        return $this->redirectToRoute('admin_category');
     }
 }
