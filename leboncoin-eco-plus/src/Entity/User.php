@@ -52,10 +52,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: Favorite::class, orphanRemoval: true)]
     private $favorites;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Search::class, orphanRemoval: true)]
+    private $searches;
+
     #[Pure] public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->searches = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -226,6 +230,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($favorite->getUser() === $this) {
                 $favorite->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Search>
+     */
+    public function getSearches(): Collection
+    {
+        return $this->searches;
+    }
+
+    public function addSearch(Search $search): self
+    {
+        if (!$this->searches->contains($search)) {
+            $this->searches[] = $search;
+            $search->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSearch(Search $search): self
+    {
+        if ($this->searches->removeElement($search)) {
+            // set the owning side to null (unless already changed)
+            if ($search->getUser() === $this) {
+                $search->setUser(null);
             }
         }
 

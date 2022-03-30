@@ -24,9 +24,13 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
     private Collection $products;
 
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Search::class)]
+    private $searches;
+
     #[Pure] public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->searches = new ArrayCollection();
     }
 
     public function __toString()
@@ -75,6 +79,36 @@ class Category
             // set the owning side to null (unless already changed)
             if ($product->getCategory() === $this) {
                 $product->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Search>
+     */
+    public function getSearches(): Collection
+    {
+        return $this->searches;
+    }
+
+    public function addSearch(Search $search): self
+    {
+        if (!$this->searches->contains($search)) {
+            $this->searches[] = $search;
+            $search->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSearch(Search $search): self
+    {
+        if ($this->searches->removeElement($search)) {
+            // set the owning side to null (unless already changed)
+            if ($search->getCategory() === $this) {
+                $search->setCategory(null);
             }
         }
 

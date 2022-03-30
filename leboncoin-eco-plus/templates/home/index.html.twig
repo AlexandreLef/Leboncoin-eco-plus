@@ -18,30 +18,16 @@
                 <h3>Recherches récentes</h3>
             </div>
             <div class="d-flex">
-                <div class="recent-search shadow-sm">
-                    <h5>Test</h5>
-                    <p>Toutes catégories</p>
-                    <div class="d-flex">
-                        <i class="bi bi-geo-alt-fill"></i>
-                        <p>&nbsp;Toute la France</p>
+                {% for userSearch in userSearches %}
+                    <div class="recent-search shadow-sm">
+                        <h5>Test</h5>
+                        <p>Toutes catégories</p>
+                        <div class="d-flex">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>&nbsp;Toute la France</p>
+                        </div>
                     </div>
-                </div>
-                <div class="recent-search shadow-sm">
-                    <h5>Test</h5>
-                    <p>Toutes catégories</p>
-                    <div class="d-flex">
-                        <i class="bi bi-geo-alt-fill"></i>
-                        <p>&nbsp;Toute la France</p>
-                    </div>
-                </div>
-                <div class="recent-search shadow-sm">
-                    <h5>Test</h5>
-                    <p>Toutes catégories</p>
-                    <div class="d-flex">
-                        <i class="bi bi-geo-alt-fill"></i>
-                        <p>&nbsp;Toute la France</p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
 
             <p class="bottom-text">Avec leboncoin, trouvez la bonne affaire sur le site référent de petites annonces de particulier à particulier et de professionnels. Avec des millions de petites annonces, trouvez la bonne occasion dans nos catégories voiture, immobilier, emploi, location de vacances, vêtements, meubles, bricolage, téléphonie, jeux vidéo, etc. Déposez une annonce gratuite en toute simplicité pour vendre, rechercher, donner vos biens de seconde main ou promouvoir vos services. Achetez en toute sécurité avec notre système de paiement en ligne et de livraison pour les annonces éligibles.</p>
