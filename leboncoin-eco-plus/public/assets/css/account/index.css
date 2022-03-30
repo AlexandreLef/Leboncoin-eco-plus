@@ -56,3 +56,10 @@
 .profile-button {
     margin-left: auto;
 }
+
+.logout {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}

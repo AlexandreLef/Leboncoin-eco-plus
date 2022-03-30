@@ -1,3 +1,7 @@
+a {
+    text-decoration: none;
+}
+
 #product-list {
     width: 100%;
     margin-top: 4em;
@@ -8,17 +12,23 @@
 }
 
 .product {
-    height: 192px;
     width: 720px;
     border: 1px solid rgb(202, 209, 217);
     border-radius: 0.8rem;
-    display: flex;
-    cursor: pointer;
-    text-decoration: none;
     margin: auto auto 15px;
+    display: flex;
 }
 
-.product:hover .product-title {
+.product-link {
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    height: 192px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.product-link:hover .product-title {
     color: var(--primary-color) !important;
 }
 
@@ -34,6 +44,7 @@
     padding: 15px;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .product-top {
@@ -47,7 +58,34 @@
 }
 
 .product-img {
-    width: 240px;
+    min-width: 240px;
     object-fit: cover;
     height: 100%;
+    border-radius: 0.7rem 0 0 0.7rem;
+}
+
+.favorite-logo {
+    font-size: 1.5em;
+    margin-right: 0.5em;
+    margin-top: 0.2em;
+}
+
+.favorite-logo:hover {
+    cursor: pointer;
+}
+
+.manage-buttons {
+    display: flex;
+    height: 4em;
+    margin-top: auto;
+}
+
+.manage-button {
+    width: 4em;
+    margin: 0.4rem;
+    border-radius: 0.6rem;
+}
+
+.manage-button:first-child {
+    margin-right: 0;
 }

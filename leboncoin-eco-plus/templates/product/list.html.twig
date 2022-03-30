@@ -11,20 +11,25 @@
     <div id="product-list">
         <h3>Annonces : Toute la France</h3>
         {% for product in products %}
-            <a class="product" href="{{ path('product_detail', { id: product.id }) }}">
-                <img src="{{ product.imagesPath[0] }}" class="product-img" alt="{{ product.name }}">
-                <div class="product-right">
-                    <div class="product-top">
-                        <p class="product-title semi-bold">{{ product.name }}</p>
-                        <p>{{ product.price / 100 }}€</p>
+            <div class="product">
+                <a class="product-link" href="{{ path('product_detail', { id: product.id }) }}">
+                    <img src="{{ product.imagesPath[0] }}" class="product-img" alt="{{ product.name }}">
+                    <div class="product-right">
+                        <div class="product-top">
+                            <p class="product-title semi-bold">{{ product.name }}</p>
+                            <p>{{ product.price / 100 }}€</p>
+                        </div>
+                        <div class="product-bottom">
+                            <p>{{ product.category }}</p>
+                            <p>{{ product.city }}</p>
+                            <p>{{ product.date|date('d F Y à H:i:s') }}</p>
+                        </div>
                     </div>
-                    <div class="product-bottom">
-                        <p>{{ product.category }}</p>
-                        <p>{{ product.city }}</p>
-                        <p>{{ product.date|date('d F Y à H:i:s') }}</p>
-                    </div>
-                </div>
-            </a>
+                </a>
+                <a class="favorite-logo">
+                    <i class="bi bi-heart"></i>
+                </a>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
