@@ -10,6 +10,10 @@
     justify-content: center;
 }
 
+.search-group {
+    flex-wrap: nowrap;
+}
+
 .inputs {
     display: flex;
     justify-content: space-between;
@@ -17,8 +21,9 @@
 }
 
 .input-logo {
-    max-width: 35px;
+    min-width: 41px !important;
     border-right: none;
+    overflow: hidden;
 }
 
 .input-logo-input {

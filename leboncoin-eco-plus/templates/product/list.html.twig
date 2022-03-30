@@ -12,20 +12,23 @@
         <br/>
         <br/>
         <div class="inputs">
-            <div style="width: 60%" class="input-group mb-3">
+            <div style="width: 100%" class="input-group mb-3 search-group">
                 <i class="form-control input-logo bi bi-caret-down-fill"></i>
-                <select name="search[category]" style="width: 0;" class="form-control input-logo-input" name="category">
+                <label hidden for="category-select">Catégorie</label>
+                <select id="category-select" name="search[category]" style="flex: 1 1 250px;" class="form-control input-logo-input" name="category">
                     <option value="">Catégories</option>
                     {% for category in categories %}
                         <option {% if category.id == selectedCategoryId %}selected="selected"{% endif %} value="{{ category.id }}">{{ category.name }}</option>
                     {% endfor %}
                 </select>
                 <i class="input-logo form-control bi bi-search"></i>
-                <input name="search[search]" value="{{ search }}" type="search" placeholder="Que recherchez-vous ?" class="form-control input-logo-input">
+                <label hidden for="search">Recherche</label>
+                <input id="search" style="width: 100%;" name="search[search]" value="{{ search }}" type="search" placeholder="Que recherchez-vous ?" class="form-control input-logo-input">
             </div>
-            <div style="width: 39%" class="input-group mb-3">
+            <div style="width: 50%; margin-left: 20px;" class="input-group mb-3 search-group">
                 <i class="input-logo form-control bi bi-geo-alt"></i>
-                <input name="search[city]" value="{{ city }}" type="search" placeholder="Saisissez une ville" class="form-control input-logo-input">
+                <label hidden for="city">Ville</label>
+                <input id="city" style="width: 100%;" name="search[city]" value="{{ city }}" type="search" placeholder="Saisissez une ville" class="form-control input-logo-input">
             </div>
         </div>
         <button type="submit" class="btn btn-info search-submit-button">Rechercher ({{ total }} résultats)</button>
@@ -36,7 +39,7 @@
         <h3>Annonces : Toute la France</h3>
         {% for product in products %}
             <a class="product" href="{{ path('product_detail', { id: product.id }) }}">
-                <img src="{{ product.imagePath }}" class="product-img" alt="{{ product.name }}">
+                <img src="{{ product.imagesPath[0] }}" class="product-img" alt="{{ product.name }}">
                 <div class="product-right">
                     <div class="product-top">
                         <p class="product-title semi-bold">{{ product.name }}</p>

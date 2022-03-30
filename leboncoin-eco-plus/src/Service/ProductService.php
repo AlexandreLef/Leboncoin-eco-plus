@@ -3,25 +3,20 @@
 namespace App\Service;
 
 use App\DTO\ProductDto;
-use App\DTO\SearchDto;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityNotFoundException;
 use JetBrains\PhpStorm\Pure;
 use Transliterator;
 
-class ProductService
-{
-    #[Pure] public function __construct(private ProductRepository $productRepository)
-    {
-    }
+class ProductService {
+    #[Pure] public function __construct(private ProductRepository $productRepository) {}
 
     /**
      * @param ProductDto $dto
      * @param Product $product
      */
-    public function addOrUpdate(ProductDto $dto, Product $product): void
-    {
+    public function addOrUpdate(ProductDto $dto, Product $product): void {
         $dto->setEntityFromDto($product);
         $this->productRepository->save($product);
     }
@@ -29,53 +24,18 @@ class ProductService
     /**
      * @throws EntityNotFoundException
      */
-    public function delete(Product $product): void
-    {
+    public function delete(Product $product): void {
         $this->productRepository->delete($product);
     }
 
-    public function getProductsBySearch($form, $productRepository) {
+    /**
+     * Remove all accents, trim spaces and lower case a string
+     * @param string $value input string
+     * @return string normalized string
+     */
+    public function normalize(string $value): string {
+        // Use Transliterator to remove accents from a string
         $transliterator = Transliterator::create('NFD; [:Nonspacing Mark:] Remove; NFC');
-        /** @var SearchDto $searchDto */
-        $searchDto = $form->getData();
-        $categoryId = $searchDto->getCategory()?->getId();
-        $search = $transliterator->transliterate(mb_strtolower($searchDto->getSearch()));
-        $city = $transliterator->transliterate(mb_strtolower($searchDto->getCity()));
-        if ($categoryId) $tmpProducts = $productRepository->findBy(['category' => $searchDto->getCategory()]);
-        else $tmpProducts = $productRepository->findAll();
-        $products = [];
-        foreach ($tmpProducts as $product) {
-            $tmpName = $transliterator->transliterate(mb_strtolower($product->getName()));
-            $tmpCity = $transliterator->transliterate(mb_strtolower($product->getCity()));
-            if ($search == '' && $city != '') {
-                if (str_contains($tmpCity, $city)) $products[] = $product;
-            } else if ($search != '' && $city == '') {
-                if (str_contains($tmpName, $search)) $products[] = $product;
-            } else {
-                $products[] = $product;
-            }
-        }
-        return $products;
-    }
-
-    public function getFirstProductImage($product) {
-        // Show no-image if no image is available otherwise show the first one
-        $directory = '/assets/img/products/' . $product->getId() . '/';
-        if (file_exists('.' . $directory)) {
-            $scannedDirectory = array_diff(scandir('.' . $directory), array('..', '.'));
-            $product->imagePath = $directory . array_values($scannedDirectory)[0];
-        }
-        else { $product->imagePath = '/assets/img/no-image.png'; }
-    }
-
-    public function getProductImages($product) {
-        // Show no-image if no image is available otherwise show the first one
-        $directory = '/assets/img/products/' . $product->getId() . '/';
-        if (file_exists('.' . $directory)) {
-            $scannedDirectory = array_diff(scandir('.' . $directory), array('..', '.'));
-            foreach($scannedDirectory as $i => $image) $scannedDirectory[$i] = $directory . $image;
-            $product->imagesPath = $scannedDirectory;
-        }
-        else { $product->imagesPath = ['/assets/img/no-image.png']; }
+        return $transliterator->transliterate(trim(mb_strtolower($value)));
     }
 }

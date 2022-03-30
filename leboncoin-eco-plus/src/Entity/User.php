@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: Favorite::class, orphanRemoval: true)]
     private $favorites;
 
-    public function __construct()
+    #[Pure] public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->favorites = new ArrayCollection();
