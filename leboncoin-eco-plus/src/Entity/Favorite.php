@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\FavoriteRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FavoriteRepository::class)]
@@ -11,7 +12,7 @@ class Favorite
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int $id;
+    private int $id = -1;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'favorites')]
     #[ORM\JoinColumn(nullable: false)]
@@ -22,7 +23,7 @@ class Favorite
     private Product $product;
 
     #[ORM\Column(type: 'date')]
-    private $date;
+    private DateTime $date;
 
     public function getId(): int
     {
@@ -53,12 +54,12 @@ class Favorite
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTime
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(DateTime $date): self
     {
         $this->date = $date;
 

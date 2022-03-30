@@ -13,41 +13,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\RuntimeException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AccountController extends AbstractController
 {
     private UserService $userService;
-    private TokenStorageInterface $tokenStorage;
 
-    public function __construct(UserService $userService, TokenStorageInterface $tokenStorage)
-    {
+    public function __construct(UserService $userService) {
         $this->userService = $userService;
-        $this->tokenStorage = $tokenStorage;
     }
 
-
     #[Route('/account', name: 'account')]
-    public function index(): Response
-    {
+    public function index(): Response {
         return $this->render('account/index.html.twig', [
             'user' => $this->getUser()
         ]);
     }
 
     #[Route('/account/modify', name: 'account_modify')]
-    public function modify(Request $request): Response
-    {
+    public function modify(Request $request): Response {
+        $user = $this->getUser(); /** @var User $user */
         $userModifyDto = new UserEditDto();
-        $userModifyDto->setFromEntity($this->getUser());
+        $userModifyDto->setFromEntity($user);
 
         $form = $this->createForm(UserEditType::class, $userModifyDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
             $this->userService->addOrUpdate($userModifyDto, $user);
 
             return $this->redirectToRoute('account');
@@ -60,8 +53,7 @@ class AccountController extends AbstractController
     }
 
     #[Route('/account/login', name: 'account_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
-    {
+    public function login(AuthenticationUtils $authenticationUtils): Response {
         $errors = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -72,9 +64,7 @@ class AccountController extends AbstractController
     }
 
     #[Route('/account/create', name: 'account_create', methods: ['GET', 'POST'])]
-    public function create(Request $request): Response
-    {
-
+    public function create(Request $request): Response {
         /** @var User $user */
         $user = $this->getUser();
         if ($user) {
@@ -101,8 +91,7 @@ class AccountController extends AbstractController
     }
 
     #[Route("/logout", name: "account_logout")]
-    public function logout(): void
-    {
+    public function logout(): void {
         throw new RuntimeException('Don\'t forget to activate logout in security.yaml');
     }
 

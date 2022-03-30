@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\DTO\AbstractDto;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,7 +15,7 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private int $id;
+    private int $id = -1;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $name;
@@ -25,7 +24,7 @@ class Category
     private Collection $products;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Search::class)]
-    private $searches;
+    private Collection $searches;
 
     #[Pure] public function __construct()
     {
