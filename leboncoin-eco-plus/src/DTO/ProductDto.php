@@ -6,15 +6,15 @@ use App\Entity\Category;
 use App\Entity\Product;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ProductDto
-{
-
+class ProductDto {
     #[Assert\NotBlank]
     #[Assert\Length(max: 4096)]
     public string $description;
+
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
     private string $name;
+
     #[Assert\NotBlank]
     #[Assert\PositiveOrZero]
     #[Assert\LessThanOrEqual(100000000)]
@@ -32,12 +32,7 @@ class ProductDto
     #[Assert\Length(max: 255)]
     private string $city;
 
-
-    /**
-     * @param Product $product
-     */
-    public function setFromEntity(Product $product): void
-    {
+    public function setFromEntity(Product $product): void {
         $this->name = $product->getName();
         $this->price = $product->getPrice();
         $this->description = $product->getDescription();
@@ -46,11 +41,7 @@ class ProductDto
         $this->city = $product->getCity();
     }
 
-    /**
-     * @param Product $product
-     */
-    public function setEntityFromDto(Product $product): void
-    {
+    public function setEntityFromDto(Product $product): void {
         if ($this->name) $product->setName($this->name);
         if ($this->price) $product->setPrice(intval($this->price * 100));
         if ($this->description) $product->setDescription($this->description);
@@ -59,115 +50,24 @@ class ProductDto
         if ($this->city) $product->setCity($this->city);
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
+    public function getName(): string {return $this->name;}
+    public function setName(string $name): void {$this->name = $name;}
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
+    public function getCity(): string {return $this->city;}
+    public function setCity(string $city): void {$this->city = $city;}
 
-    /**
-     * @return string
-     */
-    public function getCity(): string
-    {
-        return $this->city;
-    }
+    public function getPrice(): float {return $this->price;}
+    public function setPrice(float $price): void {$this->price = $price;}
 
-    /**
-     * @param string $city
-     */
-    public function setCity(string $city): void
-    {
-        $this->city = $city;
-    }
+    public function getImages(): array {return $this->images;}
+    public function setImages(array $images): void {$this->images = $images;}
 
-    /**
-     * @return float
-     */
-    public function getPrice(): float
-    {
-        return $this->price;
-    }
+    public function getDescription(): string {return $this->description;}
+    public function setDescription(string $description): void {$this->description = $description;}
 
-    /**
-     * @param float $price
-     */
-    public function setPrice(float $price): void
-    {
-        $this->price = $price;
-    }
+    public function getCategory(): Category {return $this->category;}
+    public function setCategory(Category $category): void {$this->category = $category;}
 
-    /**
-     * @return array
-     */
-    public function getImages(): array
-    {
-        return $this->images;
-    }
-
-    /**
-     * @param array $images
-     */
-    public function setImages(array $images): void
-    {
-        $this->images = $images;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription(string $description): void
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @return Category
-     */
-    public function getCategory(): Category
-    {
-        return $this->category;
-    }
-
-    /**
-     * @param Category $category
-     */
-    public function setCategory(Category $category): void
-    {
-        $this->category = $category;
-    }
-
-    /**
-     * @return int
-     */
-    public function getQuality(): int
-    {
-        return $this->quality;
-    }
-
-    /**
-     * @param int $quality
-     */
-    public function setQuality(int $quality): void
-    {
-        $this->quality = $quality;
-    }
+    public function getQuality(): int {return $this->quality;}
+    public function setQuality(int $quality): void {$this->quality = $quality;}
 }

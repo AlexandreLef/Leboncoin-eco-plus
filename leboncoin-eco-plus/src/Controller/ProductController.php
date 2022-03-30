@@ -22,10 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProductController extends AbstractController
-{
-
-
+class ProductController extends AbstractController {
     #[Route('/product/list', name: 'product_list')]
     public function list(Request $request, ProductService $productService, ProductRepository $productRepository, CategoryRepository $categoryRepository, EntityManagerInterface $doctrine): Response {
         // Prepare form
@@ -70,7 +67,6 @@ class ProductController extends AbstractController
             // By default, we show all products
             $products = $productRepository->findAll();
         }
-
         return $this->render('product/list.html.twig', [
             'form' => $form->createView(),
             'products' => $products,
@@ -92,8 +88,8 @@ class ProductController extends AbstractController
      * @throws ORMException
      */
     #[Route('/product/add', name: 'product_add')]
-    public function add(Request $request, EntityManagerInterface $doctrine, CategoryRepository $categoryRepository): Response
-    {   // Prepare form
+    public function add(Request $request, EntityManagerInterface $doctrine, CategoryRepository $categoryRepository): Response {
+        // Prepare form
         $form = $this->createForm(ProductType::class);
         $form->handleRequest($request);
 
@@ -107,6 +103,7 @@ class ProductController extends AbstractController
             $productDto->setEntityFromDto($product);
             $product->setUser($user);
             $product->setDate(new DateTime());
+
             // Insert into database
             $doctrine->persist($product);
             $doctrine->flush();
@@ -118,10 +115,8 @@ class ProductController extends AbstractController
                 $imageName = './assets/img/products/' . $product->getId() . '/';
                 $image->move($imageName, $i . $this->getExtension($image->getMimeType()));
             }
-
             return $this->render('product/added.html.twig', ['product' => $product]);
         }
-
         return $this->render('product/add.html.twig', ['form' => $form->createView(), 'categories' => $categoryRepository->findAll()]);
     }
 
@@ -132,8 +127,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/manage', name: 'product_manage')]
-    public function manage(Request $request, EntityManagerInterface $doctrine, CategoryRepository $categoryRepository): Response
-    {
+    public function manage(Request $request, EntityManagerInterface $doctrine, CategoryRepository $categoryRepository): Response {
         $user = $this->getUser(); /** @var User $user */
         $products = $user->getProducts();
 
@@ -152,6 +146,7 @@ class ProductController extends AbstractController
             $productDto->setEntityFromDto($product);
             $product->setUser($user);
             $product->setDate(new DateTime());
+
             // Insert into database
             $doctrine->persist($product);
             $doctrine->flush();
@@ -164,7 +159,6 @@ class ProductController extends AbstractController
                 $image->move($imageName, $i . $this->getExtension($image->getMimeType()));
             }
         }
-
         return $this->render('product/manage.html.twig', [
             'products' => $products,
             'form' => $form->createView(),
@@ -176,16 +170,13 @@ class ProductController extends AbstractController
      * @throws EntityNotFoundException
      */
     #[Route('/product/manage/delete/{id}', name: 'product_manage_delete', methods: 'GET')]
-    public function delete(ProductRepository $productRepository, Product $product): Response
-    {
+    public function delete(ProductRepository $productRepository, Product $product): Response {
         $productRepository->delete($product);
         return $this->redirectToRoute('product_manage');
     }
 
-
     #[Route('/product/manage/update/{id}/dto/{dto}', name: 'product_manage_update', methods: 'GET')]
-    public function update(ProductService $productService, Product $product, ProductDto $productDto): Response
-    {
+    public function update(ProductService $productService, Product $product, ProductDto $productDto): Response {
         $productDto->setEntityFromDto($product);
         $productService->addOrUpdate($productDto, $product);
         return $this->redirectToRoute('product_manage');

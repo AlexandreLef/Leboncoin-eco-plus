@@ -6,7 +6,6 @@ use App\Form\SearchType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\SearchRepository;
-use App\Service\ProductService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +18,6 @@ class HomeController extends AbstractController {
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
         $products = $productRepository->findAll();
-
         return $this->render('home/index.html.twig', [
             'form' => $form->createView(),
             'categories' => $categoryRepository->findAll(),

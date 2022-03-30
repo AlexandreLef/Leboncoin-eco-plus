@@ -16,36 +16,25 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\RuntimeException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class AccountController extends AbstractController
-{
+class AccountController extends AbstractController {
     private UserService $userService;
 
-    public function __construct(UserService $userService) {
-        $this->userService = $userService;
-    }
+    public function __construct(UserService $userService) {$this->userService = $userService;}
 
     #[Route('/account', name: 'account')]
-    public function index(): Response {
-        return $this->render('account/index.html.twig', [
-            'user' => $this->getUser()
-        ]);
-    }
+    public function index(): Response {return $this->render('account/index.html.twig', ['user' => $this->getUser()]);}
 
     #[Route('/account/modify', name: 'account_modify')]
     public function modify(Request $request): Response {
         $user = $this->getUser(); /** @var User $user */
         $userModifyDto = new UserEditDto();
         $userModifyDto->setFromEntity($user);
-
         $form = $this->createForm(UserEditType::class, $userModifyDto);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->userService->addOrUpdate($userModifyDto, $user);
-
             return $this->redirectToRoute('account');
         }
-
         return $this->render('account/modify.html.twig', [
             'user' => $this->getUser(),
             'form' => $form->createView()
@@ -56,7 +45,6 @@ class AccountController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response {
         $errors = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-
         return $this->render('account/login.html.twig', [
             'error' => $errors,
             'last_username' => $lastUsername
@@ -65,25 +53,17 @@ class AccountController extends AbstractController
 
     #[Route('/account/create', name: 'account_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response {
-        /** @var User $user */
-        $user = $this->getUser();
-        if ($user) {
-            return $this->redirectToRoute('home');
-        }
-
+        /** @var User $user */ $user = $this->getUser();
+        if ($user) {return $this->redirectToRoute('home');}
         $userDto = new UserDto();
-
         $form = $this->createForm(UserType::class, $userDto, ['validation_groups' => ['Default', 'add']]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $user = new User();
             $userDto->setEntityFromDto($user);
             $this->userService->addOrUpdate($userDto, $user);
-
             return $this->redirectToRoute('account_login');
         }
-
         return $this->render('account/create.html.twig', [
             'form' => $form->createView(),
             'isAdd' => true
@@ -91,9 +71,5 @@ class AccountController extends AbstractController
     }
 
     #[Route("/logout", name: "account_logout")]
-    public function logout(): void {
-        throw new RuntimeException('Don\'t forget to activate logout in security.yaml');
-    }
-
-
+    public function logout(): void {throw new RuntimeException('Don\'t forget to activate logout in security.yaml');}
 }

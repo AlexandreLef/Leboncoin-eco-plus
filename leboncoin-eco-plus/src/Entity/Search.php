@@ -21,61 +21,23 @@ class Search
     private ?Category $category = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private String $search;
+    private ?string $search;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private String $city;
+    private ?string $city;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    public function getId(): int {return $this->id;}
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
+    public function getUser(): User {return $this->user;}
+    public function setUser(User $user): self {$this->user = $user;return $this;}
 
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
+    public function getCategory(): ?Category {return $this->category;}
+    public function setCategory(?Category $category): self {$this->category = $category;return $this;}
 
-        return $this;
-    }
+    public function getSearch(): string {return $this->search;}
+    public function setSearch(string $search): self {$this->search = $search;return $this;}
 
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
+    public function getCity(): string {return $this->city;}
 
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    public function getSearch(): ?string
-    {
-        return $this->search;
-    }
-
-    public function setSearch(?string $search): self
-    {
-        $this->search = $search;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(?string $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
+    public function setCity(string $city): self {$this->city = $city;return $this;}
 }
