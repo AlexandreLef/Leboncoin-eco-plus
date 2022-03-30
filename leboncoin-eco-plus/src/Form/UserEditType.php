@@ -15,20 +15,28 @@ class UserEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('lastname', TextType::class)
-            ->add('firstname', TextType::class)
+            ->add('lastname', TextType::class, [
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('firstname', TextType::class, [
+                'attr' => ['class' => 'form-control']
+            ])
             ->add('email', EmailType::class, [
                 'disabled' => true,
+                'attr' => ['class' => 'form-control']
             ])
             ->add('address', TextType::class, [
                 'required' => false,
+                'attr' => ['class' => 'form-control']
             ])
             ->add('zipcode', NumberType::class, [
                 'html5' => true,
                 'required' => false,
+                'attr' => ['class' => 'form-control']
             ])
             ->add('state', TextType::class, [
                 'required' => false,
+                'attr' => ['class' => 'form-control']
             ]);
     }
 

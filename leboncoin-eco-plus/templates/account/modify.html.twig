@@ -2,53 +2,44 @@
 
 {% block title %}- Mon compte{% endblock %}
 
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/account/modify.css">
+{% endblock %}
+
 {% block body %}
+    {{ form_start(form) }}
+        <h3>Paramètres</h3>
+        <h4>Informations de compte</h4>
 
-    <div class="information">
-        {{ form_start(form) }}
-        <h3>Informations personnelles</h3>
-        <div class="col-md-4">
-            <label for="user_edit_lastname">Nom
-                {{ form_widget(form.lastname) }}
-            </label>
-            {{ form_errors(form.lastname) }}
+        <div class="d-flex">
+            <div>
+                <label for="user_edit_lastname">Nom{{ form_widget(form.lastname) }}</label>
+                {{ form_errors(form.lastname) }}
+            </div>
+            <div class="ms-3">
+                <label for="user_edit_firstname">Prénom{{ form_widget(form.firstname) }}</label>
+                {{ form_errors(form.firstname) }}
+            </div>
         </div>
-        <div class="col-md-4">
-            <label for="user_edit_firstname">Prénom
-                {{ form_widget(form.firstname) }}
-            </label>
-            {{ form_errors(form.firstname) }}
-        </div>
-        <div class="col-md-4">
-            <label for="user_edit_email">Email
-                {{ form_widget(form.email) }}
-            </label>
-            {{ form_errors(form.email) }}
-        </div>
-        <h3>Adresse</h3>
-        <div class="col-md-4">
-            <label for="user_edit_address"> Adresse
-                {{ form_widget(form.address) }}
-            </label>
-            {{ form_errors(form.address) }}
-        </div>
-        <div class="col-md-4">
-            <label for="user_edit_zipcode"> Code postal
-                {{ form_widget(form.zipcode) }}
-            </label>
-            {{ form_errors(form.zipcode) }}
-        </div>
-        <div class="col-md-4">
-            <label for="user_edit_state"> Département
-                {{ form_widget(form.state) }}
-            </label>
-            {{ form_errors(form.state) }}
-        </div>
-        <div class="col-12">
-            <button class="btn btn-outline-secondary" type="submit">Enregistrer les modifications
-            </button>
-        </div>
-        {{ form_end(form) }}
-    </div>
 
+
+        <label for="user_edit_email">Email{{ form_widget(form.email) }}</label>
+        {{ form_errors(form.email) }}
+
+        <br/>
+        <hr/>
+
+        <h5>Adresse</h5>
+        <label for="user_edit_address"> Adresse{{ form_widget(form.address) }}
+        </label>{{ form_errors(form.address) }}
+
+        <label for="user_edit_zipcode"> Code postal{{ form_widget(form.zipcode) }}</label>
+        {{ form_errors(form.zipcode) }}
+
+        <label for="user_edit_state"> Département{{ form_widget(form.state) }}</label>
+        {{ form_errors(form.state) }}
+
+        <br/>
+        <button style="width: 250px;" class="btn btn-secondary" type="submit">Enregistrer les modifications</button>
+    {{ form_end(form) }}
 {% endblock %}
