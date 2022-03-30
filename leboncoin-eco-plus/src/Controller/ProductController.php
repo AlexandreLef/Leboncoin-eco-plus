@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\DTO\ProductDto;
 use App\DTO\SearchDto;
 use App\Entity\Product;
+use App\Entity\Search;
 use App\Entity\User;
 use App\Form\ProductType;
 use App\Form\SearchType;
@@ -23,13 +24,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
 
-    #[Route('/', name: 'home')]
+    /**
+     * @throws OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
+     */
     #[Route('/product/list', name: 'product_list')]
-    public function list(Request $request, ProductService $productService, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
-    {
-        // This is used because this route is used by home and by product_list
-        $renderPage = $request->getRequestUri() == '/product/list' ? 'product/list.html.twig' : 'home/index.html.twig';
-
+    public function list(Request $request, ProductService $productService, ProductRepository $productRepository, CategoryRepository $categoryRepository, EntityManagerInterface $doctrine): Response {
         // Prepare form
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
@@ -56,14 +56,24 @@ class ProductController extends AbstractController
                 // AND product's name contains the searched string and the searched string is not empty
                 if ((str_contains($tmpCity, $city) || $city == '') && (str_contains($tmpName, $search) || $search == '')) $products[] = $product;
             }
-            // If the user search something on the home page we redirect him to the search page
-            $renderPage = 'product/list.html.twig';
+
+            // Add the search to the database
+            if ($search != '' || $city != '') {
+                $search = new Search();
+                $user = $this->getUser(); /** @var User $user */
+                $search->setUser($user);
+                $search->setCategory($searchDto->getCategory() ?? null);
+                $search->setSearch($searchDto->getSearch() ?? null);
+                $search->setCity($searchDto->getCity() ?? null);
+                $doctrine->persist($search);
+                $doctrine->flush();
+            }
         } else {
             // By default, we show all products
             $products = $productRepository->findAll();
         }
 
-        return $this->render($renderPage, [
+        return $this->render('product/list.html.twig', [
             'form' => $form->createView(),
             'products' => $products,
             'categories' => $categoryRepository->findAll(),

@@ -15,6 +15,7 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->setAction('/product/list')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',

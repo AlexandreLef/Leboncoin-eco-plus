@@ -13,24 +13,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController {
 
-    public function index(Request $request, CategoryRepository $categoryRepository, ProductRepository $productRepository, ProductService $productService): Response {
-        // Manage form
+    #[Route('/', name: 'home')]
+    public function index(Request $request, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response {
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $products = $productService->getProductsBySearch($form, $productRepository);
-            return $this->render('product/list.html.twig', [
-                'form' => $form->createView(),
-                'products' => $products,
-                'categories' => $categoryRepository->findAll(),
-                'total' => count($products),
-                'selectedCategoryId' => -1,
-                'search' => '',
-                'city' => '',
-            ]);
-        }
-        else {
-            return $this->render('home/index.html.twig', ['categories' => $categoryRepository->findAll()]);
-        }
+        $products = $productRepository->findAll();
+
+        return $this->render('home/index.html.twig', [
+            'form' => $form->createView(),
+            'categories' => $categoryRepository->findAll(),
+            'total' => count($products),
+            'selectedCategoryId' => -1,
+            'search' => '',
+            'city' => '',
+            'userSearches' => $this->getUser()->getSearches()
+        ]);
     }
 }
