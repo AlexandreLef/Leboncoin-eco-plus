@@ -60,7 +60,7 @@ class FavoriteController extends AbstractController {
     /**
      * @throws EntityNotFoundException
      */
-    #[Route('/favorite/delete/{id}/return?{url}', name: 'favorite_delete')]
+    #[Route('/favorite/delete/{id}', name: 'favorite_delete')]
     public function delete(FavoriteRepository $favoriteRepository, Favorite $favorite, Request $request): Response {
         $favoriteRepository->delete($favorite);
         $url = $request->headers->get('referer');
