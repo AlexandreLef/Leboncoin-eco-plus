@@ -1,0 +1,46 @@
+#conversation-container {
+    margin: 1em;
+}
+
+.conversation {
+    background-color: white;
+    display: flex;
+    max-width: 30em;
+    border-left: 3px solid var(--primary-color);
+    text-decoration: none;
+    color: black;
+    margin-top: 1em;
+    height: 7.4em;
+    border-radius: 0.3rem;
+}
+
+.conversation-right {
+    padding: 1em;
+}
+
+.conversation h6 {
+    transition: 0.2s;
+}
+
+.conversation:hover {
+    color: black;
+}
+
+.conversation:hover h6 {
+    color: var(--primary-color);
+}
+
+.conversation-img {
+    height: 7.4em;
+    width: 8em;
+    margin-right: 20px;
+    object-fit: cover;
+    border-top-left-radius: 0.3rem;
+    border-bottom-left-radius: 0.3rem;
+}
+
+.last-message {
+    font-size: 0.8em;
+    color: #8191a0;
+    margin: 0;
+}

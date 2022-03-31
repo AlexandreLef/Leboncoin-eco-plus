@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}- Messages{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/message/detail.css">
+{% endblock %}
+
+{% block body %}
+    <div id="conversation-container">
+        {% for message in messages %}
+
+        {% endfor %}
+    </div>
+{% endblock %}
