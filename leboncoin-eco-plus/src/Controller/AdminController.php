@@ -3,10 +3,15 @@
 namespace App\Controller;
 
 use App\DTO\CategoryDto;
+use App\DTO\ProductDto;
 use App\Entity\Category;
+use App\Entity\Product;
 use App\Form\CategoryType;
+use App\Form\ProductType;
 use App\Repository\CategoryRepository;
+use App\Repository\ProductRepository;
 use App\Service\CategoryService;
+use App\Service\ProductService;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,8 +41,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/category/update/{id}/name/{name}', name: 'admin_category_update', methods: 'GET')]
-    public function update(CategoryService $categoryService, Category $category, CategoryDto $categoryDto, string
-    $name): Response {
+    public function updateCategory (CategoryService $categoryService, Category $category, CategoryDto $categoryDto, string $name): Response {
         $categoryDto->setName($name);
         $categoryService->addOrUpdate($categoryDto, $category);
         return $this->redirectToRoute('admin_category');
@@ -47,8 +51,42 @@ class AdminController extends AbstractController
      * @throws EntityNotFoundException
      */
     #[Route('/admin/category/delete/{id}', name: 'admin_category_delete', methods: 'GET')]
-    public function delete(CategoryRepository $categoryRepository, Category $category): Response {
+    public function deleteCategory (CategoryRepository $categoryRepository, Category $category): Response {
         $categoryRepository->delete($category);
         return $this->redirectToRoute('admin_category');
+    }
+
+    #[Route('/admin/product', name: 'admin_product')]
+    public function product(Request $request, ProductService $productService, ProductRepository $productRepository): Response {
+        $productDto = new ProductDto();
+        $form = $this->createForm(ProductType::class, $productDto);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $product = new Product();
+            $productDto->setEntityFromDto($product);
+            $productService->addOrUpdate($productDto, $product);
+            return $this->redirectToRoute('admin_product');
+        }
+        return $this->render('admin/product.html.twig', [
+            'products' => $productRepository->findAll(),
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/admin/product/update/{id}/name/{name}', name: 'admin_product_update', methods: 'GET')]
+    public function updateProduct (ProductService $productService, Product $product, ProductDto $productDto, string
+                                           $name): Response {
+        $productDto->setName($name);
+        $productService->addOrUpdate($productDto, $product);
+        return $this->redirectToRoute('admin_product');
+    }
+
+    /**
+     * @throws EntityNotFoundException
+     */
+    #[Route('/admin/product/delete/{id}', name: 'admin_product_delete', methods: 'GET')]
+    public function deleteProduct (ProductRepository $productRepository, Product $product): Response {
+        $productRepository->delete($product);
+        return $this->redirectToRoute('admin_product');
     }
 }

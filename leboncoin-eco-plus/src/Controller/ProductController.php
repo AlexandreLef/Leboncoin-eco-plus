@@ -13,6 +13,7 @@ use App\Form\SearchType;
 use App\Repository\CategoryRepository;
 use App\Repository\FavoriteRepository;
 use App\Repository\ProductRepository;
+use App\Service\GrantedService;
 use App\Service\ProductService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -160,7 +161,8 @@ class ProductController extends AbstractController {
     }
 
    #[Route('/product/edit/{id}', name: 'product_edit', methods: ['GET', 'POST'])]
-   public function edit(Request $request, EntityManagerInterface $doctrine, Product $product, CategoryRepository $categoryRepository): Response
+   public function edit(Request $request, EntityManagerInterface $doctrine, Product $product, CategoryRepository
+   $categoryRepository, GrantedService $grantedService): Response
    {
        $productDto = new ProductDto();
        $productDto->setFromEntity($product);
@@ -188,6 +190,7 @@ class ProductController extends AbstractController {
                $image->move($imageName, $i . $this->getExtension($image->getMimeType()));
            }
 
+           if ($grantedService->isGranted($this->getUser(), 'ROLE_ADMIN')) return $this->redirectToRoute('admin_product');
            return $this->redirectToRoute('product_manage');
        }
 

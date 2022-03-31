@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Form\LoginType;
 use App\Form\UserEditType;
 use App\Form\UserType;
-use App\Service\UserService;
+use App\Service\GrantedService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,9 +17,9 @@ use Symfony\Component\Security\Core\Exception\RuntimeException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AccountController extends AbstractController {
-    private UserService $userService;
+    private GrantedService $userService;
 
-    public function __construct(UserService $userService) {$this->userService = $userService;}
+    public function __construct(GrantedService $userService) {$this->userService = $userService;}
 
     #[Route('/account', name: 'account')]
     public function index(): Response {return $this->render('account/index.html.twig', ['user' => $this->getUser()]);}
