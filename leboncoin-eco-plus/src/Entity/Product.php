@@ -48,7 +48,11 @@ class Product {
 
     private bool $userFavorite = false;
 
-    #[Pure] public function __construct() {$this->favorites = new ArrayCollection();$this->imagesPath = [];}
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Message::class)]
+    private $messages;
+
+    #[Pure] public function __construct() {$this->favorites = new ArrayCollection();$this->imagesPath = [];
+    $this->messages = new ArrayCollection();}
 
     public function getImagesPath(): array {
         if(!isset($this->imagesPath)) {
@@ -107,6 +111,36 @@ class Product {
                 $favorite->setProduct(null);
             }
         }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getProduct() === $this) {
+                $message->setProduct(null);
+            }
+        }
+
         return $this;
     }
 }

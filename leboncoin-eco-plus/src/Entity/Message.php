@@ -30,6 +30,10 @@ class Message
     #[ORM\Column(type: 'datetime')]
     private $date;
 
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'messages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $product;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +95,18 @@ class Message
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

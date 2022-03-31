@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DTO\MessageDto;
 use App\Entity\Message;
+use App\Entity\Product;
 use App\Entity\User;
 use App\Form\MessageType;
 use App\Repository\MessageRepository;
@@ -17,14 +18,40 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MessageController extends AbstractController {
     #[Route('/message/list', name: 'message_list')]
-    public function list(): Response {return $this->render('message/list.html.twig', ['controller_name' => 'MessageController',]);}
+    public function list(): Response {
+
+        $user = $this->getUser(); /** @var User $user */
+        $messages = $user->getMessages();
+        $conversations = [];
+
+        foreach($messages as $message) {
+            $productId = $message->getProduct()->getId();
+            if (!isset($conversations[$productId]))
+                $conversations[$productId] = ['product' => $message->getProduct(), 'messages' => []];
+            $conversations[$productId]['messages'][] = $message;
+        }
+
+        return $this->render('message/list.html.twig', [
+            'conversations' => $conversations
+        ]);
+    }
+
+    #[Route('/message/detail/{id}', name: 'message_detail')]
+    public function detail(Product $product): Response {
+
+
+
+        return $this->render('message/detail.html.twig', [
+            'messages' => []
+        ]);
+    }
 
     /**
      * @throws OptimisticLockException
      * @throws ORMException
      */
     #[Route('/message/new/{id}', name: 'message_new')]
-    public function newMessage(Request $request, User $receiver, MessageRepository $messageRepository): Response {
+    public function new(Request $request, Product $product, MessageRepository $messageRepository): Response {
         $sender = $this->getUser(); /** @var User $sender */
         if ($sender == null) return $this->redirectToRoute('account_login');
 
@@ -36,7 +63,8 @@ class MessageController extends AbstractController {
             $messageDto->setEntityFromDto($message);
             $message->setDate(new DateTime());
             $message->setSender($sender);
-            $message->setReceiver($receiver);
+            $message->setReceiver($product->getUser());
+            $message->setProduct($product);
             $messageRepository->add($message);
             return $this->redirectToRoute('message_list');
         }
