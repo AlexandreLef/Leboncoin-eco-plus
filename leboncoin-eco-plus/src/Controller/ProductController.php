@@ -140,41 +140,12 @@ class ProductController extends AbstractController {
     }
 
     #[Route('/product/manage', name: 'product_manage')]
-    public function manage(Request $request, EntityManagerInterface $doctrine, CategoryRepository $categoryRepository): Response {
+    public function manage(CategoryRepository $categoryRepository): Response {
         $user = $this->getUser(); /** @var User $user */
         $products = $user->getProducts();
 
-        $form = $this->createForm(ProductType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Get form values
-            $productDto = $form->getData();
-            /** @var ProductDto $productDto */
-
-            // Create product object
-            $user = $this->getUser();
-            /** @var User $user */
-            $product = new Product();
-            $productDto->setEntityFromDto($product);
-            $product->setUser($user);
-            $product->setDate(new DateTime());
-
-            // Insert into database
-            $doctrine->persist($product);
-            $doctrine->flush();
-
-            // Get the images that the user uploaded
-            $images = $productDto->getImages();
-            foreach ($images as $i => $image) {
-                // Move them into the img public folder
-                $imageName = './assets/img/products/' . $product->getId() . '/';
-                $image->move($imageName, $i . $this->getExtension($image->getMimeType()));
-            }
-        }
         return $this->render('product/manage.html.twig', [
             'products' => $products,
-            'form' => $form->createView(),
             'categories' => $categoryRepository->findAll(),
         ]);
     }
@@ -187,6 +158,44 @@ class ProductController extends AbstractController {
         $productRepository->delete($product);
         return $this->redirectToRoute('product_manage');
     }
+
+   #[Route('/product/edit/{id}', name: 'product_edit', methods: ['GET', 'POST'])]
+   public function edit(Request $request, EntityManagerInterface $doctrine, Product $product, CategoryRepository $categoryRepository): Response
+   {
+       $productDto = new ProductDto();
+       $productDto->setFromEntity($product);
+       $form = $this->createForm(ProductType::class, $productDto);
+       $form->handleRequest($request);
+
+       if ($form->isSubmitted() && $form->isValid()) {
+           // Get form values
+           $productDto = $form->getData();
+           /** @var ProductDto $productDto */
+
+           // Create product object
+           $productDto->setEntityFromDto($product);
+           $product->setDate(new DateTime());
+
+           // Insert into database
+           $doctrine->persist($product);
+           $doctrine->flush();
+
+           // Get the images that the user uploaded
+           $images = $productDto->getImages();
+           foreach ($images as $i => $image) {
+               // Move them into the img public folder
+               $imageName = './assets/img/products/' . $product->getId() . '/';
+               $image->move($imageName, $i . $this->getExtension($image->getMimeType()));
+           }
+
+           return $this->redirectToRoute('product_manage');
+       }
+
+       return $this->render('product/edit.html.twig', [
+           'form' => $form->createView(),
+           'categories' => $categoryRepository->findAll()]);
+
+   }
 
     #[Route('/product/manage/update/{id}/dto/{dto}', name: 'product_manage_update', methods: 'GET')]
     public function update(ProductService $productService, Product $product, ProductDto $productDto): Response {

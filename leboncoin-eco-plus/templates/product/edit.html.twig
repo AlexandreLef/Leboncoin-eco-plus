@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}- Modifier un produit{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/product/add.css">
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+        <div id="product-form">
+            <br/>
+            <h3>Modifier cette annonce</h3>
+            <br/>
+            <div id="form-background">
+                <div class="col-5">
+                    <br/>
+                    <label for="product_edit_name" class="required">Quel est le titre de l'annonce</label>
+                    {{ form_widget(form.name) }}
+                    {{ form_errors(form.name) }}
+                    <br/>
+                    <label for="product_edit_category">Choisissez une catégorie</label>
+                    {{ form_widget(form.category) }}
+                    {{ form_errors(form.category) }}
+                    <br/>
+                    <label for="product_edit_quality">État</label>
+                    {{ form_widget(form.quality) }}
+                    {{ form_errors(form.quality) }}
+                </div>
+                <div>
+                    <br/><br/>
+                    <h5>Décrivez votre bien !</h5>
+                    <label for="product_edit_description" class="required">Description</label>
+                    {{ form_widget(form.description) }}
+                    {{ form_errors(form.description) }}
+                </div>
+                <div class="col-5">
+                    <br/><br/>
+                    <h5>Quel est votre prix ?</h5>
+                    <label for="product_edit_price" class="required">Votre prix de vente</label>
+                    {{ form_widget(form.price) }}
+                    {{ form_errors(form.price) }}
+
+                    <br/><br/>
+                    <h5>Ajoutez vos photos</h5>
+                    {{ form_widget(form.images) }}
+                    {{ form_errors(form.images) }}
+
+                    <br/><br/>
+                    <h5>Où se situe votre bien ?</h5>
+                    <label for="product_edit_city" class="required">Quelle est la ville de votre bien</label>
+                    {{ form_widget(form.city) }}
+                    {{ form_errors(form.city) }}
+
+                    <br/><br/>
+                    <button class="btn btn-primary" type="submit">Valider</button>
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

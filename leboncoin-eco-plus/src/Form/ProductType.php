@@ -16,21 +16,33 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ProductType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
-            ->add('name', TextType::class)
-            ->add('price', NumberType::class)
+            ->add('name', TextType::class, [
+                'attr' => ['class' => 'form-control']
+                ])
+            ->add('price', NumberType::class, [
+                'attr' => ['class' => 'form-control']
+                ])
             ->add('images', FileType::class, [
                 'data_class' => null,
                 'multiple' => true,
                 'label' => false,
-                'required' => false
+                'required' => false,
+                'attr' => ['class' => 'form-control']
             ])
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'attr' => ['class' => 'form-control textarea']
+                ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'name'
+                'choice_label' => 'name',
+                'attr' => ['class' => 'form-control']
             ])
-            ->add('quality', NumberType::class)
-            ->add('city', TextType::class);
+            ->add('quality', NumberType::class, [
+                'attr' => ['class' => 'form-control']
+                ])
+            ->add('city', TextType::class, [
+                'attr' => ['class' => 'form-control']
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void {$resolver->setDefaults(['data_class' => ProductDto::class]);}

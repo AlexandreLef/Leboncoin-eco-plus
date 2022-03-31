@@ -7,61 +7,56 @@
 {% endblock %}
 
 {% block body %}
-    <form name="product" method="post" enctype="multipart/form-data">
-        <div id="product-form">
-            <br/>
-            <h3>Déposer une annonce</h3>
-            <br/>
-            <div id="form-background">
-                <div class="col-5">
-                    <h5>Commençons par l’essentiel !</h5>
-                    <br/>
-                    <label for="product_name" class="required">Quel est le titre de l'annonce</label>
-                    <input class="form-control" type="text" id="product_name" name="product[name]" required="required">
-                    <br/>
-                    <label for="product_category">Choisissez une catégorie</label>
-                    <select class="form-control" id="product_category" name="product[category]">
-                        {% for category in categories %}
-                            <option value="{{ category.id }}">{{ category.name }}</option>
-                        {% endfor %}
-                    </select>
+    {{ form_start(form) }}
+    <div id="product-form">
+        <br/>
+        <h3>Déposer une annonce</h3>
+        <br/>
+        <div id="form-background">
+            <div class="col-5">
+                <h5>Commençons par l’essentiel !</h5>
+                <br/>
+                <label for="product_edit_name" class="required">Quel est le titre de l'annonce</label>
+                {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
+                <br/>
+                <label for="product_edit_category">Choisissez une catégorie</label>
+                {{ form_widget(form.category) }}
+                {{ form_errors(form.category) }}
+                <br/>
+                <label for="product_edit_quality">État</label>
+                {{ form_widget(form.quality) }}
+                {{ form_errors(form.quality) }}
+            </div>
+            <div>
+                <br/><br/>
+                <h5>Décrivez votre bien !</h5>
+                <label for="product_edit_description" class="required">Description</label>
+                {{ form_widget(form.description) }}
+                {{ form_errors(form.description) }}
+            </div>
+            <div class="col-5">
+                <br/><br/>
+                <h5>Quel est votre prix ?</h5>
+                <label for="product_edit_price" class="required">Votre prix de vente</label>
+                {{ form_widget(form.price) }}
+                {{ form_errors(form.price) }}
 
-                    <br/>
-                    <label for="product_quality">État</label>
-                    <select class="form-control" id="product_quality" name="product[quality]">
-                        <option value="1" selected="selected">État neuf</option>
-                        <option value="2">Très bon état</option>
-                        <option value="3">Bon état</option>
-                        <option value="4">État satisfaisant</option>
-                        <option value="5">Pour pièces</option>
-                    </select>
-                </div>
-                <div>
-                    <br/><br/>
-                    <h5>Décrivez votre bien !</h5>
-                    <label for="product_description" class="required">Description</label>
-                    <textarea class="form-control textarea" type="text" id="product_description" name="product[description]" required="required"></textarea>
-                </div>
-                <div class="col-5">
-                    <br/><br/>
-                    <h5>Quel est votre prix ?</h5>
-                    <label for="product_price" class="required">Votre prix de vente</label>
-                    <input class="form-control" type="text" id="product_price" name="product[price]" required="required">
+                <br/><br/>
+                <h5>Ajoutez vos photos</h5>
+                {{ form_widget(form.images) }}
+                {{ form_errors(form.images) }}
 
-                    <br/><br/>
-                    <h5>Ajoutez vos photos</h5>
-                    <input class="form-control" type="file" id="product_images" name="product[images][]" multiple="multiple">
+                <br/><br/>
+                <h5>Où se situe votre bien ?</h5>
+                <label for="product_edit_city" class="required">Quelle est la ville de votre bien</label>
+                {{ form_widget(form.city) }}
+                {{ form_errors(form.city) }}
 
-                    <br/><br/>
-                    <h5>Où se situe votre bien ?</h5>
-                    <label for="product_city" class="required">Quelle est la ville de votre bien</label>
-                    <input class="form-control" type="text" id="product_city" name="product[city]" required="required">
-
-                    <br/><br/>
-                    <button class="btn btn-primary" type="submit">Valider</button>
-                </div>
+                <br/><br/>
+                <button class="btn btn-primary" type="submit">Valider</button>
             </div>
         </div>
-        {{ form_errors(form) }}
-    </form>
+    </div>
+    {{ form_end(form) }}
 {% endblock %}
