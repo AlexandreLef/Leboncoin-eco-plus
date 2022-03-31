@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\DTO\ProductDto;
 use App\DTO\SearchDto;
+use App\Entity\Favorite;
 use App\Entity\Product;
 use App\Entity\Search;
 use App\Entity\User;
 use App\Form\ProductType;
 use App\Form\SearchType;
 use App\Repository\CategoryRepository;
+use App\Repository\FavoriteRepository;
 use App\Repository\ProductRepository;
 use App\Service\ProductService;
 use DateTime;
@@ -24,10 +26,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController {
     #[Route('/product/list', name: 'product_list')]
-    public function list(Request $request, ProductService $productService, ProductRepository $productRepository, CategoryRepository $categoryRepository, EntityManagerInterface $doctrine): Response {
+    public function list(Request $request, FavoriteRepository $favoriteRepository, ProductService $productService, ProductRepository $productRepository, CategoryRepository $categoryRepository, EntityManagerInterface $doctrine): Response {
         // Prepare form
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
+        $user = $this->getUser(); /** @var User $user */
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Get values from form
@@ -55,7 +58,6 @@ class ProductController extends AbstractController {
             // Add the search to the database
             if ($search != '' || $city != '') {
                 $search = new Search();
-                $user = $this->getUser(); /** @var User $user */
                 $search->setUser($user);
                 $search->setCategory($searchDto->getCategory() ?? null);
                 $search->setSearch($searchDto->getSearch() ?? null);
@@ -67,6 +69,17 @@ class ProductController extends AbstractController {
             // By default, we show all products
             $products = $productRepository->findAll();
         }
+
+        $favorites = $favoriteRepository->findBy(['user' => $user]);
+        foreach($products as $product) {
+            /** @var Favorite $favorite */
+            foreach($favorites as $favorite) {
+                if ($favorite->getProduct()->getId() == $product->getId()) {
+                    $product->setUserFavorite(true);
+                }
+            }
+        }
+
         return $this->render('product/list.html.twig', [
             'form' => $form->createView(),
             'products' => $products,
