@@ -18,8 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminController extends AbstractController
-{
+class AdminController extends AbstractController {
     #[Route('/admin', name: 'admin')]
     public function index(): Response {return $this->render('admin/index.html.twig', ['controller_name' => 'AdminController',]);}
 
@@ -40,8 +39,9 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/category/update/{id}/name/{name}', name: 'admin_category_update', methods: 'GET')]
-    public function updateCategory (CategoryService $categoryService, Category $category, CategoryDto $categoryDto, string $name): Response {
+    #[Route('/admin/category/edit/{id}/name/{name}', name: 'admin_category_edit', methods: 'GET')]
+    public function editCategory (CategoryService $categoryService, Category $category, CategoryDto $categoryDto, string
+    $name): Response {
         $categoryDto->setName($name);
         $categoryService->addOrUpdate($categoryDto, $category);
         return $this->redirectToRoute('admin_category');
@@ -71,14 +71,6 @@ class AdminController extends AbstractController
             'products' => $productRepository->findAll(),
             'form' => $form->createView()
         ]);
-    }
-
-    #[Route('/admin/product/update/{id}/name/{name}', name: 'admin_product_update', methods: 'GET')]
-    public function updateProduct (ProductService $productService, Product $product, ProductDto $productDto, string
-                                           $name): Response {
-        $productDto->setName($name);
-        $productService->addOrUpdate($productDto, $product);
-        return $this->redirectToRoute('admin_product');
     }
 
     /**

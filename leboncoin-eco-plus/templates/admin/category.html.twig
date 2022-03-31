@@ -53,11 +53,11 @@
             const modal = $(this)
             modal.find('input').val(category.name)
             modal.find('#submitModify').data('category', category.id)
-            $('#submitModify').attr('href', "/admin/category/update/" + $('#submitModify').data('category') +
+            $('#submitModify').attr('href', "/admin/category/edit/" + $('#submitModify').data('category') +
                 "/name/" + $(this).val())
         })
         $('#newName').on('input',function () {
-            $('#submitModify').attr('href', "/admin/category/update/" + $('#submitModify').data('category') +
+            $('#submitModify').attr('href', "/admin/category/edit/" + $('#submitModify').data('category') +
                 "/name/" +
                 $(this)
                 .val())

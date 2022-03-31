@@ -162,8 +162,7 @@ class ProductController extends AbstractController {
 
    #[Route('/product/edit/{id}', name: 'product_edit', methods: ['GET', 'POST'])]
    public function edit(Request $request, EntityManagerInterface $doctrine, Product $product, CategoryRepository
-   $categoryRepository, GrantedService $grantedService): Response
-   {
+   $categoryRepository, GrantedService $grantedService): Response {
        $productDto = new ProductDto();
        $productDto->setFromEntity($product);
        $form = $this->createForm(ProductType::class, $productDto);
@@ -197,7 +196,6 @@ class ProductController extends AbstractController {
        return $this->render('product/edit.html.twig', [
            'form' => $form->createView(),
            'categories' => $categoryRepository->findAll()]);
-
    }
 
     #[Route('/product/manage/update/{id}/dto/{dto}', name: 'product_manage_update', methods: 'GET')]
