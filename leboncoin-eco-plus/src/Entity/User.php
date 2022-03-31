@@ -76,13 +76,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     public function getPassword(): string {return $this->password;}
     public function setPassword(string $password): self {$this->password = $password;return $this;}
 
-    public function getAddress(): string {return $this->address;}
+    public function getAddress(): ?string {return $this->address;}
     public function setAddress(?string $address): self {$this->address = $address;return $this;}
 
-    public function getZipcode(): int {return $this->zipcode;}
+    public function getZipcode(): ?int {return $this->zipcode;}
     public function setZipcode(int $zipcode): self {$this->zipcode = $zipcode;return $this;}
 
-    public function getState(): string {return $this->state;}
+    public function getState(): ?string {return $this->state;}
     public function setState(string $state): self {$this->state = $state;return $this;}
 
     public function getRoles(): array {return [$this->roles];}

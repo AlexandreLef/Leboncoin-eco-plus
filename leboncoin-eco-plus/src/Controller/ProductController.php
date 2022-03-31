@@ -204,6 +204,30 @@ class ProductController extends AbstractController {
         $productService->addOrUpdate($productDto, $product);
         return $this->redirectToRoute('product_manage');
     }
+
+
+    #[Route('/product/list/{id}', name: 'product_list_user')]
+    public function listByUser(FavoriteRepository $favoriteRepository, ProductRepository $productRepository, CategoryRepository $categoryRepository, User $profil):
+    Response {
+        $user = $this->getUser();
+        $products = $productRepository->findBy(['user' => $profil]);
+
+        $favorites = $favoriteRepository->findBy(['user' => $user]);
+        foreach($products as $product) {
+            /** @var Favorite $favorite */
+            foreach($favorites as $favorite) {
+                if ($favorite->getProduct()->getId() == $product->getId()) {
+                    $product->setUserFavorite(true);
+                }
+            }
+        }
+
+        return $this->render('product/list_user.html.twig', [
+            'products' => $products,
+            'categories' => $categoryRepository->findAll(),
+            'profil' => $profil
+        ]);
+    }
 }
 
 
