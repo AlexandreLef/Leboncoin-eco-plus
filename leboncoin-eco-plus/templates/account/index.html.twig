@@ -11,12 +11,12 @@
         <div class="user-panel">
             <img class="profile-picture" alt="Profile Picture" src="/assets/img/profile-picture.png"/>
             <h5>{{ user.firstname }} {{ user.lastname }}</h5>
-            <a href="{{ path('product_manage') }}" class="btn btn-outline-info profile-button semi-bold">Voir mon profil public</a>
+            <a href="#" class="btn btn-outline-info profile-button semi-bold">Voir mon profil public</a>
         </div>
 
 
         <div class="buttons">
-            <a href="#" class="button-card shadow">
+            <a href="{{ path('product_manage') }}" class="button-card shadow">
                 <i class="bi bi-card-text button-icon"></i>
                 <h5 class="card-title">Annonces</h5>
                 <p class="card-text">Gérer mes annonces déposées</p>

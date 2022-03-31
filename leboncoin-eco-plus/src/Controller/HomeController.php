@@ -25,7 +25,7 @@ class HomeController extends AbstractController {
             'selectedCategoryId' => -1,
             'search' => '',
             'city' => '',
-            'userSearches' => $searchRepository->getLastSearchByUserId($this->getUser()->getId())
+            'userSearches' => $this->getUser()? $searchRepository->getLastSearchByUserId($this->getUser()->getId()):[]
         ]);
     }
 }
