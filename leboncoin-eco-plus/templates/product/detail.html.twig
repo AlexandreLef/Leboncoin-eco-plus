@@ -123,7 +123,9 @@
         <div class="user shadow-sm">
             <div class="product-user">
                 <img class="profile-picture" alt="Profile Picture" src="/assets/img/profile-picture.png"/>
-                <h6>{{ product.user.firstname }} {{ product.user.lastname }}</h6>
+                <a  href="{{ path('product_list_user', {id: product.user.id}) }}">
+                    <h6>{{ product.user.firstname }} {{ product.user.lastname }}</h6>
+                </a>
             </div>
             <hr/>
             <a class="btn btn-primary user-buttons mb-3">Acheter</a>
