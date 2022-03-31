@@ -128,7 +128,11 @@
                 </a>
             </div>
             <hr/>
-            <a class="btn btn-primary user-buttons mb-3">Acheter</a>
+            <a class="btn btn-primary user-buttons mb-3" {% if is_granted('ROLE_USER') %}href="{{ path
+                ('account_rate', {id: product.user.id}) }}"{%
+                endif
+            %}>Noter le
+                vendeur</a>
             {% if product.user.id != self.id ?? -1 %}
                 <a href="{{ path('message_new', { id: product.id }) }}" class="btn btn-info user-buttons">Message</a>
             {% endif %}

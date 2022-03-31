@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}- Noter un vendeur{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/product/add.css">
+{% endblock %}
+
+{% block body %}
+    <div id="create-container">
+        {{ form_start(form) }}
+            <h4>Noter {{ user.firstname }} {{ user.lastname }}</h4>
+
+            <script>
+                let rate = 0;
+                function rating(int) {
+                    $('#review_rate').val(int);
+                    rate = int
+                    for (let i = 1; i <= 5; i++) {
+                        let star = $('#s'+i)
+                        star.toggleClass('bi-star', i > rate);
+                        star.toggleClass('bi-star-fill', i <= rate);
+                    }
+                }
+            </script>
+            <div>
+                <label for="review_rate" class="form-label">Note</label>
+                <i class="bi bi-star" id="s1" onclick="rating(1)"></i>
+                <i class="bi bi-star" id="s2" onclick="rating(2)"></i>
+                <i class="bi bi-star" id="s3" onclick="rating(3)"></i>
+                <i class="bi bi-star" id="s4" onclick="rating(4)"></i>
+                <i class="bi bi-star" id="s5" onclick="rating(5)"></i>
+                {{ form_widget(form.rate) }}
+                {{ form_errors(form.rate) }}
+            </div>
+
+            <div>
+                <label for="review_comment" class="form-label">Commentaire</label>
+                {{ form_widget(form.comment) }}
+                {{ form_errors(form.comment) }}
+            </div>
+
+            <div>
+                <br><br>
+                <button style="width: 100%;" type="submit" class="btn btn-primary">Noter</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

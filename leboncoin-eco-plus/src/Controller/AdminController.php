@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\DTO\CategoryDto;
 use App\DTO\ProductDto;
+use App\DTO\ReviewDto;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\CategoryType;
-use App\Form\ProductType;
+use App\Form\ReviewType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Service\CategoryService;
@@ -24,7 +24,7 @@ class AdminController extends AbstractController {
 
     #[Route('/admin/category', name: 'admin_category')]
     public function category(Request $request, CategoryService $categoryService, CategoryRepository $categoryRepository): Response {
-        $categoryDto = new CategoryDto();
+        $categoryDto = new ReviewDto();
         $form = $this->createForm(CategoryType::class, $categoryDto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -40,8 +40,8 @@ class AdminController extends AbstractController {
     }
 
     #[Route('/admin/category/edit/{id}/name/{name}', name: 'admin_category_edit', methods: 'GET')]
-    public function editCategory (CategoryService $categoryService, Category $category, CategoryDto $categoryDto, string
-    $name): Response {
+    public function editCategory (CategoryService $categoryService, Category $category, ReviewDto $categoryDto, string
+                                                  $name): Response {
         $categoryDto->setName($name);
         $categoryService->addOrUpdate($categoryDto, $category);
         return $this->redirectToRoute('admin_category');
@@ -59,7 +59,7 @@ class AdminController extends AbstractController {
     #[Route('/admin/product', name: 'admin_product')]
     public function product(Request $request, ProductService $productService, ProductRepository $productRepository): Response {
         $productDto = new ProductDto();
-        $form = $this->createForm(ProductType::class, $productDto);
+        $form = $this->createForm(ReviewType::class, $productDto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $product = new Product();

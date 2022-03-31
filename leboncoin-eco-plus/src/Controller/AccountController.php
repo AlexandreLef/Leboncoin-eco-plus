@@ -2,17 +2,24 @@
 
 namespace App\Controller;
 
+use App\DTO\ReviewDto;
 use App\DTO\UserDto;
 use App\DTO\UserEditDto;
+use App\Entity\Review;
 use App\Entity\User;
+use App\Form\ReviewType;
 use App\Form\UserEditType;
 use App\Form\UserType;
+use App\Repository\ReviewRepository;
 use App\Service\UserService;
+use DateTime;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Exception\RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Exception\RuntimeException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AccountController extends AbstractController {
@@ -21,7 +28,26 @@ class AccountController extends AbstractController {
     public function __construct(UserService $userService) {$this->userService = $userService;}
 
     #[Route('/account', name: 'account')]
-    public function index(): Response {return $this->render('account/index.html.twig', ['user' => $this->getUser()]);}
+    public function index(): Response {
+
+        $user = $this->getUser(); /** @var User $user */
+        $reviews = $user->getReviews();
+        $rates = [];
+        $rateNumber = 0;
+        $avg = null;
+        if ($reviews) {
+            foreach ($reviews as $review) {$rates[] = $review->getRate();}
+            $rates = array_filter($rates);
+            $rateNumber = count($rates);
+            $avg = (count($rates)) ? array_sum($rates)/count($rates) : null;
+        }
+
+        return $this->render('account/index.html.twig', [
+            'user' => $this->getUser(),
+            'avg' => $avg,
+            'rateNumber' => $rateNumber
+        ]);
+    }
 
     #[Route('/account/modify', name: 'account_modify')]
     public function modify(Request $request): Response {
@@ -71,4 +97,33 @@ class AccountController extends AbstractController {
 
     #[Route("/logout", name: "account_logout")]
     public function logout(): void {throw new RuntimeException('Don\'t forget to activate logout in security.yaml');}
+
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
+    #[Route("/account/rate/{id}", name: "account_rate", methods: ['GET', 'POST'])]
+    public function rate(Request $request, User $user, ReviewRepository $reviewRepository): Response {
+        /** @var User $self */ $self = $this->getUser();
+        $reviewDto = new ReviewDto();
+        $form = $this->createForm(ReviewType::class, $reviewDto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $review = new Review();
+            $reviewDto->setEntityFromDto($review);
+            $review->setUser($user);
+            $review->setReviewer($self);
+            $review->setDate(new DateTime());
+
+            $reviewRepository->add($review);
+
+            $url = $request->headers->get('referer');
+            return $this->redirect($url);
+        }
+        return $this->render('account/review.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user
+        ]);
+    }
 }
