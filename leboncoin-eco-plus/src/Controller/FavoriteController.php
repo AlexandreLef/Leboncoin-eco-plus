@@ -42,12 +42,7 @@ class FavoriteController extends AbstractController {
             $favoriteRepository->save($favorite);
         }
         $url = $request->headers->get('referer');
-        if (str_contains($url, 'product/list/')) {
-            $link_array = explode('/',$url);
-            $id = end($link_array);
-            return $this->redirectToRoute('product_list_user', ['id' => $id]);
-        }
-        return $this->redirectToRoute('product_list');
+        return $this->redirect($url);
     }
 
     #[Route('/favorite/add/product/{id}', name: 'favorite_add')]
