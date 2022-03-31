@@ -27,7 +27,7 @@
                     </div>
                 </a>
                 <a class="favorite-logo" href="{{ path('favorite_add_remove', { id: product.id }) }}">
-                    <i class="bi bi-heart{% if true%}-fill{% endif %}"></i>
+                    <i class="bi bi-heart{% if product.userFavorite%}-fill{% endif %}"></i>
                 </a>
             </div>
         {% endfor %}

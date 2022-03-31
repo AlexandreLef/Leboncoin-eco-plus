@@ -113,7 +113,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     public function setCreation(DateTimeInterface $creation): self {$this->creation = $creation;return $this;}
 
     public function getFavorites(): Collection {return $this->favorites;}
-    public function addFavorite(Favorite $favorite): self{
+    public function addFavorite(Favorite $favorite): self {
         if (!$this->favorites->contains($favorite)) {
             $this->favorites[] = $favorite;
             $favorite->setUser($this);

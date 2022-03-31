@@ -46,6 +46,8 @@ class Product {
 
     private array $imagesPath;
 
+    private bool $userFavorite = false;
+
     #[Pure] public function __construct() {$this->favorites = new ArrayCollection();$this->imagesPath = [];}
 
     public function getImagesPath(): array {
@@ -86,6 +88,9 @@ class Product {
 
     public function getUser(): User { return $this->user; }
     public function setUser(?User $user): self { $this->user = $user; return $this; }
+
+    public function getUserFavorite(): bool { return $this->userFavorite; }
+    public function setUserFavorite($userFavorite): void { $this->userFavorite = $userFavorite; }
 
     public function getFavorites(): Collection { return $this->favorites; }
     public function addFavorite(Favorite $favorite): self {
