@@ -48,19 +48,33 @@ class MessageRepository extends ServiceEntityRepository
     // /**
     //  * @return Message[] Returns an array of Message objects
     //  */
-    /*
-    public function findByExampleField($value)
-    {
+    public function getConversation(int $productId, int $senderId, int $receiverId) {
+
+        // SELECT * FROM message as m WHERE (m.sender = :userId OR m.receiver = :userId) AND (m.sender = :receiverId OR m.receiver = :receiverId)
+
         return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+            ->where('m.product = :productId')
+            ->andwhere('(m.sender = :senderId OR m.receiver = :senderId)')
+            ->andWhere('(m.sender = :receiverId OR m.receiver = :receiverId)')
+            ->setParameter('productId', $productId)
+            ->setParameter('senderId', $senderId)
+            ->setParameter('receiverId', $receiverId)
+            ->orderBy('m.date', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
+
+    public function getConversations(int $userId) {
+
+        // SELECT * FROM message as m WHERE (m.sender = :userId OR m.receiver = :userId) AND (m.sender = :receiverId OR m.receiver = :receiverId)
+
+        return $this->createQueryBuilder('m')
+            ->where('(m.sender = :userId OR m.receiver = :userId)')
+            ->setParameter('userId', $userId)
+            ->orderBy('m.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?Message

@@ -7,9 +7,27 @@
 {% endblock %}
 
 {% block body %}
-    <div id="conversation-container">
+    <div id="message-container">
+        <h4>Votre conversation avec {{ product.user.lastname }} {{ product.user.firstname }}</h4>
         {% for message in messages %}
-
+            <div class="message shadow {% if message.sender.id != sender.id %}right{% endif %}">
+                {% if message.sender.id == sender.id %}
+                <div>
+                    <img class="message-img" src="/assets/img/profile-picture.png" alt="Sender profile picture"/>
+                </div>
+                {% endif %}
+                <div class="message-right">
+                    <h6>{{ message.title }}</h6>
+                    <p>{{ message.message }}</p>
+                    <p class="last-message">{{ message.date|date("m/d/Y à h:i") }}</p>
+                </div>
+                {% if message.sender.id != sender.id %}
+                    <div>
+                        <img class="message-img" src="/assets/img/profile-picture.png" alt="Receiver profile picture"/>
+                    </div>
+                {% endif %}
+            </div>
         {% endfor %}
+        <a href="{{ path('message_new', { id: product.id }) }}" class="btn btn-primary reply-button">Répondre</a>
     </div>
 {% endblock %}

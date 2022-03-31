@@ -18,10 +18,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MessageController extends AbstractController {
     #[Route('/message/list', name: 'message_list')]
-    public function list(): Response {
+    public function list(MessageRepository $messageRepository): Response {
 
         $user = $this->getUser(); /** @var User $user */
-        $messages = $user->getMessages();
+        $messages = $messageRepository->getConversations($user->getId());
+
         $conversations = [];
 
         foreach($messages as $message) {
@@ -37,12 +38,17 @@ class MessageController extends AbstractController {
     }
 
     #[Route('/message/detail/{id}', name: 'message_detail')]
-    public function detail(Product $product): Response {
-
-
+    public function detail(Product $product, MessageRepository $messageRepository): Response {
+        $user = $this->getUser(); /** @var User $user */
+        $productId = $product->getId();
+        $senderId = $user->getId();
+        $receiverId = $product->getUser()->getId();
+        $messages = $messageRepository->getConversation($productId, $senderId, $receiverId);
 
         return $this->render('message/detail.html.twig', [
-            'messages' => []
+            'messages' => $messages,
+            'sender' => $user,
+            'product' => $product
         ]);
     }
 
@@ -66,7 +72,7 @@ class MessageController extends AbstractController {
             $message->setReceiver($product->getUser());
             $message->setProduct($product);
             $messageRepository->add($message);
-            return $this->redirectToRoute('message_list');
+            return $this->redirectToRoute('message_detail', [ 'id' => $product->getId() ]);
         }
 
         return $this->render('message/new.html.twig', [
