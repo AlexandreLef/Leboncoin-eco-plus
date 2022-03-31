@@ -127,7 +127,9 @@
             </div>
             <hr/>
             <a class="btn btn-primary user-buttons mb-3">Acheter</a>
-            <a class="btn btn-info user-buttons">Message</a>
+            {% if product.user.id != self.id ?? -1 %}
+                <a href="{{ path('message_new', { id: product.user.id }) }}" class="btn btn-info user-buttons">Message</a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

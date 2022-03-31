@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}- Messages{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/message/new.css">
+{% endblock %}
+
+{% block body %}
+
+    <div id="message-container">
+        {{ form_start(form) }}
+            <h4>Envoyer un message</h4>
+            <div>
+                <label for="message_title" class="form-label">Titre</label>
+                {{ form_widget(form.title) }}
+                {{ form_errors(form.title) }}
+            </div>
+        <br/>
+            <div>
+                <label for="message_message" class="form-label">Message</label>
+                {{ form_widget(form.message) }}
+                {{ form_errors(form.message) }}
+            </div>
+            <div>
+                <br/><br/>
+                <button style="width: 100%;" type="submit" class="btn btn-primary">Envoyer</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

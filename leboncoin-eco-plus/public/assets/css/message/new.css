@@ -1,0 +1,23 @@
+#message-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    padding: 50px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 0.8rem;
+    padding: 2em;
+    width: 40em;
+    margin-bottom: 1em;
+}
+
+textarea {
+    height: 8em;
+}
