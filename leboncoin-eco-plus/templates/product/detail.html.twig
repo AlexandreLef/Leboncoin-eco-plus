@@ -62,11 +62,11 @@
                 <i class="bi bi-wrench-adjustable-circle product-quality-logo"></i>
                 <div>
                     <p class="product-quality">État</p>
-                    <p class="m-0">{{ product.quality == 0 ? 'État neuf'
-                        : product.quality == 1 ? 'Très bon état'
-                        : product.quality == 2 ? 'Bon état'
-                        : product.quality == 3 ? 'État satisfaisant'
-                        : product.quality == 4 ? 'Pour pièces'
+                    <p class="m-0">{{ product.quality == 1 ? 'État neuf'
+                        : product.quality == 2 ? 'Très bon état'
+                        : product.quality == 3 ? 'Bon état'
+                        : product.quality == 4 ? 'État satisfaisant'
+                        : product.quality == 5 ? 'Pour pièces'
                         : 'Non spécifié' }}</p>
                 </div>
             </div>

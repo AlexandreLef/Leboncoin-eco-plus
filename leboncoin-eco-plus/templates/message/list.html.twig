@@ -19,5 +19,10 @@
             </div>
         </a>
     {% endfor %}
+    {% if conversations|length == 0 %}
+        <div class="no-conversations shadow">
+            <h5>Vous n'avez pas de conversations !</h5>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}
