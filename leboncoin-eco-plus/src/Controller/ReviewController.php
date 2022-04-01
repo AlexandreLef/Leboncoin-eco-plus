@@ -36,11 +36,8 @@ class ReviewController extends AbstractController {
             $review->setUser($user);
             $review->setReviewer($self);
             $review->setDate(new DateTime());
-
             $reviewRepository->add($review);
-
-            $url = $request->headers->get('referer');
-            return $this->redirect($url);
+            return $this->redirectToRoute('home');
         }
         return $this->render('review/create.html.twig', [
             'form' => $form->createView(),
