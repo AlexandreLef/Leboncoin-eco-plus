@@ -9,7 +9,6 @@ use App\Entity\Product;
 use App\Entity\Search;
 use App\Entity\User;
 use App\Form\ProductType;
-use App\Form\ReviewType;
 use App\Form\SearchType;
 use App\Repository\CategoryRepository;
 use App\Repository\FavoriteRepository;
@@ -117,7 +116,7 @@ class ProductController extends AbstractController {
     #[Route('/product/add', name: 'product_add')]
     public function add(Request $request, EntityManagerInterface $doctrine, CategoryRepository $categoryRepository): Response {
         // Prepare form
-        $form = $this->createForm(ReviewType::class);
+        $form = $this->createForm(ProductType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
