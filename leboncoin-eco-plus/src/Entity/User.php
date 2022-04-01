@@ -101,7 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
     public function getEmail(): string {return $this->email;}
     public function setEmail(string $email): self {$this->email = $email;return $this;}
 
-    public function getProducts(): Collection {return $this->products;}
+    public function getProducts(): Collection { return $this->products; }
     public function addProduct(Product $product): self {
         if (!$this->products->contains($product)) {
             $this->products[] = $product;

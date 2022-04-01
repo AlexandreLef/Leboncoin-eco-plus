@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FavoriteController extends AbstractController {
     #[Route('/favorite/list', name: 'favorite_list')]
     public function index(FavoriteRepository $favoriteRepository): Response {
-        $favorites = $favoriteRepository->findBy(['user' => $this->getUser()]);
+        $favorites = $favoriteRepository->findBy(['user' => $this->getUser()], ['date' => 'DESC']);
         return $this->render('favorite/list.html.twig', [
             'controller_name' => 'FavoriteController',
             'favorites' => $favorites

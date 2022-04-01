@@ -44,7 +44,7 @@ class ProductController extends AbstractController {
 
             // Get the product only from the selected category (or all)
             if ($categoryId) $tmpProducts = $productRepository->findBy(['category' => $searchDto->getCategory()]);
-            else $tmpProducts = $productRepository->findAll();
+            else $tmpProducts = $productRepository->findBy([], ['date' => 'DESC']);
 
             // Check if the product contains the city (if any) or the search (if any)
             $products = [];
@@ -69,12 +69,11 @@ class ProductController extends AbstractController {
             }
         } else {
             // By default, we show all products
-            $products = $productRepository->findAll();
+            $products = $productRepository->findBy([], ['date' => 'DESC']);
         }
 
         $favorites = $favoriteRepository->findBy(['user' => $user]);
         foreach($products as $product) {
-            /** @var Favorite $favorite */
             foreach($favorites as $favorite) {
                 if ($favorite->getProduct()->getId() == $product->getId()) {
                     $product->setUserFavorite(true);
@@ -158,7 +157,7 @@ class ProductController extends AbstractController {
         $products = $user->getProducts();
 
         return $this->render('product/manage.html.twig', [
-            'products' => $products,
+            'products' => array_reverse($products->toArray()),
             'categories' => $categoryRepository->findAll(),
         ]);
     }
@@ -225,7 +224,7 @@ class ProductController extends AbstractController {
     public function listByUser(FavoriteRepository $favoriteRepository, ReviewRepository $reviewRepository, ProductRepository $productRepository, CategoryRepository $categoryRepository, User $profile):
     Response {
         $user = $this->getUser();
-        $products = $productRepository->findBy(['user' => $profile]);
+        $products = $productRepository->findBy(['user' => $profile], ['date' => 'DESC']);
 
         $favorites = $favoriteRepository->findBy(['user' => $user]);
         foreach($products as $product) {

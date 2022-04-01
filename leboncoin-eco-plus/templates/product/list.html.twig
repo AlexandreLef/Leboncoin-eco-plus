@@ -26,9 +26,11 @@
                         </div>
                     </div>
                 </a>
-                <a class="favorite-logo" href="{{ path('favorite_toggle', { id: product.id }) }}">
-                    <i class="bi bi-heart{% if product.userFavorite%}-fill{% endif %}"></i>
-                </a>
+                {% if is_granted('ROLE_USER') %}
+                    <a class="favorite-logo" href="{{ path('favorite_toggle', { id: product.id }) }}">
+                        <i class="bi bi-heart{% if product.userFavorite%}-fill{% endif %}"></i>
+                    </a>
+                {% endif %}
             </div>
         {% endfor %}
     </div>

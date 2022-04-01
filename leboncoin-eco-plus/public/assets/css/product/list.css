@@ -20,16 +20,7 @@ a {
     display: flex;
 }
 
-.no-favorites {
-    width: 720px;
-    border-radius: 0.8rem;
-    background-color: white;
-    margin: auto auto 4em;
-    padding: 2em;
-    display: flex;
-}
-
-.no-favorites * {
+.no-product * {
     margin: 0;
 }
 
@@ -102,7 +93,7 @@ a {
 }
 
 .manage-button {
-    width: 8em;
+    width: 6.8em;
     margin: 0.4rem;
     border-radius: 0.6rem;
 }

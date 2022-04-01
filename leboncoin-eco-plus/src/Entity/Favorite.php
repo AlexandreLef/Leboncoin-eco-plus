@@ -21,7 +21,7 @@ class Favorite {
     #[ORM\JoinColumn(nullable: false)]
     private Product $product;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'datetime')]
     private DateTime $date;
 
     public function getId(): int {return $this->id;}

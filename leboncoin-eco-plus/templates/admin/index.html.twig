@@ -2,7 +2,23 @@
 
 {% block title %}Hello AdminController!{% endblock %}
 
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/account/index.css">
+{% endblock %}
+
 {% block body %}
-    <a href="{{ path('admin_product') }}">Gérer les produits</a>
-    <a href="{{ path('admin_category') }}">Gérer les catégories</a>
+    <div id="profile-container">
+        <div class="buttons">
+            <a href="{{ path('admin_product') }}" class="button-card shadow">
+                <i class="bi bi-box2-fill button-icon"></i>
+                <h5 class="card-title">Produits</h5>
+                <p class="card-text">Gérer les produits</p>
+            </a>
+            <a href="{{ path('admin_category') }}" class="button-card shadow">
+                <i class="bi bi-calendar-fill button-icon"></i>
+                <h5 class="card-title">Catégories</h5>
+                <p class="card-text">Gérer les catégories</p>
+            </a>
+        </div>
+    </div>
 {% endblock %}

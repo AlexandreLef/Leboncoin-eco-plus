@@ -69,7 +69,7 @@ class AdminController extends AbstractController {
             return $this->redirectToRoute('admin_product');
         }
         return $this->render('admin/product.html.twig', [
-            'products' => $productRepository->findAll(),
+            'products' => $productRepository->findBy([], ['date' => 'DESC']),
             'form' => $form->createView()
         ]);
     }
