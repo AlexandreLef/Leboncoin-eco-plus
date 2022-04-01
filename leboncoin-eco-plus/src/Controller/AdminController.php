@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\DTO\CategoryDto;
 use App\DTO\ProductDto;
-use App\DTO\ReviewDto;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\CategoryType;
@@ -41,8 +40,7 @@ class AdminController extends AbstractController {
     }
 
     #[Route('/admin/category/edit/{id}/name/{name}', name: 'admin_category_edit', methods: 'GET')]
-    public function editCategory (CategoryService $categoryService, Category $category, ReviewDto $categoryDto, string
-                                                  $name): Response {
+    public function editCategory (CategoryService $categoryService, Category $category, CategoryDto $categoryDto, string $name): Response {
         $categoryDto->setName($name);
         $categoryService->addOrUpdate($categoryDto, $category);
         return $this->redirectToRoute('admin_category');
