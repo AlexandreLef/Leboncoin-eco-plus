@@ -176,7 +176,8 @@ class ProductController extends AbstractController {
    #[Route('/product/manage/edit/{id}', name: 'product_manage_edit', methods: ['GET', 'POST'])]
    public function edit(Request $request, EntityManagerInterface $doctrine, Product $product, CategoryRepository
    $categoryRepository, GrantedService $grantedService): Response {
-       $this->denyAccessUnlessGranted('id', $product);
+
+        $this->denyAccessUnlessGranted('edit', $product);
 
        $productDto = new ProductDto();
        $productDto->setFromEntity($product);
