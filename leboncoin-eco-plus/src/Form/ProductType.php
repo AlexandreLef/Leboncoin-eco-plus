@@ -6,6 +6,7 @@ use App\DTO\ProductDto;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -37,8 +38,15 @@ class ProductType extends AbstractType {
                 'choice_label' => 'name',
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('quality', NumberType::class, [
-                'attr' => ['class' => 'form-control']
+            ->add('quality', ChoiceType::class, [
+                'attr' => ['class' => 'form-control'],
+                'choices'  => [
+                    'État neuf' => 1,
+                    'Très bon état' => 2,
+                    'Bon état' => 3,
+                    'État satisfaisant' => 4,
+                    'Pour pièces' => 5,
+                ],
                 ])
             ->add('city', TextType::class, [
                 'attr' => ['class' => 'form-control']

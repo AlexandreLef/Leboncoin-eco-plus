@@ -11,6 +11,15 @@ a {
     text-align: center;
 }
 
+.no-product {
+    width: 720px;
+    border-radius: 0.8rem;
+    background-color: white;
+    margin: auto auto 4em;
+    padding: 2em;
+    display: flex;
+}
+
 .no-favorites {
     width: 720px;
     border-radius: 0.8rem;
@@ -89,12 +98,11 @@ a {
 
 .manage-buttons {
     display: flex;
-    height: 4em;
     margin-top: auto;
 }
 
 .manage-button {
-    width: 4em;
+    width: 8em;
     margin: 0.4rem;
     border-radius: 0.6rem;
 }

@@ -14,10 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FavoriteController extends AbstractController {
-    #[Route('/favorite', name: 'favorite')]
+    #[Route('/favorite/list', name: 'favorite_list')]
     public function index(FavoriteRepository $favoriteRepository): Response {
         $favorites = $favoriteRepository->findBy(['user' => $this->getUser()]);
-        return $this->render('favorite/index.html.twig', [
+        return $this->render('favorite/list.html.twig', [
             'controller_name' => 'FavoriteController',
             'favorites' => $favorites
         ]);
@@ -26,7 +26,7 @@ class FavoriteController extends AbstractController {
     /**
      * @throws EntityNotFoundException
      */
-    #[Route('/favorite/adding/product/{id}', name: 'favorite_add_remove')]
+    #[Route('/favorite/toggle/product/{id}', name: 'favorite_toggle')]
     public function addOrRemove(FavoriteRepository $favoriteRepository, Product $product, Request $request):
     Response {
         $user = $this->getUser(); /** @var User $user */
