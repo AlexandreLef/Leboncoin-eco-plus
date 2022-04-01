@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DTO\CategoryDto;
 use App\DTO\ProductDto;
 use App\DTO\ReviewDto;
 use App\Entity\Category;
@@ -24,7 +25,7 @@ class AdminController extends AbstractController {
 
     #[Route('/admin/category', name: 'admin_category')]
     public function category(Request $request, CategoryService $categoryService, CategoryRepository $categoryRepository): Response {
-        $categoryDto = new ReviewDto();
+        $categoryDto = new CategoryDto();
         $form = $this->createForm(CategoryType::class, $categoryDto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
