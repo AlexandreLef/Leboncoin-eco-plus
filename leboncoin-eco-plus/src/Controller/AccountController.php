@@ -28,24 +28,15 @@ class AccountController extends AbstractController {
     public function __construct(UserService $userService) {$this->userService = $userService;}
 
     #[Route('/account', name: 'account')]
-    public function index(): Response {
+    public function index(ReviewRepository $reviewRepository): Response {
 
         $user = $this->getUser(); /** @var User $user */
-        $reviews = $user->getReviews();
-        $rates = [];
-        $rateNumber = 0;
-        $avg = null;
-        if ($reviews) {
-            foreach ($reviews as $review) {$rates[] = $review->getRate();}
-            $rates = array_filter($rates);
-            $rateNumber = count($rates);
-            $avg = (count($rates)) ? array_sum($rates)/count($rates) : null;
-        }
+        $rate = $user->getRate($reviewRepository);
 
         return $this->render('account/index.html.twig', [
             'user' => $this->getUser(),
-            'avg' => $avg,
-            'rateNumber' => $rateNumber
+            'avg' => $rate['avg'],
+            'rateNumber' => $rate['number']
         ]);
     }
 

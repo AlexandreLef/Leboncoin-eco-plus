@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
+use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -196,5 +198,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface {
             }
         }
         return $this;
+    }
+
+    #[ArrayShape(['avg' => "float|int|null", 'number' => "int", 'canRate' => "bool"])]
+    public function getRate(ReviewRepository $reviewRepository, User $reviewer = null): array {
+        $reviews = $this->getReviews();
+        $rates = [];
+        $rateNumber = 0;
+        $avg = null;
+        $canRate = null;
+
+        if ($reviews) {
+            foreach ($reviews as $review) {$rates[] = $review->getRate();}
+            $rates = array_filter($rates);
+            $rateNumber = count($rates);
+            $avg = (count($rates)) ? array_sum($rates)/count($rates) : null;
+        }
+
+        if ($reviewer) {
+            $test = $reviewRepository->findOneBy(['user' => $this, 'reviewer' => $reviewer]);
+            $canRate = $test == null;
+        }
+
+        return ['avg' =>$avg, 'number' => $rateNumber, 'canRate' => $canRate];
     }
 }

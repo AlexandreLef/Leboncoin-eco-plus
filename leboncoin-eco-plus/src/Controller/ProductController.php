@@ -13,6 +13,7 @@ use App\Form\SearchType;
 use App\Repository\CategoryRepository;
 use App\Repository\FavoriteRepository;
 use App\Repository\ProductRepository;
+use App\Repository\ReviewRepository;
 use App\Service\GrantedService;
 use App\Service\ProductService;
 use DateTime;
@@ -93,8 +94,19 @@ class ProductController extends AbstractController {
     }
 
     #[Route('/product/detail/{id}', name: 'product_detail')]
-    public function detail(Product $product): Response {
-        return $this->render('product/detail.html.twig', ['product' => $product, 'self' => $this->getUser()]);
+    public function detail(Product $product, ReviewRepository $reviewRepository): Response {
+
+        $self = $this->getUser(); /** @var User $self */
+        $user = $product->getUser();
+        $rate = $user->getRate($reviewRepository, $self);
+
+        return $this->render('product/detail.html.twig', [
+            'product' => $product,
+            'self' => $this->getUser(),
+            'avg' => $rate['avg'],
+            'rateNumber' => $rate['number'],
+            'canRate' => $rate['canRate']
+        ]);
     }
 
     /**
