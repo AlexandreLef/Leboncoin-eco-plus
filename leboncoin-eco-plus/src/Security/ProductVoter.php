@@ -6,11 +6,17 @@ use App\Entity\Product;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Security;
 
 class ProductVoter extends Voter {
     // these strings are just invented: you can use anything
     const VIEW = 'view';
     const EDIT = 'edit';
+    private Security $security;
+
+    public function __construct(Security $security) {
+        $this->security = $security;
+    }
 
     protected function supports(string $attribute, $subject): bool
     {
@@ -30,11 +36,8 @@ class ProductVoter extends Voter {
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
-
-        if (!$user instanceof User) {
-            // the user must be logged in; if not, deny access
-            return false;
-        }
+        if (!$user instanceof User) return false; // the user must be logged in; if not, deny access
+        if ($this->security->isGranted('ROLE_ADMIN')) return true;
 
         // you know $subject is a Post object, thanks to `supports()`
         /** @var Product $product */
