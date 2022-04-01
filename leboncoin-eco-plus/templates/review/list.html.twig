@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}- Notes d'un vendeur{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="/assets/css/review/list.css">
+{% endblock %}
+
+{% block body %}
+    <div id="review-container">
+        <a href="{{ back }}"> Revenir à la page précédente</a>
+        <br/><br/>
+        <div id="conversation-container">
+            {% if selfConnected == true %}
+                <h4>Vos notes</h4>
+            {% else %}
+                <h4>Notes de {{ user.firstname }} {{ user.lastname }}</h4>
+            {% endif %}
+            {% for review in reviews %}
+                <div class="review shadow-sm">
+                    <i class="bi bi-star{% if review.rate >= 1 %}-fill{% endif %}"></i>
+                    <i class="bi bi-star{% if review.rate >= 2 %}-fill{% endif %}"></i>
+                    <i class="bi bi-star{% if review.rate >= 3 %}-fill{% endif %}"></i>
+                    <i class="bi bi-star{% if review.rate >= 4 %}-fill{% endif %}"></i>
+                    <i class="bi bi-star{% if review.rate == 5 %}-fill{% endif %}"></i>
+                    <a class=" ms-2 no-decoration semi-bold" href="{{ path('product_list_user', { id: review.reviewer.id }) }}">{{ review.reviewer.firstname }} {{ review.reviewer.lastname }}</a>
+                    <p>{{ review.comment }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,6 +1,9 @@
 #message-container {
-    margin: 1em;
-    max-width: 50em;
+    margin: 4em auto;
+    width: 50em;
+    flex-direction: column;
+    background-color: white;
+    padding: 2em;
 }
 
 .message {

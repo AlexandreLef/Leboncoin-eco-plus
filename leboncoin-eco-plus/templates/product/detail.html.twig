@@ -123,22 +123,26 @@
         <div class="user shadow-sm">
             <div class="product-user">
                 <img class="profile-picture" alt="Profile Picture" src="/assets/img/profile-picture.png"/>
-                <a  href="{{ path('product_list_user', {id: product.user.id}) }}">
-                    <h6>{{ product.user.firstname }} {{ product.user.lastname }}</h6>
-                </a>
-                {% if avg %}
-                    <i class="bi bi-star{% if avg > 0 and avg < 1 %}-half{% elseif avg >= 1 %}-fill{% endif %}"></i>
-                    <i class="bi bi-star{% if avg > 1 and avg < 2 %}-half{% elseif avg >= 2 %}-fill{% endif %}"></i>
-                    <i class="bi bi-star{% if avg > 2 and avg < 3 %}-half{% elseif avg >= 3 %}-fill{% endif %}"></i>
-                    <i class="bi bi-star{% if avg > 3 and avg < 4 %}-half{% elseif avg >= 4 %}-fill{% endif %}"></i>
-                    <i class="bi bi-star{% if avg > 4 and avg < 5 %}-half{% elseif avg == 5 %}-fill{% endif %}"></i>
-                    ({{ rateNumber }})
-                {% endif %}
+                <div>
+                    <a  href="{{ path('product_list_user', {id: product.user.id}) }}">
+                        <h6>{{ product.user.firstname }} {{ product.user.lastname }}</h6>
+                    </a>
+                    <a class="no-decoration" href="{{ path('review_list', { id: product.user.id }) }}">
+                        {% if avg %}
+                            <i class="bi bi-star{% if avg > 0 and avg < 1 %}-half{% elseif avg >= 1 %}-fill{% endif %}"></i>
+                            <i class="bi bi-star{% if avg > 1 and avg < 2 %}-half{% elseif avg >= 2 %}-fill{% endif %}"></i>
+                            <i class="bi bi-star{% if avg > 2 and avg < 3 %}-half{% elseif avg >= 3 %}-fill{% endif %}"></i>
+                            <i class="bi bi-star{% if avg > 3 and avg < 4 %}-half{% elseif avg >= 4 %}-fill{% endif %}"></i>
+                            <i class="bi bi-star{% if avg > 4 and avg < 5 %}-half{% elseif avg == 5 %}-fill{% endif %}"></i>
+                            ({{ rateNumber }})
+                        {% endif %}
+                    </a>
+                </div>
             </div>
             <hr/>
             {% if product.user.id != self.id ?? -1 %}
                 {% if is_granted('ROLE_USER') and canRate %}
-                    <a class="btn btn-primary user-buttons mb-3" href="{{ path('account_rate', {id: product.user.id}) }}">Noter le vendeur</a>
+                    <a class="btn btn-primary user-buttons mb-3" href="{{ path('review_create', {id: product.user.id}) }}">Noter le vendeur</a>
                 {% endif %}
                 <a href="{{ path('message_new', { id: product.id }) }}" class="btn btn-info user-buttons">Message</a>
             {% endif %}

@@ -2,19 +2,13 @@
 
 namespace App\Controller;
 
-use App\DTO\ReviewDto;
 use App\DTO\UserDto;
 use App\DTO\UserEditDto;
-use App\Entity\Review;
 use App\Entity\User;
-use App\Form\ReviewType;
 use App\Form\UserEditType;
 use App\Form\UserType;
 use App\Repository\ReviewRepository;
 use App\Service\UserService;
-use DateTime;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Exception\RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,49 +82,4 @@ class AccountController extends AbstractController {
 
     #[Route("/logout", name: "account_logout")]
     public function logout(): void {throw new RuntimeException('Don\'t forget to activate logout in security.yaml');}
-
-    /**
-     * @throws OptimisticLockException
-     * @throws ORMException
-     */
-    #[Route("/account/rate/{id}", name: "account_rate", methods: ['GET', 'POST'])]
-    public function rate(Request $request, User $user, ReviewRepository $reviewRepository): Response {
-        /** @var User $self */ $self = $this->getUser();
-        $reviewDto = new ReviewDto();
-        $form = $this->createForm(ReviewType::class, $reviewDto);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $review = new Review();
-            $reviewDto->setEntityFromDto($review);
-            $review->setUser($user);
-            $review->setReviewer($self);
-            $review->setDate(new DateTime());
-
-            $reviewRepository->add($review);
-
-            $url = $request->headers->get('referer');
-            return $this->redirect($url);
-        }
-        return $this->render('account/review.html.twig', [
-            'form' => $form->createView(),
-            'user' => $user
-        ]);
-    }
-
-    #[Route("/account/review/user/{id}", name: "account_review_user", methods: 'GET')]
-    public function userReviews(User $user, Request $request): Response {
-
-        $url = $request->headers->get('referer');
-        $reviews = $user->getReviews();
-        $self = $this->getUser(); /** @var User $self */
-        if ($self) $selfConnected = $this->getUser() === $user;
-        else $selfConnected = false;
-        return $this->render('account/review_user.html.twig', [
-            'back' => $url,
-            'reviews' => $reviews,
-            'selfConnected' => $selfConnected,
-            'user' => $user
-        ]);
-    }
 }

@@ -1,0 +1,12 @@
+#review-container {
+    background-color: white;
+    padding: 1em;
+    width: 90%;
+    border-radius: 0.5rem;
+    max-width: 40em;
+    margin: 4em auto;
+}
+
+textarea {
+    height: 8em;
+}

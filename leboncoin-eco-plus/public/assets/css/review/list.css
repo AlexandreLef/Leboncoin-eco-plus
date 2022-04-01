@@ -1,0 +1,13 @@
+#review-container {
+    margin: 4em auto;
+    width: 50em;
+    flex-direction: column;
+    padding: 2em;
+}
+
+.review {
+    background-color: white;
+    padding: 1em;
+    margin-top: 1em;
+    border-radius: 0.3rem;
+}

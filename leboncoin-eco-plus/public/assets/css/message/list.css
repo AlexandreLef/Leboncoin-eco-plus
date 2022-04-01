@@ -1,11 +1,15 @@
 #conversation-container {
-    margin: 1em;
+    margin: 4em auto;
+    width: 70em;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .conversation {
     background-color: white;
     display: flex;
-    max-width: 30em;
+    width: 40em;
     border-left: 3px solid var(--primary-color);
     text-decoration: none;
     color: black;

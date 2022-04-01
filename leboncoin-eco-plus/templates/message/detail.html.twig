@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body %}
-    <div id="message-container">
+    <div id="message-container" class="shadow">
         <h4>Votre conversation avec {{ product.user.lastname }} {{ product.user.firstname }}</h4>
         {% for message in messages %}
             <div class="message shadow {% if message.sender.id != sender.id %}right{% endif %}">
