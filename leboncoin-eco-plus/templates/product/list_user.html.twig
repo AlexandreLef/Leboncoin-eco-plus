@@ -8,7 +8,23 @@
 
 {% block body %}
     <div id="product-list">
-        <h3>Annonces de {{ profil.firstname }} {{ profil.lastname }}</h3>
+        <div class="user-panel">
+            <img class="profile-picture" alt="Profile Picture" src="/assets/img/profile-picture.png"/>
+            <div>
+                <h5>{{ profile.firstname }} {{ profile.lastname }}</h5>
+                {% if avg %}
+                    <i class="bi bi-star{% if avg > 0 and avg < 1 %}-half{% elseif avg >= 1 %}-fill{% endif %}"></i>
+                    <i class="bi bi-star{% if avg > 1 and avg < 2 %}-half{% elseif avg >= 2 %}-fill{% endif %}"></i>
+                    <i class="bi bi-star{% if avg > 2 and avg < 3 %}-half{% elseif avg >= 3 %}-fill{% endif %}"></i>
+                    <i class="bi bi-star{% if avg > 3 and avg < 4 %}-half{% elseif avg >= 4 %}-fill{% endif %}"></i>
+                    <i class="bi bi-star{% if avg > 4 and avg < 5 %}-half{% elseif avg == 5 %}-fill{% endif %}"></i>
+                    ({{ rateNumber }})
+                {% endif %}
+            </div>
+
+
+        </div>
+        <h3>Annonces de {{ profile.firstname }} {{ profile.lastname }}</h3>
         {% for product in products %}
             <div class="product">
                 <a class="product-link" href="{{ path('product_detail', { id: product.id }) }}">

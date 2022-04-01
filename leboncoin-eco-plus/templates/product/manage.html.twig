@@ -36,7 +36,7 @@
                         </div>
                     </a>
                     <div class="manage-buttons">
-                        <a class="btn btn-outline-info manage-button" type="button" href="{{ path('product_edit',{id:product.id}) }}" >
+                        <a class="btn btn-outline-info manage-button" type="button" href="{{ path('product_manage_edit',{id:product.id}) }}" >
                             <i class="bi bi-pencil"></i>
                         </a>
                         <button class="btn btn-outline-danger manage-button" type="button" data-bs-toggle="modal" data-bs-target="#delete"
@@ -75,7 +75,6 @@
         $('#delete').on('show.bs.modal', function (event) {
             const button = $(event.relatedTarget);
             const product = button.data('whatever');
-            console.log(product);
             const modal = $(this);
             modal.find('#submitDelete').attr('href', "/product/manage/delete/" + product);
         })

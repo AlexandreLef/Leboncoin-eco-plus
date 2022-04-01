@@ -8,6 +8,7 @@ use App\Entity\Favorite;
 use App\Entity\Product;
 use App\Entity\Search;
 use App\Entity\User;
+use App\Form\ProductType;
 use App\Form\ReviewType;
 use App\Form\SearchType;
 use App\Repository\CategoryRepository;
@@ -172,12 +173,14 @@ class ProductController extends AbstractController {
         return $this->redirectToRoute('product_manage');
     }
 
-   #[Route('/product/edit/{id}', name: 'product_edit', methods: ['GET', 'POST'])]
+   #[Route('/product/manage/edit/{id}', name: 'product_manage_edit', methods: ['GET', 'POST'])]
    public function edit(Request $request, EntityManagerInterface $doctrine, Product $product, CategoryRepository
    $categoryRepository, GrantedService $grantedService): Response {
+       $this->denyAccessUnlessGranted('id', $product);
+
        $productDto = new ProductDto();
        $productDto->setFromEntity($product);
-       $form = $this->createForm(ReviewType::class, $productDto);
+       $form = $this->createForm(ProductType::class, $productDto);
        $form->handleRequest($request);
 
        if ($form->isSubmitted() && $form->isValid()) {
@@ -218,11 +221,11 @@ class ProductController extends AbstractController {
     }
 
 
-    #[Route('/product/list/{id}', name: 'product_list_user')]
-    public function listByUser(FavoriteRepository $favoriteRepository, ProductRepository $productRepository, CategoryRepository $categoryRepository, User $profil):
+    #[Route('/product/list/user/{id}', name: 'product_list_user')]
+    public function listByUser(FavoriteRepository $favoriteRepository, ReviewRepository $reviewRepository, ProductRepository $productRepository, CategoryRepository $categoryRepository, User $profile):
     Response {
         $user = $this->getUser();
-        $products = $productRepository->findBy(['user' => $profil]);
+        $products = $productRepository->findBy(['user' => $profile]);
 
         $favorites = $favoriteRepository->findBy(['user' => $user]);
         foreach($products as $product) {
@@ -234,10 +237,14 @@ class ProductController extends AbstractController {
             }
         }
 
+        $rate = $profile->getRate($reviewRepository);
+
         return $this->render('product/list_user.html.twig', [
             'products' => $products,
             'categories' => $categoryRepository->findAll(),
-            'profil' => $profil
+            'profile' => $profile,
+            'avg' => $rate['avg'],
+            'rateNumber' => $rate['number']
         ]);
     }
 }

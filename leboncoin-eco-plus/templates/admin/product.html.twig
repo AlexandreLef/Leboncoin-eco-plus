@@ -10,7 +10,7 @@
             name: product.name,
         } %}
         <div class="input-group">
-            <a class="btn btn-outline-info" type="button" href="{{ path('product_edit',{id: product.id}) }}" >
+            <a class="btn btn-outline-info" type="button" href="{{ path('product_manage_edit',{id: product.id}) }}" >
                 <i class="bi bi-pencil"></i>
             </a>
             <input type="text" class="form-control" value="{{ product.name }}" disabled>

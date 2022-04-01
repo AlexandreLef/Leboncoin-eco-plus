@@ -89,3 +89,20 @@ a {
 .manage-button:first-child {
     margin-right: 0;
 }
+
+.user-panel {
+    display: flex;
+    align-items: center;
+    padding: 1.5em;
+    border: 0.1rem solid rgb(202, 209, 217);
+    border-radius: 0.8rem;
+    height: 7.5rem;
+    width: 80%;
+    margin: auto auto 3em;
+}
+
+.profile-picture {
+    width: 6em;
+    height: 6em;
+    margin-right: 1em;
+}

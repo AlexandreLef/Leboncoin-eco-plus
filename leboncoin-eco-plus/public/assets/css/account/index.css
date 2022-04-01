@@ -51,6 +51,7 @@
 .profile-picture {
     width: 6em;
     height: 6em;
+    margin-right: 1em;
 }
 
 .profile-button {
