@@ -140,12 +140,8 @@
                 </div>
             </div>
             <hr/>
-            {% if product.user.id != self.id ?? -1 %}
-                {% if is_granted('ROLE_USER') and canRate %}
-                    <a class="btn btn-primary user-buttons mb-3" href="{{ path('review_create', {id: product.user.id}) }}">Noter le vendeur</a>
-                {% endif %}
-                <a href="{{ path('message_new', { id: product.id }) }}" class="btn btn-info user-buttons">Message</a>
-            {% endif %}
+                <a class="btn btn-primary user-buttons mb-3 {% if product.user.id == self.id ?? -1 or not is_granted('ROLE_USER') or not canRate %}disabled{% endif %}" href="{{ path('review_create', {id: product.user.id}) }}">Noter le vendeur</a>
+                <a href="{{ path('message_new', { id: product.id }) }}" class="btn btn-info user-buttons {% if product.user.id == self.id ?? -1 %}disabled{% endif %}">Message</a>
         </div>
     </div>
 {% endblock %}

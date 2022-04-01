@@ -43,6 +43,7 @@ class ReviewVoter extends Voter {
 
 
     private function canAdd(User $reviewedUser, User $user): bool {
+        if ($reviewedUser->getId() == $user->getId()) return false;
         $reviews = $reviewedUser->getReviews();
         foreach($reviews as $tmpReview) {
             if ($tmpReview->getReviewer()->getId() == $user->getId()) {
