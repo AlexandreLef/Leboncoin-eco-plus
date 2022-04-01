@@ -13,12 +13,14 @@
             <div>
                 <h5>{{ user.firstname }} {{ user.lastname }}</h5>
                 {% if avg %}
-                    <i class="bi bi-star{% if avg > 0 and avg < 1 %}-half{% elseif avg >= 1 %}-fill{% endif %}"></i>
-                    <i class="bi bi-star{% if avg > 1 and avg < 2 %}-half{% elseif avg >= 2 %}-fill{% endif %}"></i>
-                    <i class="bi bi-star{% if avg > 2 and avg < 3 %}-half{% elseif avg >= 3 %}-fill{% endif %}"></i>
-                    <i class="bi bi-star{% if avg > 3 and avg < 4 %}-half{% elseif avg >= 4 %}-fill{% endif %}"></i>
-                    <i class="bi bi-star{% if avg > 4 and avg < 5 %}-half{% elseif avg == 5 %}-fill{% endif %}"></i>
-                    ({{ rateNumber }})
+                    <a href="{{ path('account_review_user', {id: user.id}) }}">
+                        <i class="bi bi-star{% if avg > 0 and avg < 1 %}-half{% elseif avg >= 1 %}-fill{% endif %}"></i>
+                        <i class="bi bi-star{% if avg > 1 and avg < 2 %}-half{% elseif avg >= 2 %}-fill{% endif %}"></i>
+                        <i class="bi bi-star{% if avg > 2 and avg < 3 %}-half{% elseif avg >= 3 %}-fill{% endif %}"></i>
+                        <i class="bi bi-star{% if avg > 3 and avg < 4 %}-half{% elseif avg >= 4 %}-fill{% endif %}"></i>
+                        <i class="bi bi-star{% if avg > 4 and avg < 5 %}-half{% elseif avg == 5 %}-fill{% endif %}"></i>
+                        ({{ rateNumber }})
+                    </a>
                 {% endif %}
             </div>
 

@@ -7,7 +7,7 @@ use App\DTO\ReviewDto;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Form\CategoryType;
-use App\Form\ReviewType;
+use App\Form\ProductType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Service\CategoryService;
@@ -59,7 +59,7 @@ class AdminController extends AbstractController {
     #[Route('/admin/product', name: 'admin_product')]
     public function product(Request $request, ProductService $productService, ProductRepository $productRepository): Response {
         $productDto = new ProductDto();
-        $form = $this->createForm(ReviewType::class, $productDto);
+        $form = $this->createForm(ProductType::class, $productDto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $product = new Product();

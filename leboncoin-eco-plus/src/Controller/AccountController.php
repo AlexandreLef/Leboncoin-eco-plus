@@ -117,4 +117,20 @@ class AccountController extends AbstractController {
             'user' => $user
         ]);
     }
+
+    #[Route("/account/review/user/{id}", name: "account_review_user", methods: 'GET')]
+    public function userReviews(User $user, Request $request): Response {
+
+        $url = $request->headers->get('referer');
+        $reviews = $user->getReviews();
+        $self = $this->getUser(); /** @var User $self */
+        if ($self) $selfConnected = $this->getUser() === $user;
+        else $selfConnected = false;
+        return $this->render('account/review_user.html.twig', [
+            'back' => $url,
+            'reviews' => $reviews,
+            'selfConnected' => $selfConnected,
+            'user' => $user
+        ]);
+    }
 }
